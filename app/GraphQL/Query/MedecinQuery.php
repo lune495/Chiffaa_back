@@ -5,17 +5,16 @@ namespace App\GraphQL\Query;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use App\Models\User;
-    
-class UserQuery extends Query
+use App\Models\Medecin;
+class MedecinQuery extends Query
 {
     protected $attributes = [
-        'name' => 'users'
+        'name' => 'medecins'
     ];
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('User'));
+        return Type::listOf(GraphQL::type('Medecin'));
     }
 
     public function args(): array
@@ -29,21 +28,16 @@ class UserQuery extends Query
 
     public function resolve($root, $args)
     {
-        $query = User::query();  
-        if (isset($args['id']))
-        {
-            $query = $query->where('id', $args['id']);
-        }  
-        $query = $query->get(); 
-        return $query->map(function (User $item)
+        $query = Medecin::query();
+        $query->orderBy('id', 'desc');
+        $query = $query->get();
+        return $query->map(function (Medecin $item)
         {
             return
             [
                 'id'                      => $item->id,
                 'nom'                     => $item->nom,
-                'email'                   => $item->email,
-                'role_id'                 => $item->role_id,
-                'role'                    => $item->role,
+                'prenom'                  => $item->prenom
             ];
         });
 

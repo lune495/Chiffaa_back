@@ -15,18 +15,12 @@ class AuthController extends Controller
         $fields = $request->validate([
             'email' => 'required|string',
             'nom' => 'required|string',
-            'photo_profil' => 'string',
-            'biographie' => 'string',
-            'lien_sociaux' => 'string',
             'password' => 'required|string|confirmed',
             'role_id' => 'required|integer',
         ]);
         $user =  User::create([
             'nom' => $fields['nom'],
             'email' => $fields['email'],
-            // 'photo_profil' => $fields['photo_profil'] ? $fields['photo_profil'] : null,
-            // 'biographie' => $fields['biographie'] ? $fields['biographie'] : null,
-            // 'lien_sociaux' => $fields['lien_sociaux'] ? $fields['lien_sociaux'] : null,
             'password' => bcrypt($fields['password']),
             'role_id' => $fields['role_id'],
              
