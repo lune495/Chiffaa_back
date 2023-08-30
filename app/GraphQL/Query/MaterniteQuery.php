@@ -43,6 +43,7 @@ class MaterniteQuery extends Query
                 'remise'                  => $item->remise,
                 'medecin'                 => $item->medecin,
                 'user'                    => $item->user,
+                'element_maternites'      => $item->element_maternites,
             ];
         });
 

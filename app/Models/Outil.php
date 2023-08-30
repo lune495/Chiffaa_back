@@ -21,14 +21,14 @@ use \NumberFormatter;
 class Outil extends Model
 {
     public static $queries = array(
-        "consultations"              => " id,nom_complet,nature,montant,adresse,remise,medecin{id,nom},user{id,nom}",
-        "ventes"                     => " id,numero,montant,montant_ht,montant_ttc,montant_taxe,statut,montant_avec_remise,remise_total,qte,created_at,created_at_fr,taxe{id,value},client{nom_complet,telephone,adresse},montantencaisse,monnaie,user_id,user{id,name,role{id,nom}},vente_produits{id,remise,pu_net,montant_net,montant_remise,qte,prix_vente,total,produit{id,code,designation,qte,pv}}",
-        "chapitres"                  => " id,titre,corps,histoire_id,histoire{id,titre,genre,resume}",
+        "consultations"              => " id,nom_complet,nature,montant,adresse,remise,medecin{id,nom,prenom},element_consultations{id,type_consultation{id,nom,prix}},user{id,nom},created_at",
+        "dentaires"                  => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_dentaires{id,type_dentaire{id,nom,prix}},user{id,nom},created_at",
+        "echographes"                => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_echographes{id,type_echographe{id,nom,prix}},user{id,nom},created_at",
         "users"                      => " id,nom,email,role{id,nom}",
-        "commandes"                  => " id,ref_commande,nom_commande,env,devise,status,histoire{id},user{id}",
-        "taxes"                      => " id,value",
-        "remises"                    => " id,value",
-        "famille_histoires"          => " id,nom",
+        "labos"                      => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_labos{id,type_labo{id,nom,prix}},user{id,nom},created_at",
+        "labo2s"                     => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_labo2s{id,type_labo2{id,nom,prix}},user{id,nom},created_at",
+        "maternites"                 => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_maternites{id,type_maternite{id,nom,prix}},user{id,nom},created_at",
+        "logs"                       => " id,nom",
         "approvisionnements"         => "id,user_id,user{name},montant,statut,numero,qte_total_appro,fournisseur_id,fournisseur{id,nom_complet,telephone,adresse},ligne_approvisionnements{id,produit_id,produit{id,designation,pa,pv,qte,famille_id,famille{id,nom}},quantity_received,created_at,created_at_fr,updated_at,updated_at_fr},created_at,created_at_fr,type_appro",
     );
 

@@ -29,6 +29,10 @@ class DentaireQuery extends Query
     public function resolve($root, $args)
     {
         $query = Dentaire::query();
+        if (isset($args['id']))
+        {
+            $query = $query->where('id', $args['id']);
+        }
         $query->orderBy('id', 'desc');
         $query = $query->get();
         return $query->map(function (Dentaire $item)
@@ -43,6 +47,7 @@ class DentaireQuery extends Query
                 'remise'                  => $item->remise,
                 'medecin'                 => $item->medecin,
                 'user'                    => $item->user,
+                'element_dentaires'       => $item->element_dentaires,
             ];
         });
 

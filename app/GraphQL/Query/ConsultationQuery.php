@@ -29,6 +29,10 @@ class ConsultationQuery extends Query
     public function resolve($root, $args)
     {
         $query = Consultation::query();
+        if (isset($args['id']))
+        {
+            $query = $query->where('id', $args['id']);
+        }
         $query->orderBy('id', 'desc');
         $query = $query->get();
         return $query->map(function (Consultation $item)
@@ -42,6 +46,9 @@ class ConsultationQuery extends Query
                 'adresse'                 => $item->adresse,
                 'remise'                  => $item->remise,
                 'medecin'                 => $item->medecin,
+                'element_consultations'   => $item->element_consultations,
+                'user'                    => $item->user,
+                'created_at'              => $item->created_at,
             ];
         });
 

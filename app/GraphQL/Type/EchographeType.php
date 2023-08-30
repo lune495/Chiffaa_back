@@ -5,6 +5,7 @@ use App\Models\Echographe;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
+use Carbon\Carbon;
 
 class EchographeType extends GraphQLType
 {
@@ -16,6 +17,7 @@ class EchographeType extends GraphQLType
     public function fields(): array
     {
        return
+       
             [
                 'id'                        => ['type' => Type::id(), 'description' => ''],
                 'nom_complet'               => ['type' => Type::string()],
@@ -24,7 +26,9 @@ class EchographeType extends GraphQLType
                 'adresse'                   => ['type' => Type::string()],
                 'remise'                    => ['type' => Type::int()],
                 'medecin'                   => ['type' => GraphQL::type('Medecin')],
-                'user'                      => ['type' => GraphQL::type('User')]
+                'user'                      => ['type' => GraphQL::type('User')],
+                'element_echographes'       => ['type' => Type::listOf(GraphQL::type('ElementEchographe')), 'description' => ''],
+                'created_at'                => ['type' => Type::string()],
             ];
     }
 
@@ -34,4 +38,16 @@ class EchographeType extends GraphQLType
     // {
     //     return strtolower($root->email);
     // }
+    protected function resolveCreatedAtField($root, $args)
+    {
+        if (!isset($root['created_at']))
+        {
+            $created_at = $root->created_at;
+        }
+        else
+        {
+            $created_at = $root['created_at'];
+        }
+        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
+    }
 }

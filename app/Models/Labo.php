@@ -14,6 +14,11 @@ class Labo extends Model
         return $this->belongsTo(Medecin::class);
     }
 
+    public  function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
     public function element_labos()
     {
         return $this->hasMany(ElementLabos::class);

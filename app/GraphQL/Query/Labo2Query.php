@@ -43,6 +43,7 @@ class Labo2Query extends Query
                 'remise'                  => $item->remise,
                 'medecin'                 => $item->medecin,
                 'user'                    => $item->user,
+                'element_labo2s'          => $item->element_labo2s
             ];
         });
 

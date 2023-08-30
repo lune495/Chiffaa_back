@@ -49,8 +49,8 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function bibliotheque_histoires()
+    public function consultations()
     {
-        return $this->hasMany(BibliothequeHistoire::class);
+        return $this->hasMany(Consultation::class);
     }
 }

@@ -13,6 +13,10 @@ class Echographe extends Model
     {
         return $this->belongsTo(Medecin::class);
     }
+    public  function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function element_echographes()
     {
         return $this->hasMany(ElementEchographes::class);

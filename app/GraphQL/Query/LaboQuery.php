@@ -43,6 +43,8 @@ class LaboQuery extends Query
                 'remise'                  => $item->remise,
                 'medecin'                 => $item->medecin,
                 'user'                    => $item->user,
+                'element_labos'           => $item->element_labos,
+                'created_at'              => $item->created_at
             ];
         });
 

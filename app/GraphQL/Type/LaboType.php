@@ -5,6 +5,7 @@ use App\Models\Labo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
+use Carbon\Carbon;
 
 class LaboType extends GraphQLType
 {
@@ -24,7 +25,9 @@ class LaboType extends GraphQLType
                 'adresse'                   => ['type' => Type::string()],
                 'remise'                    => ['type' => Type::int()],
                 'medecin'                   => ['type' => GraphQL::type('Medecin')],
-                'user'                      => ['type' => GraphQL::type('User')]
+                'user'                      => ['type' => GraphQL::type('User')],
+                'element_labos'             => ['type' => Type::listOf(GraphQL::type('ElementLabo')), 'description' => ''],
+                'created_at'                => ['type' => Type::string()],
             ];
     }
 
@@ -34,4 +37,17 @@ class LaboType extends GraphQLType
     // {
     //     return strtolower($root->email);
     // }
+
+    protected function resolveCreatedAtField($root, $args)
+    {
+        if (!isset($root['created_at']))
+        {
+            $created_at = $root->created_at;
+        }
+        else
+        {
+            $created_at = $root['created_at'];
+        }
+        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
+    }
 }

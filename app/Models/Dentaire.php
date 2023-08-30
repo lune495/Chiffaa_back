@@ -13,6 +13,11 @@ class Dentaire extends Model
     {
         return $this->belongsTo(Medecin::class);
     }
+
+    public  function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function element_dentaires()
     {
         return $this->hasMany(ElementDentaires::class);

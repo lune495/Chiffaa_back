@@ -29,6 +29,10 @@ class EchographeQuery extends Query
     public function resolve($root, $args)
     {
         $query = Echographe::query();
+        if (isset($args['id']))
+        {
+            $query = $query->where('id', $args['id']);
+        }
         $query->orderBy('id', 'desc');
         $query = $query->get();
         return $query->map(function (Echographe $item)
@@ -43,6 +47,8 @@ class EchographeQuery extends Query
                 'remise'                  => $item->remise,
                 'medecin'                 => $item->medecin,
                 'user'                    => $item->user,
+                'created_at'              => $item->created_at,
+                'element_echographes'     => $item->element_echographes,
             ];
         });
 

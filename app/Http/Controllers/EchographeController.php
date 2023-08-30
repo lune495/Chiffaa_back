@@ -5,24 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Consultation,Outil,User,ElementConsultations,Log,TypeConsultations};
+use App\Models\{Echographe,Outil,User,ElementEchographes,TypeEchographe,Log};
 use \PDF;
 
-class ConsultationController extends Controller
+class EchographeController extends Controller
 {
 
-    private $queryName = "consultations";
+    private $queryName = "echographes";
 
     public function save(Request $request)
     {
         try 
         {
             $errors =null;
-            $item = new Consultation();
+            $item = new Echographe();
             $log = new Log();
             if (!empty($request->id))
             {
-                $item = Consultation::find($request->id);
+                $item = Echographe::find($request->id);
             }
             if (empty($request->medecin_id))
             {
@@ -32,12 +32,10 @@ class ConsultationController extends Controller
             {
                 $errors = "Renseignez le nom";
             }
-            $str_json_type_consultation = json_encode($request->type_consultations);
-            $type_consultation_tabs = json_decode($str_json_type_consultation, true);
+            $str_json_type_echographe = json_encode($request->type_echographes);
+            $type_echographe_tabs = json_decode($str_json_type_echographe, true);
             DB::beginTransaction();
             $item->nom_complet = $request->nom_complet;
-            $item->nature = $request->nature;
-            $item->montant = $request->montant;
             $item->adresse = $request->adresse;
             $item->remise = $request->remise;
             $item->medecin_id = $request->medecin_id;
@@ -49,27 +47,27 @@ class ConsultationController extends Controller
                 $id = $item->id;
                 if($item->save())
                 {
-                    foreach ($type_consultation_tabs as $type_consultation_tab) 
+                    foreach ($type_echographe_tabs as $type_echographe_tab) 
                     {
-                        $tpc = TypeConsultations::find($type_consultation_tab['type_consultation_id']);
+                        $tpc = TypeEchographe::find($type_echographe_tab['type_echographe_id']);
                         if (!isset($tpc)) {
-                        $errors = "Type  Consultation inexistant";
+                        $errors = "Type  Echographe inexistant";
                         }
-                        $element_consultation = new ElementConsultations();
-                        $element_consultation->consultation_id =  $id;
-                        $element_consultation->type_consultation_id =  $type_consultation_tab['type_consultation_id'];
-                        $element_consultation->save();
-                        if($element_consultation->save())
+                        $element_echographe = new ElementEchographes();
+                        $element_echographe->echographe_id =  $id;
+                        $element_echographe->type_echographe_id =  $type_echographe_tab['type_echographe_id'];
+                        $element_echographe->save();
+                        if($element_echographe->save())
                         {
-                            $montant  = $montant + $element_consultation->type_consultation->prix;
+                            $montant  = $montant + $element_echographe->type_echographe->prix;
                         }
                     }
-                    $log->designation = "Consultation";
+                    $log->designation = "Echographe";
                     $log->id_evnt = $id;
                     $log->date = $item->created_at;
                     $log->prix = $montant;
                     $log->remise = $item->remise;
-                    $log->montant = $item->montant;
+                    $log->montant = isset($item->montant) ? $item->montant : 0;
                     $log->save();
                 }
                 DB::commit();
@@ -84,24 +82,15 @@ class ConsultationController extends Controller
                 return $e->getMessage();
         }
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        
-        return Consultation::all();
-
-    }
 
     public function generatePDF($id)
     {
-        $consult = Consultation::find($id);
-        if($consult!=null)
+        $dentaire = Echographe::find($id);
+        if($dentaire!=null)
         {
          $data = Outil::getOneItemWithGraphQl($this->queryName, $id, true);
         //  dd($data);
-         $pdf = PDF::loadView("pdf.ticket-consultation", $data);
+         $pdf = PDF::loadView("pdf.ticket-echographe", $data);
         $measure = array(0,0,225.772,650.197);
         return $pdf->setPaper($measure, 'orientation')->stream();
             //  return $pdf->stream();
@@ -109,6 +98,15 @@ class ConsultationController extends Controller
          $data = Outil::getOneItemWithGraphQl($this->queryName, $id, false);
             return view('notfound');
         }
+    }
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        
+        return Echographe::all();
+
     }
 
     /**
@@ -150,6 +148,6 @@ class ConsultationController extends Controller
     public function search($name)
     {
         //
-        return Consultation::where('titre','like','%'.$name)->get();
+        return Echographe::where('titre','like','%'.$name)->get();
     }
 }
