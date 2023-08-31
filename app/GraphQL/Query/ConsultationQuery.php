@@ -6,6 +6,8 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use App\Models\Consultation;
+use DateTime;
+
 class ConsultationQuery extends Query
 {
     protected $attributes = [
@@ -23,6 +25,8 @@ class ConsultationQuery extends Query
         [
             'id'                  => ['type' => Type::int()],
             'nom_complet'         => ['type' => Type::string()],
+            'date_start'         => ['type' => Type::string()],
+            'date_end'           => ['type' => Type::string()],
         ];
     }
 
@@ -32,6 +36,15 @@ class ConsultationQuery extends Query
         if (isset($args['id']))
         {
             $query = $query->where('id', $args['id']);
+        }
+
+        if (isset($args['date_start']) && isset($args['date_end'])) {
+            $startDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $args['date_start'] . ' 00:00:00');
+            $endDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $args['date_end'] . ' 23:59:59');
+    
+            if ($startDateTime && $endDateTime) {
+                $query = $query->whereBetween('created_at', [$startDateTime, $endDateTime]);
+            }
         }
         $query->orderBy('id', 'desc');
         $query = $query->get();

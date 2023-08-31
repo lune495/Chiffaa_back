@@ -75,7 +75,7 @@
                 </header>
                 <br>
 
-                <div style="font-size: 20px;font-weight:bold">
+                <div style="font-size: 10px;font-weight:bold">
                     <img src="{{asset('app-assets/assets/images/logo_saloum_digital.jpg')}}" style="width: 120px;"> <br>
                     <!--IMAARA-->
                 </div>
@@ -135,7 +135,7 @@
                 </table>
             </section>
             <div style="overflow: hidden;">**************************************</div>
-            {{-- <div style="text-align:center;margin-bottom : 7px; margin-top : 7px;font-size: 12px">Reglé en espèce </div> --}}
+            <div style="text-align:center;margin-bottom : 7px; margin-top : 7px;font-size: 12px">Reglé en espèce </div>
             <div style=" overflow: hidden;margin-bottom : 7px; margin-top : 7px;">**************************************</div>
         </div>
     </body>

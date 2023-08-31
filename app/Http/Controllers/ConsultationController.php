@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Consultation,Outil,User,ElementConsultations,Log,TypeConsultations};
+use App\Models\{Consultation,Outil,User,ElementConsultations,Log,TypeConsultations,CaisseClosure};
 use \PDF;
 
 class ConsultationController extends Controller
@@ -82,6 +82,24 @@ class ConsultationController extends Controller
         } catch (\Throwable $e) {
                 DB::rollback();
                 return $e->getMessage();
+        }
+    }
+
+    public function closeCaisse(Request $request)
+    {
+        try {
+            // Calculez le montant total de la caisse à la fermeture (par exemple, en ajoutant les montants des consultations non facturées)
+            $totalCaisse = $request->montant_total;
+
+            // Enregistrez les détails de la clôture de caisse
+            $caisseClosure = new CaisseClosure();
+            $caisseClosure->heure_fermeture = now(); // Ou utilisez la date/heure appropriée
+            $caisseClosure->montant_total = $totalCaisse;
+            $caisseClosure->save();
+
+            return response()->json(['message' => 'Caisse fermée avec succès.']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Une erreur est survenue lors de la clôture de la caisse.']);
         }
     }
     /**
