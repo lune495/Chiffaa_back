@@ -71,7 +71,7 @@
         <div>
             <section class="droite" style="text-align: center">
                 <header style="margin-top : 50px;font-size: 14px;">
-                    <!-- Ticket De Caisse {{$id}} -->
+                     Ticket De Caisse {{$id}}
                 </header>
                 <br>
 
@@ -81,14 +81,14 @@
                 </div>
 
                 <div style="margin:10px 0">
-                    Chifaa unite 25
+                    CHIFAA No 023 Parcelles Assainies-Unité 24
                 </div>
                 <div style="margin:10px 0">
-                    33 824 63 54
+                    TEL : 33 835 27 58 / TEL : 70 984 53 34
                 </div>
                 ************************
                 <div style="margin:7px 0">
-                Nom Client : {{ isset($nom_complet) ? $nom_complet : "No ref"}}
+                Patient : {{ isset($nom_complet) ? $nom_complet : "No ref"}}
                 </div>
                 <div style="margin:7px 0">
                 Adresse : {{ isset($adresse) ? $adresse : "NEANT"}}
@@ -140,6 +140,8 @@
         </div>
     </body>
   <footer>
-        <p style="font-size:10px">Vous avez été servi par:  {{$user ? $user["nom"] : " "}} </p>
+        
+        <!-- <p style="font-size:10px">Vous avez été servi par:  {{$user ? $user["nom"] : " "}} </p> -->
+        <p style="font-size:10px">Votre Santé Notre Priorité </p>
 </footer>
 </html>
