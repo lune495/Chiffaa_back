@@ -91,7 +91,7 @@
                 Nom Client : {{ isset($nom_complet) ? $nom_complet : "No ref"}}
                 </div>
                 <div style="margin:7px 0">
-                Adresse : {{ isset($adresse) ? $nom_complet : "NEANT"}}
+                Adresse : {{ isset($adresse) ? $adresse : "NEANT"}}
                 </div>
                 <div style="margin:7px 0">
                 Medecin : {{ isset($medecin) ? $medecin["prenom"] : "NEANT"}}
