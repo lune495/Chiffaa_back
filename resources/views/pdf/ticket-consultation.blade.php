@@ -94,7 +94,7 @@
                 Adresse : {{ isset($adresse) ? $adresse : "NEANT"}}
                 </div>
                 <div style="margin:7px 0">
-                Medecin : {{ isset($medecin) ? $medecin["prenom"] : "NEANT"}}
+                Medecin : Dr {{ isset($medecin) ? $medecin["prenom"] : "NEANT"}}
                 </div>
                 ************************
 
