@@ -22,8 +22,8 @@ class Outil extends Model
 {
     public static $queries = array(
         "services"                   => " id,nom_complet,nature,montant,adresse,remise,medecin{id,nom,prenom},module{id,nom},element_services{id,type_service{id,nom,prix,module{id,nom}}},user{id,nom},created_at",
-        "dentaires"                  => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_dentaires{id,type_dentaire{id,nom,prix}},user{id,nom},created_at",
-        "echographes"                => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_echographes{id,type_echographe{id,nom,prix}},user{id,nom},created_at",
+        "type_services"              => " id,nom,prix,module{id,nom}",
+        "modules"                    => " id,nom",
         "users"                      => " id,nom,email,role{id,nom}",
         "labos"                      => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_labos{id,type_labo{id,nom,prix}},user{id,nom},created_at",
         "labo2s"                     => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_labo2s{id,type_labo2{id,nom,prix}},user{id,nom},created_at",

@@ -40,7 +40,7 @@ class TypeServiceQuery extends Query
             return
             [
                 'id'                      => $item->id,
-                'nom'                     => $item->nom_complet,
+                'nom'                     => $item->nom,
                 'prix'                    => $item->prix,
                 'module'                  => $item->module
             ];

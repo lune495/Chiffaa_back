@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HistoireController;
-use App\Http\Controllers\EchographeController;
-use App\Http\Controllers\DentaireController;
+use App\Http\Controllers\TypeServiceController;
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\CaisseController;
 use App\Http\Controllers\LaboController;
 use App\Http\Controllers\Labo2Controller;
@@ -23,7 +23,8 @@ use App\Http\Controllers\AuthController;
 */
 // Route::get('/histoires',[HistoireController::class, 'index']);
 Route::post('/caisse',[CaisseController::class,'save']);
-Route::post('/echographe',[EchographeController::class,'save']);
+Route::post('/type_service',[TypeServiceController::class,'save']);
+Route::post('/module',[ModuleController::class,'save']);
 Route::post('/dentaire',[DentaireController::class,'save']);
 Route::post('/labo',[LaboController::class,'save']);
 Route::post('/labo2',[Labo2Controller::class,'save']);
