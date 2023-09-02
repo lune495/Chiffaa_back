@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('id_evnt');
             $table->string("date");
             $table->integer("prix")->default(0);
-            $table->integer("remise")->default(0);
+            $table->integer("remise")->default(0);  
             $table->integer("avance")->default(0);
             $table->integer("montant")->default(0);
             $table->timestamps();

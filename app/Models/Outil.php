@@ -21,7 +21,7 @@ use \NumberFormatter;
 class Outil extends Model
 {
     public static $queries = array(
-        "consultations"              => " id,nom_complet,nature,montant,adresse,remise,medecin{id,nom,prenom},element_consultations{id,type_consultation{id,nom,prix}},user{id,nom},created_at",
+        "services"                   => " id,nom_complet,nature,montant,adresse,remise,medecin{id,nom,prenom},module{id,nom},element_services{id,type_service{id,nom,prix,module{id,nom}}},user{id,nom},created_at",
         "dentaires"                  => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_dentaires{id,type_dentaire{id,nom,prix}},user{id,nom},created_at",
         "echographes"                => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_echographes{id,type_echographe{id,nom,prix}},user{id,nom},created_at",
         "users"                      => " id,nom,email,role{id,nom}",

@@ -1,12 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ConsultationController;
-use App\Http\Controllers\DentaireController;
-use App\Http\Controllers\EchographeController;
-use App\Http\Controllers\LaboController;
-use App\Http\Controllers\Labo2Controller;
-use App\Http\Controllers\MaterniteController;
+use App\Http\Controllers\CaisseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +17,4 @@ use App\Http\Controllers\MaterniteController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/vente/ticket-pdf-consultation/{id}', [ConsultationController::class,'generatePDF']);
-Route::get('/vente/ticket-pdf-dentaire/{id}', [DentaireController::class,'generatePDF']);
-Route::get('/vente/ticket-pdf-echographe/{id}', [EchographeController::class,'generatePDF']);
-Route::get('/vente/ticket-pdf-labo/{id}', [LaboController::class,'generatePDF']);
-Route::get('/vente/ticket-pdf-labo2/{id}', [Labo2Controller::class,'generatePDF']);
-Route::get('/vente/ticket-pdf-maternite/{id}', [MaterniteController::class,'generatePDF']);
+Route::get('/vente/ticket-pdf-service/{id}', [CaisseController::class,'generatePDF']);

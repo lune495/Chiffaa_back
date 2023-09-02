@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HistoireController;
 use App\Http\Controllers\EchographeController;
 use App\Http\Controllers\DentaireController;
-use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\CaisseController;
 use App\Http\Controllers\LaboController;
 use App\Http\Controllers\Labo2Controller;
 use App\Http\Controllers\MaterniteController;
@@ -22,7 +22,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 // Route::get('/histoires',[HistoireController::class, 'index']);
-Route::post('/consultation',[ConsultationController::class,'save']);
+Route::post('/caisse',[CaisseController::class,'save']);
 Route::post('/echographe',[EchographeController::class,'save']);
 Route::post('/dentaire',[DentaireController::class,'save']);
 Route::post('/labo',[LaboController::class,'save']);

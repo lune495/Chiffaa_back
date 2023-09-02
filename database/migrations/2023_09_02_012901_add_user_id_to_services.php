@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('caisse_closures', function (Blueprint $table) {
-            $table->id();
-            $table->string('date_ouverture');
-            $table->timestamp('date_fermeture');
-            $table->decimal('montant_total', 20, 2); // Utilisez le type décimal approprié
+        Schema::table('services', function (Blueprint $table) {
+            //
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->timestamps();
         });
     }
 
@@ -27,6 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('caisse_closures');
+        Schema::table('services', function (Blueprint $table) {
+            //
+            $table->dropForeign(['user_id']);
+             $table->dropColumn('user_id');
+        });
     }
 };
