@@ -22,19 +22,20 @@ use App\Http\Controllers\AuthController;
 |
 */
 // Route::get('/histoires',[HistoireController::class, 'index']);
+
+Route::post('/register',[AuthController::class,'register']);
+Route::post('/login',[AuthController::class,'login']);
+
+Route::group(['middleware' => ['auth:sanctum']],function()
+ {
 Route::post('/caisse',[CaisseController::class,'save']);
 Route::post('/type_service',[TypeServiceController::class,'save']);
 Route::post('/module',[ModuleController::class,'save']);
 Route::post('/medecin',[MedecinController::class,'save']);
 Route::post('/labo',[LaboController::class,'save']);
 Route::post('/labo2',[Labo2Controller::class,'save']);
-Route::post('/register',[AuthController::class,'register']);
-Route::post('/login',[AuthController::class,'login']);
 Route::post('/maternite', [MaterniteController::class,'save']);
 Route::get('/payment/checkout', 'PaymentController@checkout');
 Route::get('', 'PaymentController@checkout');
 
-Route::group(['middleware' => ['auth:sanctum']],function()
- {
-    //return $request->user();
 });
