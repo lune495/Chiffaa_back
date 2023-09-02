@@ -24,7 +24,8 @@ class ModuleQuery extends Query
         return
         [
             'id'                  => ['type' => Type::int()],
-            'nom'                 => ['type' => Type::string()]
+            'nom'                 => ['type' => Type::string()],
+            'search'              => ['type' => Type::string()]
         ];
     }
 
@@ -36,13 +37,11 @@ class ModuleQuery extends Query
             $query = $query->where('id', $args['id']);
         }
 
-        if (isset($args['date_start']) && isset($args['date_end'])) {
-            $startDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $args['date_start'] . ' 00:00:00');
-            $endDateTime = DateTime::createFromFormat('Y-m-d H:i:s', $args['date_end'] . ' 23:59:59');
-    
-            if ($startDateTime && $endDateTime) {
-                $query = $query->whereBetween('created_at', [$startDateTime, $endDateTime]);
-            }
+        if (isset($args['search'])) {
+            // Ajoutez une clause WHERE pour filtrer par type de service
+            $query->whereHas('type_services', function ($q) use ($args) {
+                $q->where('nom', 'like', '%' . $args['search'] . '%');
+            });
         }
         $query->orderBy('id', 'desc');
         $query = $query->get();

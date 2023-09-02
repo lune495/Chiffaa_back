@@ -26,6 +26,8 @@ class ModulePaginatedQuery extends Query
         [
             'id'                            => ['type' => Type::int()],
             'nom'                           => ['type' => Type::string()],
+            'search'                        => ['type' => Type::string()],
+
         
             'page'                          => ['name' => 'page', 'description' => 'The page', 'type' => Type::int() ],
             'count'                         => ['name' => 'count',  'description' => 'The count', 'type' => Type::int() ]
@@ -44,7 +46,12 @@ class ModulePaginatedQuery extends Query
         {
             $query->where('nom',$args['nom']);
         }
-      
+        if (isset($args['search'])) {
+            // Ajoutez une clause WHERE pour filtrer par type de service
+            $query->whereHas('type_services', function ($q) use ($args) {
+                $q->where('nom', 'like', '%' . $args['search'] . '%');
+            });
+        }
         $count = Arr::get($args, 'count', 20);
         $page  = Arr::get($args, 'page', 1);
 
