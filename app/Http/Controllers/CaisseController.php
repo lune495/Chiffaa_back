@@ -113,7 +113,7 @@ class CaisseController extends Controller
 
     }
 
-    public function generatePDF($id)
+    public function generatePDF($id,$start=false,$end=false)
     {
         $service = Service::find($id);
         if($service!=null)
@@ -129,6 +129,32 @@ class CaisseController extends Controller
             return view('notfound');
         }
     }
+
+    public function generatePDF2($start=false,$end=false)
+    {
+        if($start!=false && $end!=false)
+        {
+            $data = DB::table('logs')
+            ->select('user_id','designation', DB::raw('SUM(prix) as total_prix'))
+            ->groupBy('designation','user_id')
+            ->get()
+            ->pluck('total_prix', 'designation','user_id')
+            ->toArray();
+            $start="2023-09-06";
+            $end= "2023-09-06";
+            $dateRange = [
+                'start' => $start,
+                'end' => $end
+            ];
+         $pdf = PDF::loadView("pdf.SG", $data,$dateRange);
+         return $pdf->stream();
+        }
+        else
+        {
+         return view('notfound');
+        }
+    }
+    
 
     /**
      * Store a newly created resource in storage.

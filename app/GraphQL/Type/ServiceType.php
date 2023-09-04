@@ -1,7 +1,7 @@
 <?php
 namespace App\GraphQL\Type;
 
-use App\Models\Service;
+use App\Models\{Service,ElementService};
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
@@ -25,6 +25,7 @@ class ServiceType extends GraphQLType
                 'montant'                   => ['type' => Type::int()],
                 'adresse'                   => ['type' => Type::string()],
                 'remise'                    => ['type' => Type::int()],
+                'montant_total'             => ['type' => Type::int()],
                 'medecin'                   => ['type' => GraphQL::type('Medecin')],
                 'user'                      => ['type' => GraphQL::type('User')],
                 'module'                    => ['type' => GraphQL::type('Module')],
@@ -51,4 +52,15 @@ class ServiceType extends GraphQLType
         }
         return Carbon::parse($created_at)->format('d/m/Y H:i:s');
     }
-}
+
+    protected function resolveMontantTotalField($root, $args)
+    {
+        $element_services = ElementService::where('service_id',$root['id'])->get();
+        $montant_total = 0;
+        foreach($element_services as $element_service){
+            // dd($element_service->type_service->prix);
+            $element_service->type_service ? $montant_total = $montant_total + $element_service->type_service->prix : "";
+        }
+        return $montant_total;
+    }
+}   

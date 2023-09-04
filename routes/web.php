@@ -18,3 +18,4 @@ use App\Http\Controllers\CaisseController;
 //     return view('welcome');
 // });
 Route::get('/vente/ticket-pdf-service/{id}', [CaisseController::class,'generatePDF']);
+Route::get('/vente/situation-generale-pdf/{start?}/{end?}', [CaisseController::class,'generatePDF2']);
