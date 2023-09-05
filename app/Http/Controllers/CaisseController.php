@@ -44,7 +44,7 @@ class CaisseController extends Controller
             $item->remise = $request->remise;
             $item->medecin_id = $request->medecin_id;
             $item->module_id = $request->module_id;
-            $item->user_id = $request->user->id;
+            $item->user_id = $user->id;
             $montant = 0;
             if (!isset($errors)) 
             {
