@@ -29,6 +29,7 @@ Route::post('/login',[AuthController::class,'login']);
 Route::group(['middleware' => ['auth:sanctum']],function()
  {
 Route::post('/caisse',[CaisseController::class,'save']);
+Route::post('/cloture_caisse',[CaisseController::class,'closeCaisse']);
 Route::post('/type_service',[TypeServiceController::class,'save']);
 Route::post('/module',[ModuleController::class,'save']);
 Route::post('/medecin',[MedecinController::class,'save']);

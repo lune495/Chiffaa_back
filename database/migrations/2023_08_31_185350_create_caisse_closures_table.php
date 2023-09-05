@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('caisse_closures', function (Blueprint $table) {
             $table->id();
-            $table->string('date_ouverture');
             $table->timestamp('date_fermeture');
             $table->decimal('montant_total', 20, 2); // Utilisez le type décimal approprié
             $table->unsignedBigInteger('user_id')->nullable();

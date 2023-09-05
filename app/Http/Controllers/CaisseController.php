@@ -65,7 +65,7 @@ class CaisseController extends Controller
                             $montant  = $montant + $element_service->type_service->prix;
                         }
                     }
-                        $log->designation = $item->module->nom;
+                    $log->designation = $item->module->nom;
                     $log->id_evnt = $id;
                     $log->date = $item->created_at;
                     $log->prix = $montant;
