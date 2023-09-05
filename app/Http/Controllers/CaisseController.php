@@ -21,6 +21,7 @@ class CaisseController extends Controller
             $errors =null;
             $item = new Service();
             $log = new Log();
+            $user = Auth::user();
             if (!empty($request->id))
             {
                 $item = Service::find($request->id);
@@ -43,7 +44,7 @@ class CaisseController extends Controller
             $item->remise = $request->remise;
             $item->medecin_id = $request->medecin_id;
             $item->module_id = $request->module_id;
-            $item->user_id = $request->user_id;
+            $item->user_id = $request->user->id;
             $montant = 0;
             if (!isset($errors)) 
             {
@@ -53,6 +54,7 @@ class CaisseController extends Controller
                 {
                     foreach ($type_service_tabs as $type_service_tab) 
                     {
+
                         $tpc = TypeService::find($type_service_tab['type_service_id']);
                         if (!isset($tpc)) {
                         $errors = "Type  Service inexistant";
