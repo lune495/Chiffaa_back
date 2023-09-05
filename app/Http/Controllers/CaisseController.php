@@ -98,15 +98,15 @@ class CaisseController extends Controller
             if ($count === 0) {
                 $logs = DB::table('logs')
                     ->select('designation', DB::raw('SUM(prix) AS total_prix'))
-                    ->where(function ($query) {
-                        $query->where('created_at', '>', function ($subQuery) {
-                            $subQuery->select('date_fermeture')
-                                ->from('cloture_caisses')
-                                ->whereNotNull('date_fermeture')
-                                ->orderByDesc('date_fermeture')
-                                ->limit(1);
-                        });
-                    })
+                    // ->where(function ($query) {
+                    //     $query->where('created_at', '>', function ($subQuery) {
+                    //         $subQuery->select('date_fermeture')
+                    //             ->from('cloture_caisses')
+                    //             ->whereNotNull('date_fermeture')
+                    //             ->orderByDesc('date_fermeture')
+                    //             ->limit(1);
+                    //     });
+                    // })
                     ->where('created_at', '<=', now())
                     ->groupBy('designation')
                     ->orderBy('designation')
