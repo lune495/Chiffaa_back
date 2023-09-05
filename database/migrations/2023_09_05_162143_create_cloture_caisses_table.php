@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('caisse_closures', function (Blueprint $table) {
+        Schema::create('cloture_caisses', function (Blueprint $table) {
             $table->id();
             $table->timestamp('date_fermeture');
             $table->decimal('montant_total', 20, 2); // Utilisez le type décimal approprié
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('caisse_closures');
+        Schema::dropIfExists('cloture_caisses');
     }
 };

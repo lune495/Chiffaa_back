@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Service,Outil,User,ElementService,Log,TypeService,CaisseClosure};
+use App\Models\{Service,Outil,User,ElementService,Log,TypeService,ClotureCaisse};
 use \PDF;
 
 class CaisseController extends Controller
@@ -85,22 +86,72 @@ class CaisseController extends Controller
                 return $e->getMessage();
         }
     }
-
     public function closeCaisse(Request $request)
     {
         try {
             // Calculez le montant total de la caisse à la fermeture (par exemple, en ajoutant les montants des consultations non facturées)
-            $totalCaisse = $request->montant_total;
+            // $totalCaisse = $request->montant_total;
+            $errors =null;
+            $montant = 0;
+            $allDatesNotNull = DB::table('cloture_caisses')->whereNull('date_fermeture')->doesntExist();
+            $count = DB::table('cloture_caisses')->count();
+            if ($count === 0) {
+                $logs = DB::table('logs')
+                    ->select('designation', DB::raw('"0000-00-00 00:00:00" AS date_fermeture'), DB::raw('SUM(prix) AS total_prix'))
+                    ->where(function ($query) {
+                        $query->where('created_at', '>', function ($subQuery) {
+                            $subQuery->select('date_fermeture')
+                                ->from('cloture_caisses')
+                                ->whereNotNull('date_fermeture')
+                                ->orderByDesc('date_fermeture')
+                                ->limit(1);
+                        })
+                        ->orWhereNull('created_at');
+                    })
+                    ->where('created_at', '<=', now())
+                    ->groupBy('designation')
+                    ->orderBy('designation')
+                    ->get();
+            } else {
+                $logs = DB::table('logs')
+                    ->select('designation', DB::raw('SUM(prix) AS total_prix'))
+                    ->where(function ($query) {
+                        $query->where('created_at', '>=', function ($subQuery) {
+                            $subQuery->select('date_fermeture')
+                                ->from('cloture_caisses')
+                                ->orderByDesc('date_fermeture')
+                                ->limit(1);
+                        });
+                    })
+                    ->where('created_at', '<=', now())
+                    ->groupBy('designation')
+                    ->orderBy('designation')
+                    ->get();
+            }        
+            foreach ($logs as $log){
 
+                $montant = $montant + $log->total_prix;
+            }
+            if ($montant == 0)
+            {
+                $errors = "Vous pouvez pas cloturer une caisse Vide";
+            }
+            $user = Auth::user();   
             // Enregistrez les détails de la clôture de caisse
-            $caisseClosure = new CaisseClosure();
-            $caisseClosure->heure_fermeture = now(); // Ou utilisez la date/heure appropriée
-            $caisseClosure->montant_total = $totalCaisse;
-            $caisseClosure->save();
+            if (isset($errors))
+            {
+                throw new \Exception('{"data": null, "errors": "'. $errors .'" }');
+            }
+            $caisseCloture = new ClotureCaisse();
+            $caisseCloture->date_fermeture = now(); // Ou utilisez la date/heure appropriée
+            $caisseCloture->montant_total = $montant;
+            $caisseCloture->user_id = $user->id;
+            $caisseCloture->save();
 
             return response()->json(['message' => 'Caisse fermée avec succès.']);
         } catch (\Throwable $e) {
-            return response()->json(['error' => 'Une erreur est survenue lors de la clôture de la caisse.']);
+            return $e->getMessage();
+            // return response()->json(['error' => 'Une erreur est survenue lors de la clôture de la caisse.']);
         }
     }
     /**
@@ -113,7 +164,7 @@ class CaisseController extends Controller
 
     }
 
-    public function generatePDF($id,$start=false,$end=false)
+    public function generatePDF($id)
     {
         $service = Service::find($id);
         if($service!=null)
@@ -130,29 +181,73 @@ class CaisseController extends Controller
         }
     }
 
-    public function generatePDF2($start=false,$end=false)
+    public function generatePDF2()
     {
-        if($start!=false && $end!=false)
-        {
-            $data = DB::table('logs')
-            ->select('user_id','designation', DB::raw('SUM(prix) as total_prix'))
-            ->groupBy('designation','user_id')
-            ->get()
-            ->pluck('total_prix', 'designation','user_id')
-            ->toArray();
-            $start="2023-09-06";
-            $end= "2023-09-06";
-            $dateRange = [
-                'start' => $start,
-                'end' => $end
-            ];
-         $pdf = PDF::loadView("pdf.SG", $data,$dateRange);
-         return $pdf->stream();
-        }
-        else
-        {
-         return view('notfound');
-        }
+            // Calculez le montant total de la caisse à la fermeture (par exemple, en ajoutant les montants des consultations non facturées)
+            // $totalCaisse = $request->montant_total;
+            $errors =null;
+            $montant = 0;
+            $results = [];
+            $count = DB::table('cloture_caisses')->count();
+            if ($count === 0) {
+                $data = DB::table('logs')
+                    ->select('designation', DB::raw('"0000-00-00 00:00:00" AS date_fermeture'), DB::raw('SUM(prix) AS total_prix'))
+                    ->where(function ($query) {
+                        $query->where('created_at', '>', function ($subQuery) {
+                            $subQuery->select('date_fermeture')
+                                ->from('cloture_caisses')
+                                ->whereNotNull('date_fermeture')
+                                ->orderByDesc('date_fermeture')
+                                ->limit(1);
+                        })
+                        ->orWhereNull('created_at');
+                    })
+                    ->where('created_at', '<=', now())
+                    ->groupBy('designation')
+                    ->orderBy('designation')
+                    ->get()
+                    ->toArray();
+            } else {
+                $data = DB::table('logs')
+                    ->select('designation', DB::raw('SUM(prix) AS total_prix'))
+                    ->where(function ($query) {
+                        $query->where('created_at', '>=', function ($subQuery) {
+                            $subQuery->select('date_fermeture')
+                                ->from('cloture_caisses')
+                                ->orderByDesc('date_fermeture')
+                                ->limit(1);
+                        });
+                    })
+                    ->where('created_at', '<=', now())
+                    ->groupBy('designation')
+                    ->orderBy('designation')
+                    ->get();
+
+                    $latestClosureDate = DB::table('cloture_caisses')
+                    ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
+                    ->whereNotNull('date_fermeture')
+                    ->first();
+                    $results['data'] = $data;
+                    $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
+                    $results['current_date'] = now()->format('Y-m-d H:i:s');;
+            //   dd("test",$results);
+            }        
+            // foreach ($data as $l){
+
+            //     $montant = $montant + $l->total_prix;
+            // }
+            // if ($montant == 0)
+            // {
+            //     $errors = "Vous pouvez pas cloturer une caisse Vide";
+            // }
+            // Enregistrez les détails de la clôture de caisse
+            // if (!isset($errors))
+            // {
+                // dd($results);
+                $pdf = PDF::loadView("pdf.situation-pdf",$results);
+                return $pdf->stream();
+            // }
+       
     }
     
 
