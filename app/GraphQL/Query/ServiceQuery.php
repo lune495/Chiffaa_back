@@ -6,6 +6,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use App\Models\Service;
+use App\Models\ClotureCaisse;
 class ServiceQuery extends Query
 {
     protected $attributes = [
