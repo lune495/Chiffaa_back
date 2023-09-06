@@ -60,7 +60,7 @@
         <tr>
             <td colspan="2"  style="padding-top : 10px;font-size: 11px">
                 <p >Arretée à la somme de :</p>  
-                <p style="font-weight: bold;font-size: 11px">{{\App\Models\Outil::convertNumber($montant_total !=0 ? $montant_total : $montant_total)}}</p> 
+                <p style="font-weight: bold;font-size: 11px">{{$montant_total !=0 ? $montant_total : $montant_total}}</p> 
             </td>
         </tr>
     </tbody>
