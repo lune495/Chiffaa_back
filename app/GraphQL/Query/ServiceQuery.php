@@ -33,6 +33,11 @@ class ServiceQuery extends Query
         {
             $query = $query->where('id', $args['id']);
         }
+        // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
+        $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'desc')
+            ->value('date_fermeture');
+
+        $query = $query->whereBetween('created_at', [$latestClosureDate, now()]);
         $query->orderBy('id', 'desc');
         $query = $query->get();
         return $query->map(function (Service $item)
