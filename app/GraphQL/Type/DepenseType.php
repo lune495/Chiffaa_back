@@ -20,6 +20,8 @@ class DepenseType extends GraphQLType
                 'id'                        => ['type' => Type::id(), 'description' => ''],
                 'nom'                       => ['type' => Type::string()],
                 'montant'                    => ['type' => Type::string()],
+                'user'                      => ['type' => GraphQL::type('User')],
+                'created_at'                => ['type' => Type::string()],
             ];
     }
 
@@ -29,4 +31,16 @@ class DepenseType extends GraphQLType
     // {
     //     return strtolower($root->email);
     // }
+     protected function resolveCreatedAtField($root, $args)
+    {
+        if (!isset($root['created_at']))
+        {
+            $created_at = $root->created_at;
+        }
+        else
+        {
+            $created_at = $root['created_at'];
+        }
+        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
+    }
 }

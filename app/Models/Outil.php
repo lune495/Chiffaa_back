@@ -26,7 +26,7 @@ class Outil extends Model
         "modules"                    => " id,nom",
         "users"                      => " id,nom,email,role{id,nom}",
         "medecins"                   => " id,nom,prenom",
-        "depenses"                   => " id,nom,montant",
+        "depenses"                   => " id,nom,montant,user{id,nom},created_at",
         "labo2s"                     => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_labo2s{id,type_labo2{id,nom,prix}},user{id,nom},created_at",
         "maternites"                 => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_maternites{id,type_maternite{id,nom,prix}},user{id,nom},created_at",
         "logs"                       => " id,nom",

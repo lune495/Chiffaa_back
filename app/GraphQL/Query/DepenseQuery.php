@@ -37,7 +37,9 @@ class DepenseQuery extends Query
             [
                 'id'                      => $item->id,
                 'nom'                     => $item->nom,
-                'montant'                 => $item->montant
+                'montant'                 => $item->montant,
+                'user'                    => $item->user,
+                'created_at'              => $item->created_at
             ];
         });
 

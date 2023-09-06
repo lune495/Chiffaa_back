@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{Outil,Depense};
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 class DepenseController extends Controller
 {
     //
@@ -16,6 +17,7 @@ class DepenseController extends Controller
         {
             $errors =null;
             $item = new Depense();
+            $user = Auth::user();
             if (!empty($request->id))
             {
                 $item = Depense::find($request->id);
@@ -31,6 +33,7 @@ class DepenseController extends Controller
             DB::beginTransaction();
             $item->nom = $request->nom;
             $item->montant = $request->montant;
+            $item->user_id = $user->id;
             if (!isset($errors)) 
             {
                 $item->save();
