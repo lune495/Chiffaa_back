@@ -4,13 +4,6 @@
 
     <table style="border: none;font-size: 11px; margin-top:0px">
         <tr  style="border: none">
-            <td style="border: none;">
-                <div>
-                    <p class="badge" style="text-align:left;line-height:15px">Date</p>
-                    <p style="style=border-left: 2px solid white;border-bottom: 2px solid white"></p>
-                    <p style="style=border-left: 2px solid white;border-bottom: 2px solid white"></p>
-                </div>
-            </td>
             <td style="border: none;"></td><td style="border: none;"></td><td style="border: none;"></td><td style="border: none;"></td><td style="border: none;"></td>
             <td style="border: none;"></td>
             <td style="border: none;"></td>

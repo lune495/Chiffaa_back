@@ -245,7 +245,7 @@ class CaisseController extends Controller
             // if (!isset($errors))
             // {
                 // dd($results);
-                $pdf = PDF::loadView("pdf.situation-pdf2",$results);
+                $pdf = PDF::loadView("pdf.situation-pdf",$results);
                 return $pdf->stream();
             // }
        
