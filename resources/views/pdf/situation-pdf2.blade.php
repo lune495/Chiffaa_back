@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
 <table class="table-outer">
     <!-- ... your table content ... -->
 </table>
