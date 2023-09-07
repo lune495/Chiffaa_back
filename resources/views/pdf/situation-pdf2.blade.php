@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}">
+@extends('pdf.layouts.lay')
 <table class="table-outer">
     <!-- ... your table content ... -->
 </table>
