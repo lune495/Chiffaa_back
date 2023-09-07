@@ -8,5 +8,8 @@
 </head>
 <body>
     <!-- Le reste du contenu de votre page va ici -->
+    <div class="mt-4">
+        @yield('content')
+    </div>
 </body>
 </html>

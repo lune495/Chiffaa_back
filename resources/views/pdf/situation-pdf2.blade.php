@@ -1,4 +1,5 @@
 @extends('pdf.layouts.lay')
+@section('content')
 <table class="table-outer">
     <!-- ... your table content ... -->
 </table>
@@ -38,3 +39,4 @@
         </tbody>
     </table>
 </div>
+@endsection
