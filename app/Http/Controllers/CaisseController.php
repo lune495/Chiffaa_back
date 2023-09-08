@@ -190,7 +190,6 @@ class CaisseController extends Controller
             $montant = 0;
             $results = [];
             $count = DB::table('cloture_caisses')->count();
-            dd($count);
             if ($count === 0) {
                 $data = DB::table('logs')
                     ->select('designation', DB::raw('"0000-00-00 00:00:00" AS date_fermeture'), DB::raw('SUM(prix) AS total_prix'))
