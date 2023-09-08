@@ -40,7 +40,7 @@ class UserQuery extends Query
             return
             [
                 'id'                      => $item->id,
-                'nom'                     => $item->nom,
+                'name'                    => $item->name,
                 'email'                   => $item->email,
                 'role_id'                 => $item->role_id,
                 'role'                    => $item->role,
