@@ -249,7 +249,7 @@ class CaisseController extends Controller
                     })
                     ->get();
                     $results['data'] = $data;
-                    $results['depense'] = $depense;
+                    $results['depense'] = $depenses;
                     $results['derniere_date_fermeture'] = "";
                     $results['current_date'] = now()->format('Y-m-d H:i:s');;
             dd($results);
