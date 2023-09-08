@@ -193,7 +193,7 @@ class CaisseController extends Controller
             if ($count === 0) {
                 $data = DB::table('logs')
                     ->select('designation',DB::raw('SUM(prix) AS total_prix'))
-                    ->where('created_at','>',"1968-00-00")
+                    ->where('created_at','>',"1900-09-08 19:16:39")
                     ->where('created_at','<=',now())
                     ->groupBy('designation')
                     ->orderBy('designation')
