@@ -192,7 +192,7 @@ class CaisseController extends Controller
             $count = DB::table('cloture_caisses')->count();
             if ($count === 0) {
                 $data = DB::table('logs')
-                    ->select('designation', DB::raw('"0000-00-00 00:00:00" AS date_fermeture'), DB::raw('SUM(prix) AS total_prix'))
+                    ->select('designation',DB::raw('SUM(prix) AS total_prix'))
                     ->where(function ($query) {
                         $query->where('created_at', '>', function ($subQuery) {
                             $subQuery->select('date_fermeture')
@@ -233,12 +233,14 @@ class CaisseController extends Controller
                     ->orderBy('id', 'desc')
                     ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
                     ->get();
-                    $results['data'] = $data;
-                    $results['depense'] = $depenses;
-                    $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
-                    $results['current_date'] = now()->format('Y-m-d H:i:s');;
+                   
             dd($results);
-            }        
+            }       
+            $results['data'] = $data;
+            $results['depense'] = $depenses;
+            $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
+            $results['current_date'] = now()->format('Y-m-d H:i:s');;
+            dd($results);
             // foreach ($data as $l){
 
             //     $montant = $montant + $l->total_prix;
