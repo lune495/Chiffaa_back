@@ -203,7 +203,7 @@ class CaisseController extends Controller
                     // Depense
                     $depenses = DB::table('depenses')
                     ->orderBy('id', 'desc')
-                    ->where('created_at','>',"1968-00-00")
+                    ->where('created_at','>',"1900-09-08 19:16:39")
                     ->where('created_at','<=',now())
                     ->get();
                     $results['data'] = $data;
