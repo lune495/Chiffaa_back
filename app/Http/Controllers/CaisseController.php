@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Service,Outil,User,ElementService,Log,TypeService,ClotureCaisse,Depense};
+use App\Models\{Service,Outil,User,ElementService,Log,TypeService,ClotureCaisse};
 use \PDF;
 
 class CaisseController extends Controller
@@ -208,18 +208,6 @@ class CaisseController extends Controller
                     ->orderBy('designation')
                     ->get()
                     ->toArray();
-                    $latestClosureDate = DB::table('cloture_caisses')
-                    ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
-                    ->whereNotNull('date_fermeture')
-                    ->first();
-                    $depense = Depense::query();
-                    $depense = $depense->orderBy('id', 'desc');
-                    $depense = $depense->whereBetween('created_at', [$latestClosureDate, now()]);
-                    $depense = $depense->get()->toArray();
-                    $results['data'] = $data;
-                    $results['depense'] = $depense;
-                    $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
-                    $results['current_date'] = now()->format('Y-m-d H:i:s');;
             } else {
                 $data = DB::table('logs')
                     ->select('designation', DB::raw('SUM(prix) AS total_prix'))
@@ -229,7 +217,7 @@ class CaisseController extends Controller
                                 ->from('cloture_caisses')
                                 ->orderByDesc('date_fermeture')
                                 ->limit(1);
-                        }); 
+                        });
                     })
                     ->where('created_at', '<=', now())
                     ->groupBy('designation')
@@ -241,16 +229,13 @@ class CaisseController extends Controller
                     ->whereNotNull('date_fermeture')
                     ->first();
                     // Depense
-                   $depenses = DB::table('depenses')
-                    ->orderBy('id', 'desc')
-                    ->where(function ($query) use ($latestClosureDate) {
-                        $query->where('created_at', '>=', $latestClosureDate)
-                            ->where('created_at', '<=', now());
-                    })
-                    ->get();
+                    $depense = Depense::query();
+                    $depense->orderBy('id', 'desc');
+                    $depense = $depense->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()]);
+                    $depense = $depense->get();
                     $results['data'] = $data;
-                    $results['depense'] = $depenses;
-                    $results['derniere_date_fermeture'] = "";
+                    $results['depense'] = $depense;
+                    $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
                     $results['current_date'] = now()->format('Y-m-d H:i:s');;
             dd($results);
             }        
