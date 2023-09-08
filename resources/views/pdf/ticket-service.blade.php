@@ -91,6 +91,7 @@
                 {{-- <div style="margin:7px 0">
                 Adresse : {{ isset($adresse) ? $adresse : "NEANT"}}
                 </div> --}}
+                <dt  style="margin:10px 0">Date : {{$created_at}}</dt>
                 <div style="margin:7px 0">
                 Medecin : Dr {{ isset($medecin) ? $medecin["nom"] : "NEANT"}}
                 </div>
@@ -99,11 +100,8 @@
                 </div>
                 ************************
 
-                <!-- <dt  style="font-size: 18px;font-weight:bold">Vente N°{{$id}}</dt> -->
-
-                <dt  style="margin:10px 0">Date : {{$created_at}}</dt>
+                <dt  style="font-size: 18px;font-weight:bold">Vente N°{{$id}}</dt>
             </section>
-
             <section  style="margin-top : 30px">
                 <table>
                     <tbody>
@@ -134,7 +132,7 @@
                     </tr>
                     </tbody>
                 </table>
-            </section>
+            </section> 
         </div>
     </body>
   <footer>
