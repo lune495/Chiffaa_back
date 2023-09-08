@@ -243,8 +243,10 @@ class CaisseController extends Controller
                     // Depense
                    $depenses = DB::table('depenses')
                     ->orderBy('id', 'desc')
-                    ->where('created_at', '>=', $latestClosureDate)
-                    ->where('created_at', '<=', now())
+                    ->where(function ($query) use ($latestClosureDate) {
+                        $query->where('created_at', '>=', $latestClosureDate)
+                            ->where('created_at', '<=', now());
+                    })
                     ->get();
                     $results['data'] = $data;
                     $results['depense'] = $depense;
