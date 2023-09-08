@@ -90,9 +90,9 @@
                 <div style="margin:7px 0">
                 Patient : {{ isset($nom_complet) ? $nom_complet : "No ref"}}
                 </div>
-                <div style="margin:7px 0">
+                {{-- <div style="margin:7px 0">
                 Adresse : {{ isset($adresse) ? $adresse : "NEANT"}}
-                </div>
+                </div> --}}
                 <div style="margin:7px 0">
                 Medecin : Dr {{ isset($medecin) ? $medecin["nom"] : "NEANT"}}
                 </div>
