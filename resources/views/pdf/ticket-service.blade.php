@@ -85,7 +85,7 @@
                     CHIFAA No 023 Parcelles Assainies-Unité 24
                 </div>
                 <div style="margin:10px 0">
-                    TEL : 33 835 27 58 / TEL : 70 984 53 34
+                    TEL : +221 33 821 25 12 / TEL : 77 270 72 22
                 </div>
                 ************************
                 {{-- <div style="margin:7px 0">
@@ -135,9 +135,6 @@
                     </tbody>
                 </table>
             </section>
-            <div style="overflow: hidden;">**************************************</div>
-            <div style="text-align:center;margin-bottom : 7px; margin-top : 7px;font-size: 12px">Reglé en espèce </div>
-            <div style=" overflow: hidden;margin-bottom : 7px; margin-top : 7px;">**************************************</div>
         </div>
     </body>
   <footer>
