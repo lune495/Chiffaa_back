@@ -237,7 +237,7 @@ class CaisseController extends Controller
                     ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
                     ->get();
                     $results['data'] = $data;
-                    $results['depense'] = $depenses;
+                    $results['depenses'] = $depenses;
                     $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
                     $results['current_date'] = now()->format('Y-m-d H:i:s');
             }       
