@@ -212,11 +212,10 @@ class CaisseController extends Controller
                     ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
                     ->whereNotNull('date_fermeture')
                     ->first();
-                    dd($latestClosureDate);
                     // Depense
                     $depenses = DB::table('depenses')
                     ->orderBy('id', 'desc')
-                    ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
+                    ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00", now()])
                     ->get();
             } else {
                 $data = DB::table('logs')
