@@ -244,7 +244,7 @@ class CaisseController extends Controller
                     $depense = Depense::query();
                     $depense = $depense->orderBy('id', 'desc');
                     $depense = $depense->whereBetween('created_at', [$latestClosureDate, now()]);
-                    dd($depense);
+                    dd($depense->get());
                     $depense = $depense->get()->toArray();
                     $results['data'] = $data;
                     $results['depense'] = $depense;
