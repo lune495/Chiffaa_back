@@ -213,7 +213,7 @@ class CaisseController extends Controller
                     ->whereNotNull('date_fermeture')
                     ->first();
                     $depense = Depense::query();
-                    $depense->orderBy('id', 'desc');
+                    $depense = $depense->orderBy('id', 'desc');
                     $depense = $depense->whereBetween('created_at', [$latestClosureDate, now()]);
                     $depense = $depense->get();
                     $results['data'] = $data;
