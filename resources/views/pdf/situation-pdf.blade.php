@@ -18,13 +18,12 @@
             <td style="border: none;"></td>
             <td style="border: none;"></td>
             <td style="border: none">
-                <div> 
-                </div>
+                
             </td>
             <td style="border:none;"></td>
         </tr>
     </table>
-    <center><h4 style="margin:0">Situation Generale du  {{$derniere_date_fermeture}} au {{$current_date}}</h4></center>
+    <center><h4 style="margin:0">Situation Generale du  {{$derniere_date_fermeture ? $derniere_date_fermeture : $current_date}} au {{$current_date}}</h4></center>
     <br>
     <div class="static">
     <table class="table table-bordered">
