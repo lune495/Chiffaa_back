@@ -2,61 +2,76 @@
 @section('title', "Situation Generale")
 @section('content')
 
-    <table style="border: none;font-size: 11px; margin-top:0px">
-        <tr  style="border: none">
-            <td style="border: none;"></td><td style="border: none;"></td><td style="border: none;"></td><td style="border: none;"></td><td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none;"></td>
-            <td style="border: none">
-                
-            </td>
-            <td style="border:none;"></td>
-        </tr>
-    </table>
-    <center><h4 style="margin:0">Situation Generale du  {{$derniere_date_fermeture ? $derniere_date_fermeture : $current_date}} au {{$current_date}}</h4></center>
-    <br>
-    <div class="static">
-    <table class="table table-bordered">
-        <tr>
-            <th style="border:none"> <p class="badge">DESIGNATION</p> </th>
-            <th style="border:none"><p class="badge">MONTANT</p></th>
-        </tr>
-    <tbody style="border:none">
-        {{$montant_total = 0}}
-        @foreach($data as $sum)
-            {{$montant_total = $montant_total + $sum->total_prix }}
+<center><h4 class="situation-heading">Situation Generale du {{$derniere_date_fermeture}} au {{$current_date}}</h4></center>
+<div class="table-container">
+    <!-- Tableau de gauche (RECETTE) -->
+    <div class="table-wrapper left">
+        <h4>RECETTE</h4>
+        <table class="custom-table">
+            <!-- En-tête -->
             <tr>
-                <td style="font-size:12px;padding: 6px;line-height:15px"><center> {{ \App\Models\Outil::premereLettreMajuscule($sum->designation)}}</center></td>
-                    <td style="font-size:12px;padding: 6px"> <center>{{$sum->total_prix}}</center></td>
+                <th>DESIGNATION</th>
+                <th>MONTANT</th>
             </tr>
-        @endforeach
+            <!-- Contenu -->
+            <!-- ... Votre boucle foreach existante ... -->
+            {{$montant_total = 0}}
+            @foreach($data as $sum)
+                {{$montant_total = $montant_total + $sum->total_prix }}
+                <tr>
+                    <td><center> {{ \App\Models\Outil::premereLettreMajuscule($sum->designation)}}</center></td>
+                    <td>{{$sum->total_prix}}</td>
+                </tr>
+            @endforeach
+            <tr>
+                <td colspan="2">
+                    <div>
+                        <p class="badge" style="line-height:15px;">Total</p>
+                        <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total, false, false)}}</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-        <!--total-->
-        <tr>
-        <div>
-                <p class="badge" style="line-height:15px;">Total</p>
-                <p style="line-height
-                :5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total, false, false)}}</p>
-            </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2"  style="padding-top : 10px;font-size: 11px">
-                <p >Arretée à la somme de :</p>  
-                <p style="font-weight: bold;font-size: 11px">{{$montant_total !=0 ? $montant_total : $montant_total}}</p> 
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <!-- Tableau de droite (DEPENSE) -->
+    <div class="table-wrapper right">
+        <h4>DEPENSE</h4>
+        <table class="custom-table">
+            <!-- En-tête -->
+            <tr>
+                <th>Nature</th>
+                <th>MONTANT</th>
+            </tr>
+            <!-- Contenu -->
+            <!-- ... Votre boucle foreach existante pour les dépenses ... -->
+            {{$montant_total_depense = 0}}
+            @foreach($depenses as $sum)
+                {{$montant_total_depense = $montant_total_depense + $sum->montant }}
+                <tr>
+                    <td><center> {{ \App\Models\Outil::premereLettreMajuscule($sum->nom)}}</center></td>
+                    <td> <center>{{$sum->montant}}</center></td>
+                </tr>
+            @endforeach
+            <tr>
+                <td colspan="2">
+                    <div>
+                        <p class="badge" style="line-height:15px;">Total</p>
+                        <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total_depense, false, false)}}</p>
+                    </div>
+                </td>
+            </tr>
+            <!-- Ajoutez la ligne colorée si nécessaire -->
+                <tr class="colorful-row">
+                    <td colspan="2" style="padding-top: 10px; font-size: 15px">
+                        <p>Solde Caisse :</p>
+                        <p style="font-weight: bold; font-size: 20px">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total - $montant_total_depense, false, false)}}</p>
+                    </td>
+                </tr>
+        </table>
+    </div>
 </div>
+
+<!-- ... Le reste de votre modèle ... -->
+
 @endsection
