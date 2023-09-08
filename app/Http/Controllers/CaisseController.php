@@ -243,10 +243,8 @@ class CaisseController extends Controller
                     // Depense
                     $depenses = DB::table('depenses')
                     ->orderBy('id', 'desc')
-                    ->whereBetween('created_at', [$latestClosureDate, now()])
                     ->get();
                     dd($depenses);
-                    $depense = $depense->get()->toArray();
                     $results['data'] = $data;
                     $results['depense'] = $depense;
                     $results['derniere_date_fermeture'] = "";
