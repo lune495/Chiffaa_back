@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Service,Outil,User,ElementService,Log,TypeService,ClotureCaisse};
+use App\Models\{Service,Outil,User,ElementService,Log,TypeService,ClotureCaisse,Depense};
 use \PDF;
 
 class CaisseController extends Controller
