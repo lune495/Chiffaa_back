@@ -6,7 +6,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Support\Arr;
-use \App\Models\Service;
+use \App\Models\{Service,ClotureCaisse};
 
 class ServicePaginatedQuery extends Query
 {
@@ -44,6 +44,11 @@ class ServicePaginatedQuery extends Query
         {
             $query->where('nom_complet',$args['nom_complet']);
         }
+        // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
+        $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'desc')
+            ->value('date_fermeture');
+
+        $query = $query->whereBetween('created_at', [$latestClosureDate, now()]);
       
         $count = Arr::get($args, 'count', 20);
         $page  = Arr::get($args, 'page', 1);

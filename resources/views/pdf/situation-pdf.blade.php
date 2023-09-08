@@ -46,7 +46,8 @@
         <tr>
         <div>
                 <p class="badge" style="line-height:15px;">Total</p>
-                <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total, false, false)}}</p>
+                <p style="line-height
+                :5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total, false, false)}}</p>
             </div>
             </td>
         </tr>

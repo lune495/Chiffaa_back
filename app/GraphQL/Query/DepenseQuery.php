@@ -5,7 +5,8 @@ namespace App\GraphQL\Query;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use App\Models\Depense;
+use App\Models\{Depense,ClotureCaisse};
+
 class DepenseQuery extends Query
 {
     protected $attributes = [
@@ -30,6 +31,11 @@ class DepenseQuery extends Query
     {
         $query = Depense::query();
         $query->orderBy('id', 'desc');
+        // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
+        $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'desc')
+            ->value('date_fermeture');
+
+        $query = $query->whereBetween('created_at', [$latestClosureDate, now()]);
         $query = $query->get();
         return $query->map(function (Depense $item)
         {
