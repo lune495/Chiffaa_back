@@ -81,6 +81,7 @@
                 </div>
 
                 <div style="margin:10px 0">
+                            Centre Medico Social
                     CHIFAA No 023 Parcelles Assainies-Unité 24
                 </div>
                 <div style="margin:10px 0">
