@@ -246,7 +246,6 @@ class CaisseController extends Controller
                     ->where('created_at', '>=', $latestClosureDate)
                     ->where('created_at', '<=', now())
                     ->get();
-                    dd($depenses);
                     $results['data'] = $data;
                     $results['depense'] = $depense;
                     $results['derniere_date_fermeture'] = "";
