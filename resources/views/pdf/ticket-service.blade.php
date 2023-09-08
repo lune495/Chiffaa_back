@@ -87,14 +87,14 @@
                     TEL : 33 835 27 58 / TEL : 70 984 53 34
                 </div>
                 ************************
-                <div style="margin:7px 0">
-                Patient : {{ isset($nom_complet) ? $nom_complet : "No ref"}}
-                </div>
                 {{-- <div style="margin:7px 0">
                 Adresse : {{ isset($adresse) ? $adresse : "NEANT"}}
                 </div> --}}
                 <div style="margin:7px 0">
                 Medecin : Dr {{ isset($medecin) ? $medecin["nom"] : "NEANT"}}
+                </div>
+                <div style="margin:7px 0">
+                Patient : {{ isset($nom_complet) ? $nom_complet : "No ref"}}
                 </div>
                 ************************
 
