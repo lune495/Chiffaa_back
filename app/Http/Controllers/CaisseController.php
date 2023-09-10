@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Service,Outil,User,ElementService,Log,TypeService,ClotureCaisse,Depense};
+use App\Models\{Service,Outil,User,ElementService,Log,TypeService,ClotureCaisse,Depense,Vente};
 use \PDF;
 
 class CaisseController extends Controller
@@ -74,6 +74,7 @@ class CaisseController extends Controller
                     $log->prix = $montant;
                     $log->remise = $item->remise;
                     $log->montant = $item->montant;
+                    $log->user_id = $user->id;
                     $log->save();
                 }
                 DB::commit();
@@ -166,6 +167,22 @@ class CaisseController extends Controller
     }
 
     public function generatePDF($id)
+    {
+        $service = Service::find($id);
+        if($service!=null)
+        {
+         $data = Outil::getOneItemWithGraphQl($this->queryName, $id, true);
+        //dd($data);
+         $pdf = PDF::loadView("pdf.ticket-service", $data);
+        $measure = array(0,0,225.772,650.197);
+        return $pdf->setPaper($measure, 'orientation')->stream();
+            //  return $pdf->stream();
+        }else{
+         $data = Outil::getOneItemWithGraphQl($this->queryName, $id, false);
+            return view('notfound');
+        }
+    }
+    public function generatePDF3($id)
     {
         $service = Service::find($id);
         if($service!=null)

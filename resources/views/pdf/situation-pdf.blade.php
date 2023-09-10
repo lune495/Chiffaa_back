@@ -2,7 +2,7 @@
 @section('title', "Situation Generale")
 @section('content')
 
-<center><h4 class="situation-heading">Situation Generale du {{$derniere_date_fermeture}} au {{$current_date}}</h4></center>
+<h4 class="situation-heading">Situation Generale du {{$derniere_date_fermeture}} au {{$current_date}}</h4>
 <div class="table-container">
     <!-- Tableau de gauche (RECETTE) -->
     <div class="table-wrapper left">
@@ -46,11 +46,11 @@
             <!-- Contenu -->
             <!-- ... Votre boucle foreach existante pour les dépenses ... -->
             {{$montant_total_depense = 0}}
-            @foreach($depenses as $sum)
-                {{$montant_total_depense = $montant_total_depense + $sum->montant }}
+            @foreach($depenses as $dep)
+                {{$montant_total_depense = $montant_total_depense + $dep->montant }}
                 <tr>
-                    <td><center> {{ \App\Models\Outil::premereLettreMajuscule($sum->nom)}}</center></td>
-                    <td> <center>{{$sum->montant}}</center></td>
+                    <td><center> {{ \App\Models\Outil::premereLettreMajuscule($dep->nom)}}</center></td>
+                    <td> <center>{{$dep->montant}}</center></td>
                 </tr>
             @endforeach
             <tr>

@@ -17,6 +17,10 @@ body {
     display: flex;
     justify-content: space-between;
 }
+ /* Style pour centrer le titre */
+    .situation-heading {
+        text-align: center;
+    }
 
 /* Style pour chaque tableau */
 .custom-table {
