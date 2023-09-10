@@ -184,12 +184,11 @@ class CaisseController extends Controller
     }
     public function generatePDF3($id)
     {
-        $service = Service::find($id);
-        if($service!=null)
+        $data = Vente::find($id);
+        if($vente!=null)
         {
-         $data = Outil::getOneItemWithGraphQl($this->queryName, $id, true);
         //dd($data);
-         $pdf = PDF::loadView("pdf.ticket-service", $data);
+         $pdf = PDF::loadView("pdf.ticket-pharmacie", $data);
         $measure = array(0,0,225.772,650.197);
         return $pdf->setPaper($measure, 'orientation')->stream();
             //  return $pdf->stream();
