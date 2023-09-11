@@ -185,10 +185,12 @@ class CaisseController extends Controller
     public function generatePDF3($id)
     {
         $vente = Vente::find($id);
+        $results = [];
         if($vente!=null)
         {
         //dd($data);
-         $pdf = PDF::loadView("pdf.ticket-pharmacie", $vente);
+        $results['vente'] = $vente;
+         $pdf = PDF::loadView("pdf.ticket-pharmacie", $results);
         $measure = array(0,0,225.772,650.197);
         return $pdf->setPaper($measure, 'orientation')->stream();
             //  return $pdf->stream();
