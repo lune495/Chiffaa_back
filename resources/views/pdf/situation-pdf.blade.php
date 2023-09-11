@@ -19,7 +19,7 @@
             @foreach($data as $sum)
                 {{$montant_total = $montant_total + $sum->total_prix }}
                 <tr>
-                    <td><center> {{ \App\Models\Outil::premereLettreMajuscule($sum->designation)}}</center></td>
+                    <td><center> {{ \App\Models\Outil::toUpperCase($sum->designation)}}</center></td>
                     <td>{{$sum->total_prix}}</td>
                 </tr>
             @endforeach

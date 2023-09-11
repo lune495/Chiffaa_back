@@ -258,6 +258,11 @@ class Outil extends Model
         }
         return $rslt;
     }
+
+    public static function toUpperCase($inputString) {
+        return strtoupper($inputString);
+    }
+
     public static function convertNumber($num)
     {
         $f = new NumberFormatter("fr", NumberFormatter::SPELLOUT);
