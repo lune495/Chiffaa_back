@@ -65,7 +65,7 @@
                 <tr class="colorful-row">
                     <td colspan="2" style="padding-top: 10px; font-size: 15px">
                         <p>Solde Caisse :</p>
-                        <p style="font-weight: bold; font-size: 20px">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total - $montant_total_depense, false, false)}}</p>
+                        <p style="font-weight: bold; font-size: 20px">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total - $montant_total_depense, false, true)}}</p>
                     </td>
                 </tr>
         </table>
