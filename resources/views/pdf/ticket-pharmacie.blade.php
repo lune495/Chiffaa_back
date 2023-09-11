@@ -93,7 +93,7 @@
                 </div>
                 ************************
 
-                <dt  style="font-size: 18px;font-weight:bold">Vente N°{{$vente->$id}}</dt>
+                <dt  style="font-size: 18px;font-weight:bold">Vente N°{{$vente->id}}</dt>
             </section>
             <section  style="margin-top : 30px">
                 <table>
