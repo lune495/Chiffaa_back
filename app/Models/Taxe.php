@@ -8,14 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Taxe extends Model
 {
     use HasFactory;
-
+    
     public  function ventes()
     {
         return $this->hasMany(Vente::class);
-    }
-
-    public  function proformas()
-    {
-        return $this->hasMany(Proforma::class);
     }
 }

@@ -27,5 +27,5 @@ class VenteProduit extends Model
         $total = $item->qte * $produit->pv;
 
         return $total;
-    }
+    }        
 }
