@@ -96,7 +96,7 @@
                 Medecin : Dr {{ isset($medecin) ? $medecin["nom"] : "NEANT"}}
                 </div>
                 <div style="margin:7px 0">
-                Patient : {{ isset($nom_complet) ? $nom_complet : "No ref"}}
+                Patient(e) : {{ isset($nom_complet) ? $nom_complet : "No ref"}}
                 </div>
                 ************************
 
