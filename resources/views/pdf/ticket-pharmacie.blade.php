@@ -100,7 +100,7 @@
                     <tbody>
                         <tr>
                             <td style="padding-left: 15px;">{{$vente->client->nom_complet}}</td>
-                            <td style="padding-left: 15px;">{{vente->montant}}</td>
+                            <td style="padding-left: 15px;">{{$vente->montant}}</td>
                         </tr>
                     </tbody>
                 </table>
