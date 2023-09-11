@@ -114,7 +114,7 @@
                         @foreach($element_services as $element_service )
                             <tr>
                                 <td style="padding-left: 15px;">{{$element_service["type_service"]["nom"] ? $element_service["type_service"]["nom"] : "" }}</td>
-                                <td style="padding-left: 15px;">{{$element_service["type_service"]["prix"] ? $element_service["type_service"]["prix"] : ""}}</td>
+                                <td style="padding-left: 15px;">{{$element_service["type_service"]["prix"] ? {{\App\Models\Outil::formatPrixToMonetaire($element_service["type_service"]["prix"], false, false)}} : ""}}</td>
                                 {{$element_service["type_service"]["prix"] ? $montant = $montant + $element_service["type_service"]["prix"] : ""}}
                                 <td style="padding-left: 15px">
                             </tr>
