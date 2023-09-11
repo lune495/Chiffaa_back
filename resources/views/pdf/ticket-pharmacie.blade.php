@@ -89,7 +89,7 @@
                 </div>
                 ************************
                 <div style="margin:7px 0">
-                Patient : {{ $vente->client->nom_complet}}
+                Patient(e) : {{ $vente->client->nom_complet}}
                 </div>
                 ************************
 
