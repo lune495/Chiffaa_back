@@ -88,6 +88,7 @@ class VenteQuery extends Query
                 'user'                    => $item->user,
                 'client'                  => $item->client,
                 'taxe'                    => $item->taxe,
+                'paye'                    => $item->paye,
                 'vente_produits'          => $item->vente_produits,
                 'created_at'              => $item->created_at,
                 'created_at_fr'           => $item->created_at_fr,
