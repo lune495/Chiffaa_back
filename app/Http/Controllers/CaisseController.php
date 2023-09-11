@@ -197,6 +197,16 @@ class CaisseController extends Controller
             return view('notfound');
         }
     }
+    
+    public function statutPDFpharmacie($id)
+    {
+        $data = Vente::find($id);
+        if($vente!=null)
+        {
+            $data->paye = 1;
+            $data->save();
+        }
+    }
 
     public function generatePDF2()
     {
