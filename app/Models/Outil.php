@@ -21,14 +21,14 @@ use \NumberFormatter;
 class Outil extends Model
 {
     public static $queries = array(
-        "services"                   => " id,nom_complet,nature,montant,adresse,remise,montant_total,medecin{id,nom,prenom},module{id,nom},element_services{id,type_service{id,nom,prix,module{id,nom}}},user\{id,nom\},created_at",
+        "services"                   => " id,nom_complet,nature,montant,adresse,remise,montant_total,medecin{id,nom,prenom},module{id,nom},element_services{id,type_service{id,nom,prix,module{id,nom}}},user{id,nom},created_at",
         "type_services"              => " id,nom,prix,module{id,nom}",
         "modules"                    => " id,nom",
         "users"                      => " id,nom,email,role{id,nom}",
         "medecins"                   => " id,nom,prenom",
-        "depenses"                   => " id,nom,montant,user\{id,nom\},created_at",
-        "labo2s"                     => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_labo2s{id,type_labo2{id,nom,prix}},user\{id,nom\},created_at",
-        "maternites"                 => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_maternites{id,type_maternite{id,nom,prix}},user\{id,nom\},created_at",
+        "depenses"                   => " id,nom,montant,user{id,nom},created_at",
+        "labo2s"                     => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_labo2s{id,type_labo2{id,nom,prix}},user{id,nom},created_at",
+        "maternites"                 => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_maternites{id,type_maternite{id,nom,prix}},user{id,nom},created_at",
         "logs"                       => " id,nom",
         "approvisionnements"         => "id,user_id,user{name},montant,statut,numero,qte_total_appro,fournisseur_id,fournisseur{id,nom_complet,telephone,adresse},ligne_approvisionnements{id,produit_id,produit{id,designation,pa,pv,qte,famille_id,famille{id,nom}},quantity_received,created_at,created_at_fr,updated_at,updated_at_fr},created_at,created_at_fr,type_appro",
     );
