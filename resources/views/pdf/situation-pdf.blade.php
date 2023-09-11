@@ -20,7 +20,7 @@
                 {{$montant_total = $montant_total + $sum->total_prix }}
                 <tr>
                     <td><center> {{ \App\Models\Outil::toUpperCase($sum->designation)}}</center></td>
-                    <td>{{$sum->total_prix}}</td>
+                    <td>{{\App\Models\Outil::formatPrixToMonetaire($sum->total_prix, false, false)}}</td>
                 </tr>
             @endforeach
             <tr>
