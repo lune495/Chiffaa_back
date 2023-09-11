@@ -200,11 +200,11 @@ class CaisseController extends Controller
 
     public function statutPDFpharmacie($id)
     {
-        $data = Vente::find($id);
-        if($data!=null)
+        $vente = Vente::find($id);
+        if($vente!=null)
         {
-            $data->paye = 1;
-            $data->save();
+            $vente->paye = 1;
+            $vente->save();
         }
     }
 
