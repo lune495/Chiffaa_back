@@ -89,7 +89,7 @@
                 </div>
                 ************************
                 <div style="margin:7px 0">
-                Patient(e) : {{ $vente->client->nom_complet}}
+                Client(e) : {{ $vente->client->nom_complet}}
                 </div>
                 ************************
 
@@ -99,8 +99,8 @@
                 <table>
                     <tbody>
                         <tr>
-                            <td style="padding-left: 15px;">{{$vente->client->nom_complet}}</td>
-                            <td style="padding-left: 15px;">{{$vente->montant}}</td>
+                            <td style="padding-left: 15px;">TOTAL</td>
+                            <td style="padding-left: 15px;">{{\App\Models\Outil::formatPrixToMonetaire($vente->montant, false, true)}}</td>
                         </tr>
                     </tbody>
                 </table>
