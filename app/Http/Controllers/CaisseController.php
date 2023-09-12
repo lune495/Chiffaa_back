@@ -267,32 +267,18 @@ class CaisseController extends Controller
                     $results['depenses'] = $depenses;
                     $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
                     $results['current_date'] = now()->format('Y-m-d H:i:s');
-            }       
-            // foreach ($data as $l){
-
-            //     $montant = $montant + $l->total_prix;
-            // }
-            // if ($montant == 0)
-            // {
-            //     $errors = "Vous pouvez pas cloturer une caisse Vide";
-            // }
-            // Enregistrez les détails de la clôture de caisse
-            // if (!isset($errors))
-            // {
-                // dd($results);
-                $pdf = PDF::loadView("pdf.situation-pdf",$results);
-                return $pdf->stream();
-            // }
-       
+            }   
+        $pdf = PDF::loadView("pdf.situation-pdf",$results);
+        return $pdf->stream();
     }
-    
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function SituationParFiltreDate($start)
     {
-        //
+        $data = DB::table('cloture_caisses')
+            ->select('*')
+            ->where('created_at','>',"{$start} 00:00:00")
+            ->where('created_at','<=',"{$start} 23:59:59")
+            ->get();
+        dd($data);
     }
 
     /**

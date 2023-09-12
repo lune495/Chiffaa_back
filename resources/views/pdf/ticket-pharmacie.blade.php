@@ -71,7 +71,7 @@
         <div>
             <section class="droite" style="text-align: center">
                 <header style="margin-top : 50px;font-size: 14px;">
-                     Ticket PHARMACIE
+                     Ticket Pharmacie
                 </header>
                 <br>
 

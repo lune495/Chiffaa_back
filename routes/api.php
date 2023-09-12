@@ -39,7 +39,5 @@ Route::post('/depense',[DepenseController::class,'save']);
 Route::post('/labo',[LaboController::class,'save']);
 Route::post('/labo2',[Labo2Controller::class,'save']);
 Route::post('/maternite', [MaterniteController::class,'save']);
-Route::get('/payment/checkout', 'PaymentController@checkout');
-Route::get('', 'PaymentController@checkout');
 
 });
