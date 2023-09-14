@@ -25,7 +25,7 @@ return new class extends Migration
     {
         Schema::table('depenses', function (Blueprint $table) {
             //
-            $table->dropForeign(['user_id']);
+             $table->dropForeign(['user_id']);
              $table->dropColumn('user_id');
         });
     }
