@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <style>
@@ -69,9 +69,9 @@
     <head>
     <body>
         <div>
-            <section class="droite" style="text-align: center">
-                <header style="margin-top : 50px;font-size: 14px;">
-                     Ticket {{$module ? $module["nom"] : ""}}
+            <section class="droite" style="text-align: center;font-size: 20px;">
+                <header style="margin-top : 50px">
+                     TICKET {{$module ? $module["nom"] : ""}}
                 </header>
                 <br>
 
@@ -85,7 +85,7 @@
                     CHIFAA No 023 Parcelles Assainies-Unité 24
                 </div>
                 <div style="margin:10px 0">
-                    TEL : +221 33 821 25 12 / TEL : 77 270 72 22
+                    TEL : 33 821 25 12 / 77 270 72 22
                 </div>
                 ************************
                 {{-- <div style="margin:7px 0">
@@ -102,7 +102,7 @@
 
                 <dt  style="font-size: 18px;font-weight:bold">Vente N°{{$id}}</dt>
             </section>
-            <section  style="margin-top : 30px">
+            <section  style="margin-top : 30px;font-size: 18px;">
                 <table>
                     <tbody>
                     <!-- <tr>
@@ -122,12 +122,12 @@
                     </tbody>
                 </table>
             </section>
-            <div style="overflow: hidden;margin-top : 20px">**************************************</div>
-            <section  style="overflow: hidden;margin-bottom : 20px">
+            <div style="overflow: hidden;margin-top : 15px">***********************************************</div>
+            <section  style="overflow: hidden;margin-bottom : 20px;font-size: 20px;">
                 <table>
                     <tbody>
                     <tr>
-                        <td style="width: 50%;text-align:left">Total </td>
+                        <td style="text-align:left">Total </td>
                         <td style="padding : 10px 0;text-align:left">  {{\App\Models\Outil::formatPrixToMonetaire($montant, false, true)}}</td>
                     </tr>
                     </tbody>
