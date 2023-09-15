@@ -15,6 +15,7 @@ return new class extends Migration
             Schema::create('ventes', function (Blueprint $table) {
                 $table->id();
                 $table->string('numero')->nullable()->default('FARMA0');
+                $table->string('nom_complet')->nullable();
                 $table->integer('montant')->nullable();
                 $table->integer('qte')->default('0');
                 $table->integer('montantencaisse')->nullable()->default('0');
