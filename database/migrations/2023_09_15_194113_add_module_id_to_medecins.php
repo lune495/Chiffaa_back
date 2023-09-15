@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::table('medecins', function (Blueprint $table) {
+        Schema::table('medecins', function (Blueprint $table) {
             //
-            $table->unsignedBigInteger('service_id')->nullable();
-            $table->foreign('service_id')->references('id')->on('services');
+            $table->unsignedBigInteger('module_id')->nullable();
+            $table->foreign('module_id')->references('id')->on('modules');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
     {
         Schema::table('medecins', function (Blueprint $table) {
             //
-            $table->dropForeign(['service_id']);
-             $table->dropColumn('service_id');
+            $table->dropForeign(['module_id']);
+            $table->dropColumn('module_id');
         });
     }
 };

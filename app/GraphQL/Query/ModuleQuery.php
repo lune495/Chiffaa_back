@@ -49,9 +49,10 @@ class ModuleQuery extends Query
         {
             return
             [
-                'id'                      => $item->id,
-                'nom'                     => $item->nom,
-                'type_services'           => $item->type_services
+                'id'                       => $item->id,
+                'nom'                      => $item->nom,
+                'type_services'            => $item->type_services,
+                'medecins'                 => $item->medecins,
             ];
         });
 

@@ -13,6 +13,10 @@ class Module extends Model
     {
         return $this->hasMany(TypeService::class);
     }
+    public function medecins()
+    {
+        return $this->hasMany(Medecin::class);
+    }
 
     public function services()
     {

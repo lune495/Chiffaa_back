@@ -23,7 +23,7 @@ class Outil extends Model
     public static $queries = array(
         "services"                   => " id,nom_complet,nature,montant,adresse,remise,montant_total,medecin{id,nom,prenom},module{id,nom},element_services{id,type_service{id,nom,prix,module{id,nom}}},user{id,name},created_at",
         "type_services"              => " id,nom,prix,module{id,nom}",
-        "modules"                    => " id,nom",
+        "modules"                    => " id,nom,medecins{id,nom,prenom}",
         "users"                      => " id,nom,email,role{id,nom}",
         "medecins"                   => " id,nom,prenom",
         "depenses"                   => " id,nom,montant,user{id,name},created_at",

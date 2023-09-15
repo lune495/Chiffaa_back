@@ -21,6 +21,7 @@ class ModuleType extends GraphQLType
                 'id'                        => ['type' => Type::id(), 'description' => ''],
                 'nom'                       => ['type' => Type::string()],
                 'type_services'             => ['type' => Type::listOf(GraphQL::type('TypeService')), 'description' => ''],
+                'medecins'                  => ['type' => Type::listOf(GraphQL::type('Medecin')), 'description' => ''],
             ];
     }
 

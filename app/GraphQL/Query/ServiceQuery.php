@@ -56,6 +56,7 @@ class ServiceQuery extends Query
                 'medecin'                 => $item->medecin,
                 'module'                  => $item->module,
                 'montant_total'           => $item->montant_total,
+                'medecins'                => $item->medecins,
                 'user'                    => $item->user,
                 'created_at'              => $item->created_at,
                 'element_services'        => $item->element_services,
