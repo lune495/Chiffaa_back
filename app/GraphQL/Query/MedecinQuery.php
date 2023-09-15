@@ -37,7 +37,8 @@ class MedecinQuery extends Query
             [
                 'id'                      => $item->id,
                 'nom'                     => $item->nom,
-                'prenom'                  => $item->prenom
+                'prenom'                  => $item->prenom,
+                'module'                  => $item->module
             ];
         });
 

@@ -20,6 +20,7 @@ class MedecinType extends GraphQLType
                 'id'                        => ['type' => Type::id(), 'description' => ''],
                 'nom'                       => ['type' => Type::string()],
                 'prenom'                    => ['type' => Type::string()],
+                'module'                    => ['type' => GraphQL::type('Module')],
             ];
     }
 
