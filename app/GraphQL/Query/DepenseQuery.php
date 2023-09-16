@@ -30,6 +30,10 @@ class DepenseQuery extends Query
     public function resolve($root, $args)
     {
         $query = Depense::query();
+        if (isset($args['id']))
+        {
+            $query = $query->where('id', $args['id']);
+        }
         $query->orderBy('id', 'desc');
         // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
         $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'desc')->value('date_fermeture');

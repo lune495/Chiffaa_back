@@ -29,6 +29,10 @@ class MedecinQuery extends Query
     public function resolve($root, $args)
     {
         $query = Medecin::query();
+        if (isset($args['id']))
+        {
+            $query = $query->where('id', $args['id']);
+        }
         $query->orderBy('id', 'desc');
         $query = $query->get();
         return $query->map(function (Medecin $item)
