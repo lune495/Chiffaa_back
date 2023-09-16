@@ -29,9 +29,14 @@ class MedecinController extends Controller
             {
                 $errors = "Renseignez le prenom du medecin";
             }
+            if (empty($request->module_id))
+            {
+                $errors = "Renseignez le service";
+            }
             DB::beginTransaction();
             $item->nom = $request->nom;
             $item->prenom = $request->prenom;
+            $item->module_id = $request->module_id;
             if (!isset($errors)) 
             {
                 $item->save();
