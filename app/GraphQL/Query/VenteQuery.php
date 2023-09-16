@@ -76,6 +76,7 @@ class VenteQuery extends Query
                 'numero'                  => $item->numero,
                 'qte'                     => $item->qte,
                 'montant'                 => $item->montant,
+                'nom_complet'             => $item->nom_client,
                 'montant_ht'              => $item->montant_ht,
                 'montant_ttc'             => $item->montant_ttc,    
                 'montant_taxe'            => $item->montant_taxe,    

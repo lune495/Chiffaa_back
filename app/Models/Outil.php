@@ -24,6 +24,7 @@ class Outil extends Model
         "services"                   => " id,nom_complet,nature,montant,adresse,remise,montant_total,medecin{id,nom,prenom},module{id,nom},element_services{id,type_service{id,nom,prix,module{id,nom}}},user{id,name},created_at",
         "type_services"              => " id,nom,prix,module{id,nom}",
         "modules"                    => " id,nom,medecins{id,nom,prenom}",
+        "ventes"                     => " id,nom_complet,montant",
         "users"                      => " id,nom,email,role{id,nom}",
         "medecins"                   => " id,nom,prenom,module{id,nom}",
         "depenses"                   => " id,nom,montant,user{id,name},created_at",
@@ -139,6 +140,7 @@ class Outil extends Model
         $name_env = self::getAPI();
         $critere = (is_numeric($id_critere)) ? "id:{$id_critere}" : $id_critere;
         $queryAttr = Outil::$queries[$queryName];
+        // dd($queryAttr);
         $response = $guzzleClient->get("{$name_env}graphql?query={{$queryName}({$critere}){{$queryAttr}}}");
         $data = json_decode($response->getBody(), true);
         return ($justone) ? $data['data'][$queryName][0] : $data;

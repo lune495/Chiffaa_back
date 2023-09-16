@@ -20,6 +20,7 @@ class VenteType extends GraphQLType
                 'id'                        => ['type' => Type::id(), 'description' => ''],
                 'numero'                    => ['type' => Type::string()],
                 'montant'                   => ['type' => Type::string()],
+                'nom_complet'               => ['type' => Type::string()],
                 'montant_avec_remise'       => ['type' => Type::float()],
                 'remise_total'              => ['type' => Type::float()],
                 'montant_ht'                => ['type' => Type::float()],
