@@ -210,6 +210,7 @@ class CaisseController extends Controller
                 }
                 $vente->paye = 1;
                 $vente->save();
+                event(new MyEvent($vente));
             }
         }
     }
