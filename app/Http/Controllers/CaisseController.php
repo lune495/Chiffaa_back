@@ -156,14 +156,10 @@ class CaisseController extends Controller
             // return response()->json(['error' => 'Une erreur est survenue lors de la clôture de la caisse.']);
         }
     }
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    
+    public function Notif()
     {
-        
-        return Service::all();
-
+        event(new MyEvent("Hello"));
     }
 
     public function generatePDF($id)
