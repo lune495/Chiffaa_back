@@ -204,14 +204,15 @@ class CaisseController extends Controller
         $vente = Vente::find($id);
         if($vente!=null)
         {
-            $vente->paye = 1; 
-            if($vente->save()){
+            if($vente->paye != 1){
                 $ventes = $vente->vente_produits()->get();
                 foreach ($ventes as $key => $vt) {
                     $produit = Produit::find($vt->produit_id);
                     $produit->qte = isset($produit) ? $produit->qte - $vt->qte : $produit->qte;
                     $produit->save();
                 }
+                $vente->paye = 1;
+                $vente->save();
             }
         }
     }
