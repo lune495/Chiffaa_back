@@ -1,36 +1,28 @@
 <?php
 
-namespace App\Events;
-
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NotifStatutTicket implements ShouldBroadcast
-{
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+class MyEvent implements ShouldBroadcast
+{   
+  use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
-    /**
-     * Create a new event instance.
-     */
-    public function __construct($message)
-    {
-        //
-        $this->message = $message;
-    }
+  public $message;
 
-    public function broadcastOn()
-    {
-        return ['channel-chifaa-ticket'];
-    }
+  public function __construct($message)
+  {
+      $this->message = $message;
+  }
 
-    public function broadcastAs()
-    {
-        return 'event-chifaa-ticket';
-    }
+  public function broadcastOn()
+  {
+      return ['my-channel'];
+  }
+
+  public function broadcastAs()
+  {
+      return 'my-event';
+  }
 }
