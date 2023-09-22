@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
 use App\Models\{Service,Outil,User,Produit,ElementService,Log,TypeService,ClotureCaisse,Depense,Vente};
 use \PDF;
+use App\Events\MyEvent;
 
 class CaisseController extends Controller
 {
