@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Service,Outil,User,ElementService,Log,TypeService,ClotureCaisse,Depense,Vente};
+use App\Models\{Service,Outil,User,Produit,ElementService,Log,TypeService,ClotureCaisse,Depense,Vente};
 use \PDF;
 
 class CaisseController extends Controller
@@ -202,12 +202,18 @@ class CaisseController extends Controller
     public function statutPDFpharmacie($id)
     {
         $vente = Vente::find($id);
-        // if($vente!=null)
-        // {
-        //     $vente->paye = 1; 
-        //     $vente->save();
-        // }
-        dd($vente->vente_produits());
+        if($vente!=null)
+        {
+            $vente->paye = 1; 
+            if($vente->save()){
+                $ventes = $vente->vente_produits()->get();
+                foreach ($ventes as $key => $vt) {
+                    $produit = Produit::find($vt->produit_id);
+                    $produit->qte = isset($produit) ? $produit->qte - $vt->qte : $produit->qte;
+                    $produit->save();
+                }
+            }
+        }
     }
 
     public function generatePDF2()
