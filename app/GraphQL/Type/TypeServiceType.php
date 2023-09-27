@@ -21,7 +21,7 @@ class TypeServiceType extends GraphQLType
             [
                 'id'                        => ['type' => Type::id(), 'description' => ''],
                 'nom'                       => ['type' => Type::string()],
-                'prix'                      => ['type' => Type::int()],
+                'prix'                      => ['type' => Type::string()],
                 'module'                    => ['type' => GraphQL::type('Module')],
             ];
     }
