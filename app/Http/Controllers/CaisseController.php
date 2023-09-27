@@ -27,7 +27,7 @@ class CaisseController extends Controller
             {
                 $item = Service::find($request->id);
             }
-            if (empty($request->medecin_id) && $request->module_id != 9)
+            if (empty($request->medecin_id))
             {
                 $errors = "Renseignez le Medecin";
             }
@@ -42,38 +42,37 @@ class CaisseController extends Controller
             $item->nature = $request->nature;
             $item->montant = $request->montant;
             $item->adresse = $request->adresse;
-            $item->remise = !is_null($request->remise) ? $request->remise : 0;
+            $item->remise = $request->remise;
             $item->medecin_id = $request->medecin_id;
             $item->module_id = $request->module_id;
             $item->user_id = $user->id;
             $montant = 0;
-            if (!isset($errors))
+            if (!isset($errors)) 
             {
                 $item->save();
                 $id = $item->id;
                 if($item->save())
                 {
-                    if (!is_null($type_service_tabs)) {
-                        foreach ($type_service_tabs as $type_service_tab) 
+                    foreach ($type_service_tabs as $type_service_tab) 
+                    {
+
+                        $tpc = TypeService::find($type_service_tab['type_service_id']);
+                        if (!isset($tpc)) {
+                        $errors = "Type  Service inexistant";
+                        }
+                        $element_service = new ElementService();
+                        $element_service->service_id =  $id;
+                        $element_service->type_service_id =  $type_service_tab['type_service_id'];
+                        $element_service->save();
+                        if($element_service->save())
                         {
-                            $tpc = TypeService::find($type_service_tab['type_service_id']);
-                            if (!isset($tpc)) {
-                            $errors = "Type Service inexistant";
-                            }
-                            $element_service = new ElementService();
-                            $element_service->service_id =  $id;
-                            $element_service->type_service_id =  $type_service_tab['type_service_id'];
-                            $element_service->save();
-                            if($element_service->save())
-                            {
-                                $montant  = $montant + $element_service->type_service->prix;
-                            }
+                            $montant  = $montant + $element_service->type_service->prix;
                         }
                     }
                     $log->designation = $item->module->nom;
                     $log->id_evnt = $id;
                     $log->date = $item->created_at;
-                    $log->prix = $montant + $item->montant;
+                    $log->prix = $montant;
                     $log->remise = $item->remise;
                     $log->montant = $item->montant;
                     $log->user_id = $user->id;
