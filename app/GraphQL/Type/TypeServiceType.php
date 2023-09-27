@@ -1,11 +1,12 @@
 <?php
 namespace App\GraphQL\Type;
 
-use App\Models\TypeService;
+use App\Models\{TypeService,Outil};
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Carbon\Carbon;
+
 
 class TypeServiceType extends GraphQLType
 {
@@ -27,8 +28,9 @@ class TypeServiceType extends GraphQLType
 
     // You can also resolve a field by declaring a method in the class
     // with the following format resolve[FIELD_NAME]Field()
-    // protected function resolveEmailField($root, array $args)
-    // {
-    //     return strtolower($root->email);
-    // }
+    protected function resolvePrixField($root, array $args)
+    {
+        // return strtolower($root->email);
+        return Outil::formatPrixToMonetaire($root['prix'], false, true);
+    }
 }
