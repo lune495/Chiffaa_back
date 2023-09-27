@@ -53,7 +53,7 @@ class CaisseController extends Controller
                 $id = $item->id;
                 if($item->save())
                 {
-                    if (isset($request->type_services) && array_key_exists('type_services', $request->type_services)) {
+                    // if (isset($request->type_services) && array_key_exists('type_services', $request->type_services)) {
                         foreach ($type_service_tabs as $type_service_tab) 
                         {
                             $tpc = TypeService::find($type_service_tab['type_service_id']);
@@ -69,7 +69,7 @@ class CaisseController extends Controller
                                 $montant  = $montant + $element_service->type_service->prix;
                             }
                         }
-                    }
+                    // }
                     $log->designation = $item->module->nom;
                     $log->id_evnt = $id;
                     $log->date = $item->created_at;
@@ -170,7 +170,7 @@ class CaisseController extends Controller
         if($service!=null)
         {
          $data = Outil::getOneItemWithGraphQl($this->queryName, $id, true);
-        // dd($data);
+        //dd($data);
          $pdf = PDF::loadView("pdf.ticket-service", $data);
         $measure = array(0,0,225.772,650.197);
         return $pdf->setPaper($measure, 'orientation')->stream();
