@@ -47,26 +47,27 @@ class CaisseController extends Controller
             $item->module_id = $request->module_id;
             $item->user_id = $user->id;
             $montant = 0;
-            if (!isset($errors)) 
+            if (!isset($errors))
             {
                 $item->save();
                 $id = $item->id;
                 if($item->save())
                 {
-                    foreach ($type_service_tabs as $type_service_tab) 
-                    {
-
-                        $tpc = TypeService::find($type_service_tab['type_service_id']);
-                        if (!isset($tpc)) {
-                        $errors = "Type  Service inexistant";
-                        }
-                        $element_service = new ElementService();
-                        $element_service->service_id =  $id;
-                        $element_service->type_service_id =  $type_service_tab['type_service_id'];
-                        $element_service->save();
-                        if($element_service->save())
+                    if (isset($request->type_services) && array_key_exists('type_services', $request->type_services)) {
+                        foreach ($type_service_tabs as $type_service_tab) 
                         {
-                            $montant  = $montant + $element_service->type_service->prix;
+                            $tpc = TypeService::find($type_service_tab['type_service_id']);
+                            if (!isset($tpc)) {
+                            $errors = "Type Service inexistant";
+                            }
+                            $element_service = new ElementService();
+                            $element_service->service_id =  $id;
+                            $element_service->type_service_id =  $type_service_tab['type_service_id'];
+                            $element_service->save();
+                            if($element_service->save())
+                            {
+                                $montant  = $montant + $element_service->type_service->prix;
+                            }
                         }
                     }
                     $log->designation = $item->module->nom;
