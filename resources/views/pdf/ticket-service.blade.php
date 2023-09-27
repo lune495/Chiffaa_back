@@ -102,7 +102,7 @@
 
                 <dt  style="font-size: 18px;font-weight:bold">Vente N°{{$id}}</dt>
             </section>
-            <section  style="margin-top : 30px;font-size: 18px;">
+            <section  style="margin-top : 30px;font-size: 15px;">
                 <table>
                     <tbody>
                     <!-- <tr>
