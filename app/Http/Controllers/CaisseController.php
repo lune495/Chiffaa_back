@@ -42,7 +42,7 @@ class CaisseController extends Controller
             $item->nature = $request->nature;
             $item->montant = $request->montant;
             $item->adresse = $request->adresse;
-            $item->remise = array_key_exists('remise', $request->remise) ? $request->remise : 1;
+            $item->remise = !is_null($request->remise) ? $request->remise : 1;
             $item->medecin_id = $request->medecin_id;
             $item->module_id = $request->module_id;
             $item->user_id = $user->id;
