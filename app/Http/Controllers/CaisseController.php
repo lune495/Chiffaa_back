@@ -53,7 +53,7 @@ class CaisseController extends Controller
                 $id = $item->id;
                 if($item->save())
                 {
-                    // if (isset($request->type_services) && array_key_exists('type_services', $request->type_services)) {
+                    if (!is_null($type_service_tabs)) {
                         foreach ($type_service_tabs as $type_service_tab) 
                         {
                             $tpc = TypeService::find($type_service_tab['type_service_id']);
@@ -69,11 +69,11 @@ class CaisseController extends Controller
                                 $montant  = $montant + $element_service->type_service->prix;
                             }
                         }
-                    // }
+                    }
                     $log->designation = $item->module->nom;
                     $log->id_evnt = $id;
                     $log->date = $item->created_at;
-                    $log->prix = $montant;
+                    $log->prix = $montant + $item->montant;
                     $log->remise = $item->remise;
                     $log->montant = $item->montant;
                     $log->user_id = $user->id;
