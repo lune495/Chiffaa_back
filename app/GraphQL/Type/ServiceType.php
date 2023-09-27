@@ -1,7 +1,7 @@
 <?php
 namespace App\GraphQL\Type;
 
-use App\Models\{Service,ElementService,Outil};
+use App\Models\{Service,ElementService};
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
@@ -25,7 +25,7 @@ class ServiceType extends GraphQLType
                 'montant'                   => ['type' => Type::int()],
                 'adresse'                   => ['type' => Type::string()],
                 'remise'                    => ['type' => Type::int()],
-                'montant_total'             => ['type' => Type::string()],
+                'montant_total'             => ['type' => Type::int()],
                 'medecin'                   => ['type' => GraphQL::type('Medecin')],
                 'user'                      => ['type' => GraphQL::type('User')],
                 'module'                    => ['type' => GraphQL::type('Module')],
@@ -61,6 +61,6 @@ class ServiceType extends GraphQLType
             // dd($element_service->type_service->prix);
             $element_service->type_service ? $montant_total = $montant_total + $element_service->type_service->prix : "";
         }
-        return Outil::formatPrixToMonetaire($montant_total, false, true);
+        return $montant_total;
     }
 }   
