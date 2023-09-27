@@ -128,7 +128,7 @@
                     <tbody>
                     <tr>
                         <td style="text-align:left">Total </td>
-                        <td style="padding : 10px 0;text-align:left">  {{\App\Models\Outil::formatPrixToMonetaire($montant_total == 0 ? montant : $montant_total, false, true)}}</td>
+                        <td style="padding : 10px 0;text-align:left">  {{\App\Models\Outil::formatPrixToMonetaire($montant_total == 0 ? $montant : $montant_total, false, true)}}</td>
                     </tr>
                     </tbody>
                 </table>
