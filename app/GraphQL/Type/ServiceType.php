@@ -61,6 +61,6 @@ class ServiceType extends GraphQLType
             // dd($element_service->type_service->prix);
             $element_service->type_service ? $montant_total = $montant_total + $element_service->type_service->prix : "";
         }
-        return $montant_total != 0 ? $montant_total : $root['montant'];
+        return $montant_total;
     }
 }   

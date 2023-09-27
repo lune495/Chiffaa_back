@@ -110,12 +110,12 @@
                         <td style="width: 60%">Produit </td>
                         <td style="width: 20%">Montant </td>
                     </tr> -->
-                        {{$montant_total = 0}}
+                        {{$montant = 0}}
                         @foreach($element_services as $element_service )
                             <tr>
                                 <td style="padding-left: 15px;">{{$element_service["type_service"]["nom"] ? $element_service["type_service"]["nom"] : "" }}</td>
                                 <td style="padding-left: 15px;">{{$element_service["type_service"]["prix"] ? \App\Models\Outil::formatPrixToMonetaire($element_service["type_service"]["prix"], false, false) : ""}}</td>
-                                {{$element_service["type_service"]["prix"] ? $montant_total = $montant_total + $element_service["type_service"]["prix"] : ""}}
+                                {{$element_service["type_service"]["prix"] ? $montant = $montant + $element_service["type_service"]["prix"] : ""}}
                                 <td style="padding-left: 15px">
                             </tr>
                         @endforeach
@@ -128,7 +128,7 @@
                     <tbody>
                     <tr>
                         <td style="text-align:left">Total </td>
-                        <td style="padding : 10px 0;text-align:left">  {{\App\Models\Outil::formatPrixToMonetaire($montant_total == 0 ? $montant : $montant_total, false, true)}}</td>
+                        <td style="padding : 10px 0;text-align:left">  {{\App\Models\Outil::formatPrixToMonetaire($montant, false, true)}}</td>
                     </tr>
                     </tbody>
                 </table>
