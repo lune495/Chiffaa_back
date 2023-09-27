@@ -27,7 +27,7 @@ class CaisseController extends Controller
             {
                 $item = Service::find($request->id);
             }
-            if (empty($request->medecin_id))
+            if (empty($request->medecin_id) && $request->module_id != 9)
             {
                 $errors = "Renseignez le Medecin";
             }
