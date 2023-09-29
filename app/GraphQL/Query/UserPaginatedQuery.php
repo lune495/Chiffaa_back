@@ -43,6 +43,7 @@ class UserPaginatedQuery extends Query
         }
         if (isset($args['role_id']))
         {
+            dd($args['role_id']);
             $query->where('role_id', $args['role_id']);
         }
         if (isset($args['name']))
