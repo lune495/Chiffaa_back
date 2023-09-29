@@ -55,7 +55,6 @@ class CaisseController extends Controller
                 {
                     foreach ($type_service_tabs as $type_service_tab) 
                     {
-
                         $tpc = TypeService::find($type_service_tab['type_service_id']);
                         if (!isset($tpc)) {
                         $errors = "Type  Service inexistant";
