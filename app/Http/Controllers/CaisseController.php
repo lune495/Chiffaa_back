@@ -227,7 +227,7 @@ class CaisseController extends Controller
                     ->select('designation',DB::raw('SUM(prix) AS total_prix'))
                     ->where('created_at','>',"1900-09-08 19:16:39")
                     ->where('created_at','<=',now())
-                    ->where('statut_pharma','=','true')
+                    ->where('statut_pharma','=','false')
                     ->groupBy('designation')
                     ->orderBy('designation')
                     ->get()
