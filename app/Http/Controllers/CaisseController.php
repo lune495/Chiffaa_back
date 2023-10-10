@@ -37,6 +37,9 @@ class CaisseController extends Controller
             }
             $str_json_type_service = json_encode($request->type_services);
             $type_service_tabs = json_decode($str_json_type_service, true);
+
+            // Ajoutez un verrouillage de la table factice pour éviter les opérations concurrentes.
+            DB::table('service_locks')->lockForUpdate()->get();
             DB::beginTransaction();
             $item->nom_complet = $request->nom_complet;
             $item->nature = $request->nature;
@@ -197,7 +200,7 @@ class CaisseController extends Controller
 
     public function statutPDFpharmacie($id)
     {
-        $vente = Vente::find($id); 
+        $vente = Vente::find($id);
         if($vente!=null)
         {
             if($vente->paye != 1){
