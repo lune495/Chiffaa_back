@@ -277,7 +277,7 @@ class CaisseController extends Controller
                     $results['depenses'] = $depenses;
                     $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
                     $results['current_date'] = now()->format('Y-m-d H:i:s');
-                    dd($results);
+                    //dd($results);
             }   
         $pdf = PDF::loadView("pdf.situation-pdf",$results);
         return $pdf->stream();
