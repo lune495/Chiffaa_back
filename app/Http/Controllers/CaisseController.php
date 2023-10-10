@@ -267,6 +267,7 @@ class CaisseController extends Controller
                     ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
                     ->whereNotNull('date_fermeture')
                     ->first();
+                    dd($latestClosureDate);
                     // Depense
                     $depenses = DB::table('depenses')
                     ->orderBy('id', 'desc')
