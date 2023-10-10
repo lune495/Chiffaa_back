@@ -198,7 +198,7 @@ class CaisseController extends Controller
     public function statutPDFpharmacie($id)
     {
         $vente = Vente::find($id); 
-        if($vente!=null && $vente->statut = false)
+        if($vente!=null)
         {
             if($vente->paye != 1){
                 $ventes = $vente->vente_produits()->get();
