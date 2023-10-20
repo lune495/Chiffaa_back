@@ -7,6 +7,8 @@ use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use App\Models\Service;
 use App\Models\ClotureCaisse;
+use Illuminate\Support\Facades\Auth;
+
 class ServiceQuery extends Query
 {
     protected $attributes = [
@@ -30,16 +32,20 @@ class ServiceQuery extends Query
     public function resolve($root, $args)
     {
         $query = Service::query();
+        $user = Auth::user();
         if (isset($args['id']))
         {
             $query = $query->where('id', $args['id']);
         }
-        // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
+        if($user->email != "alassane@gmail.com")
+        {
+            // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
         $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'desc')
-            ->value('date_fermeture');
+        ->value('date_fermeture');
         if(isset($latestClosureDate))
         {
             $query = $query->whereBetween('created_at', [$latestClosureDate, now()]);
+        }   
         }
         $query->orderBy('id', 'desc');
         $query = $query->get();
