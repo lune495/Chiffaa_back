@@ -46,7 +46,7 @@ class DepensePaginatedQuery extends Query
         }
         
         // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
-        $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'desc')
+        $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'asc')
             ->value('date_fermeture');
 
         $query = $query->whereBetween('created_at', [$latestClosureDate, now()]);

@@ -238,7 +238,7 @@ class CaisseController extends Controller
                     $latestClosureDate = now()->format('Y-m-d H:i:s');
                     // Depense
                     $depenses = DB::table('depenses')
-                    ->orderBy('id', 'desc')
+                    ->orderBy('id', 'asc')
                     ->where('created_at','>',"1900-09-08 19:16:39")
                     ->where('created_at','<=',now())
                     ->get();
@@ -270,7 +270,7 @@ class CaisseController extends Controller
                     //dd($latestClosureDate);
                     // Depense
                     $depenses = DB::table('depenses')
-                    ->orderBy('id', 'desc')
+                    ->orderBy('id', 'asc')
                     ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
                     ->get();
                     $results['data'] = $data;
@@ -278,7 +278,7 @@ class CaisseController extends Controller
                     $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
                     $results['current_date'] = now()->format('Y-m-d H:i:s');
                     //dd($results);
-            }   
+            }
         $pdf = PDF::loadView("pdf.situation-pdf",$results);
         return $pdf->stream();
     }
