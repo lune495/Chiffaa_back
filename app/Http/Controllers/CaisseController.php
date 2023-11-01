@@ -162,7 +162,8 @@ class CaisseController extends Controller
     
     public function Notif()
     {
-        event(new MyEvent("Hello"));
+        // event(new MyEvent("Hello"));
+        dd("test");
     }
 
     public function generatePDF($id)
@@ -214,7 +215,13 @@ class CaisseController extends Controller
                 $vente->save();
                 event(new MyEvent($vente));
             }
-        }
+            $log = Log::where('id_evnt',$id)->first();
+            if($log!=null)
+            {
+                $log->statut_pharma = false;
+                $log->save();
+            }
+        }   
     }
 
     public function generatePDF2()
@@ -250,6 +257,7 @@ class CaisseController extends Controller
             } else {
                 $data = DB::table('logs')
                     ->select('designation', DB::raw('SUM(prix) AS total_prix'))
+                    ->where('statut_pharma','=','false')
                     ->where(function ($query) {
                         $query->where('created_at', '>=', function ($subQuery) {
                             $subQuery->select('date_fermeture')
