@@ -224,7 +224,7 @@ class CaisseController extends Controller
         }   
     }
 
-    public function generatePDF2()
+        public function generatePDF2()
     {
             // Calculez le montant total de la caisse à la fermeture (par exemple, en ajoutant les montants des consultations non facturées)
             // $totalCaisse = $request->montant_total;
@@ -257,7 +257,6 @@ class CaisseController extends Controller
             } else {
                 $data = DB::table('logs')
                     ->select('designation', DB::raw('SUM(prix) AS total_prix'))
-                    ->where('statut_pharma','=','false')
                     ->where(function ($query) {
                         $query->where('created_at', '>=', function ($subQuery) {
                             $subQuery->select('date_fermeture')
@@ -267,6 +266,7 @@ class CaisseController extends Controller
                         });
                     })
                     ->where('created_at', '<=', now())
+                    // ->where('statut_pharma','=',false)
                     ->groupBy('designation')
                     ->orderBy('designation')
                     ->get();
