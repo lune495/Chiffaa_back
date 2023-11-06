@@ -55,12 +55,20 @@ class ServiceType extends GraphQLType
 
     protected function resolveMontantTotalField($root, $args)
     {
+        if (!isset($root['remise']))
+        {
+            $remise = $root->remise;
+        }
+        else
+        {
+            $remise = $root['remise'];
+        }
         $element_services = ElementService::where('service_id',$root['id'])->get();
         $montant_total = 0;
         foreach($element_services as $element_service){
             // dd($element_service->type_service->prix);
             $element_service->type_service ? $montant_total = $montant_total + $element_service->type_service->prix : "";
         }
-        return $montant_total;
+        return $montant_total - $remise;
     }
 }   
