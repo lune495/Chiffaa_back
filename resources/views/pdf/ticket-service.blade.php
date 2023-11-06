@@ -111,6 +111,7 @@
                         <td style="width: 20%">Montant </td>
                     </tr> -->
                         {{$montant = 0}}
+                        {{$remise = isset($remise) ? $remise : 0}}
                         @foreach($element_services as $element_service )
                             <tr>
                                 <td style="padding-left: 15px;">{{$element_service["type_service"]["nom"] ? $element_service["type_service"]["nom"] : "" }}</td>
@@ -120,6 +121,10 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    <tr>
+                        <td>Remise : </td>
+                        <td>{{$remise}}</td>
+                    </tr>
                 </table>
             </section>
             <div style="overflow: hidden;margin-top : 15px">***********************************************</div>
@@ -128,7 +133,7 @@
                     <tbody>
                     <tr>
                         <td style="text-align:left">Total </td>
-                        <td style="padding : 10px 0;text-align:left">  {{\App\Models\Outil::formatPrixToMonetaire($montant, false, true)}}</td>
+                        <td style="padding : 10px 0;text-align:left">  {{\App\Models\Outil::formatPrixToMonetaire($montant - $remise, false, true)}}</td>
                     </tr>
                     </tbody>
                 </table>
