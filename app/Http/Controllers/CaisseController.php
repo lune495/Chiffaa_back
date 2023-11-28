@@ -12,7 +12,7 @@ use App\Events\MyEvent;
 
 class CaisseController extends Controller
 {
-
+ 
     private $queryName = "services";
 
     public function save(Request $request)
