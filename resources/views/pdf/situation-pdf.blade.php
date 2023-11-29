@@ -89,8 +89,8 @@
     /* Ajoutez ce style à votre section de style existante ou à votre fichier de style externe */
 
     .footer {
-        margin-top: 20px;
-        padding-top: 20px;
+        /* margin-top: 20px;
+        padding-top: 20px; */
         text-align: center;
     }
 
@@ -99,6 +99,7 @@
         align-items: center; /* Centre les éléments verticalement */
         justify-content: space-between;
         margin-top: 10px;
+        flex-wrap: nowrap;
     }
 
     .signature-section {
