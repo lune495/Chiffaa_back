@@ -69,6 +69,56 @@
                     </td>
                 </tr>
         </table>
+        <!-- ... Votre code existant ... -->
+
+<!-- Pied de page -->
+<div class="footer">
+    <div class="signatures">
+        <div class="signature-section left">
+            <p>Signature du Principal :</p>
+            <!-- Ajoutez ici un espace ou une zone pour la signature du principal -->
+        </div>
+        <div class="signature-section right">
+            <p>Signature du Caissier :</p>
+            <!-- Ajoutez ici un espace ou une zone pour la signature du caissier -->
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Ajoutez ce style à votre section de style existante ou à votre fichier de style externe */
+
+    .footer {
+        margin-top: 20px;
+        padding-top: 20px;
+        text-align: center;
+    }
+
+    .signatures {
+        display: flex;
+        align-items: center; /* Centre les éléments verticalement */
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .signature-section {
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+    }
+
+    .left {
+        text-align: left;
+        flex: 1; /* Pour permettre à la signature du Principal de pousser la signature du Caissier à droite */
+    }
+
+    .right {
+        text-align: right;
+        flex: 1; /* Pour permettre à la signature du Caissier de pousser la signature du Principal à gauche */
+    }
+
+    /* Ajoutez des styles de signature spécifiques ici si nécessaire */
+</style>
+
     </div>
 </div>
 
