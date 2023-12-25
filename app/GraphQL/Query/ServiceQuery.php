@@ -5,8 +5,7 @@ namespace App\GraphQL\Query;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use App\Models\Service;
-use App\Models\ClotureCaisse;
+use App\Models\{Service,ClotureCaisse,Outil}; 
 use Illuminate\Support\Facades\Auth;
 
 class ServiceQuery extends Query
@@ -37,6 +36,11 @@ class ServiceQuery extends Query
         {
             $query = $query->where('id', $args['id']);
         }
+        if (isset($args['nom_complet']))
+        {
+            $query = $query->where('nom_complet',Outil::getOperateurLikeDB(),'%'.$args['nom_complet'].'%');
+        }
+        //dd($user);
         // if($user->email != "alassane@gmail.com")
         // {
             // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
@@ -45,6 +49,7 @@ class ServiceQuery extends Query
         if(isset($latestClosureDate))
         {
             $query = $query->whereBetween('created_at', [$latestClosureDate, now()]);
+            // dd($query->get());
         }   
         // }
         $query->orderBy('id', 'desc');

@@ -140,9 +140,9 @@ class Outil extends Model
         $name_env = self::getAPI();
         $critere = (is_numeric($id_critere)) ? "id:{$id_critere}" : $id_critere;
         $queryAttr = Outil::$queries[$queryName];
-        // dd($queryAttr);
         $response = $guzzleClient->get("{$name_env}graphql?query={{$queryName}({$critere}){{$queryAttr}}}");
         $data = json_decode($response->getBody(), true);
+        
         return ($justone) ? $data['data'][$queryName][0] : $data;
     }
     public static function setParametersExecution()
