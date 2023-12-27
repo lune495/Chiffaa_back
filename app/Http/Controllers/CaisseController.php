@@ -173,16 +173,16 @@ class CaisseController extends Controller
         if($service!=null)
         {
          $data = Outil::getOneItemWithGraphQl($this->queryName, $id, true);
-        //  $user = Auth::user();
-        //dd($data);
-        // $datas = [];
-        // $datas['data'] = $data;
-        // $datas['user'] = $user;
-        // dd($datas['user']);
+         $user = Auth::user();
+         //dd($data);
+        //  $datas = [];
+        //  $datas['data'] = $data;
+        //  $datas['user'] = $user;
+        //  dd($datas['user']);
          $pdf = PDF::loadView("pdf.ticket-service", $data);
-        $measure = array(0,0,225.772,650.197);
-        return $pdf->setPaper($measure, 'orientation')->stream();
-            //  return $pdf->stream();
+         $measure = array(0,0,225.772,650.197);
+         return $pdf->setPaper($measure, 'orientation')->stream();
+         //  return $pdf->stream();
         }else{
          $data = Outil::getOneItemWithGraphQl($this->queryName, $id, false);
             return view('notfound');
@@ -299,10 +299,19 @@ class CaisseController extends Controller
     public function SituationParFiltreDate($start)
     {
         $data = DB::table('cloture_caisses')
-            ->select('*')
-            ->where('created_at','>',"{$start} 00:00:00")
-            ->where('created_at','<=',"{$start} 23:59:59")
-            ->get();
+        ->select('*')
+        ->where('created_at', '>=', function ($query) use ($start) {
+            $query->selectRaw('MIN(created_at)')
+                ->from('cloture_caisses')
+                ->whereDate('created_at', '=', $start);
+        })
+        ->where('created_at', '<', function ($query) use ($start) {
+            $query->selectRaw('MIN(created_at)')
+                ->from('cloture_caisses')
+                ->where('created_at', '>', "{$start}");
+        })
+        ->orderBy('created_at')
+        ->get();
         dd($data);
     }
 

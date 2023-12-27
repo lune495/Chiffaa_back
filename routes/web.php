@@ -17,8 +17,11 @@ use App\Http\Controllers\CaisseController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/vente/ticket-pdf-service/{id}', [CaisseController::class,'generatePDF']);
 Route::get('/vente/ticket-pdf-pharmacie/{id}', [CaisseController::class,'generatePDF3']);
 Route::get('/test', [CaisseController::class,'Notif']);
 Route::get('/vente/situation-generale-pdf', [CaisseController::class,'generatePDF2']);
 Route::get('/vente/situation-filtre-pdf/{start}', [CaisseController::class,'SituationParFiltreDate']);
+// Route::group(['middleware' => ['web','auth:sanctum']],function()
+// {
+    Route::get('/vente/ticket-pdf-service/{id}', [CaisseController::class,'generatePDF']);
+// });
