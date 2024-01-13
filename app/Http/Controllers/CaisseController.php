@@ -272,7 +272,7 @@ class CaisseController extends Controller
                 //     });
                 // })
                 // ->where('created_at', '<=', now())
-                ->whereBetween('created_at', ["2023-01-12 14:15:05", "2023-01-13 07:37:35"])
+                ->whereBetween('created_at', ["2023-01-12 14:15:05", "2024-01-13 07:37:35"])
                 // ->where('statut_pharma','=',false)
                 ->groupBy('designation')
                 ->orderBy('designation')
@@ -283,17 +283,17 @@ class CaisseController extends Controller
                 // ->whereNotNull('date_fermeture')
                 // ->first();
                 ->orderBy('id', 'asc')
-                ->whereBetween('date_fermeture', ["2023-01-12 14:15:05", "2023-01-13 07:37:35"])
+                ->whereBetween('date_fermeture', ["2023-01-12 14:15:05", "2024-01-13 07:37:35"])
                 ->get();
                 //dd($latestClosureDate);
                 // Depense
                 $depenses = DB::table('depenses')
                 ->orderBy('id', 'asc')
-                ->whereBetween('created_at', ["2023-01-12 14:15:05", "2023-01-13 07:37:35"])
+                ->whereBetween('created_at', ["2023-01-12 14:15:05", "2024-01-13 07:37:35"])
                 ->get();
                 $results['data'] = $data;
                 $results['depenses'] = $depenses;
-                $results['derniere_date_fermeture'] = "2023-01-12 14:15:05";
+                $results['derniere_date_fermeture'] = "2024-01-12 14:15:05";
                 $results['current_date'] = "2023-01-13 07:37:35";
                     //dd($results);
             }
