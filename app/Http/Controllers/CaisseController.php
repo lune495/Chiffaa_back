@@ -230,7 +230,7 @@ class CaisseController extends Controller
         }   
     }
 
-        public function generatePDF2()
+    public function generatePDF2()
     {
             // Calculez le montant total de la caisse à la fermeture (par exemple, en ajoutant les montants des consultations non facturées)
             // $totalCaisse = $request->montant_total;
@@ -262,35 +262,39 @@ class CaisseController extends Controller
                     // dd($results);
             } else {
                 $data = DB::table('logs')
-                    ->select('designation', DB::raw('SUM(prix - remise) AS total_prix'))
-                    ->where(function ($query) {
-                        $query->where('created_at', '>=', function ($subQuery) {
-                            $subQuery->select('date_fermeture')
-                                ->from('cloture_caisses')
-                                ->orderByDesc('date_fermeture')
-                                ->limit(1);
-                        });
-                    })
-                    ->where('created_at', '<=', now())
-                    // ->where('statut_pharma','=',false)
-                    ->groupBy('designation')
-                    ->orderBy('designation')
-                    ->get();
+                ->select('designation', DB::raw('SUM(prix) AS total_prix'))
+                // ->where(function ($query) {
+                //     $query->where('created_at', '>=', function ($subQuery) {
+                //         $subQuery->select('date_fermeture')
+                //             ->from('cloture_caisses')
+                //             ->orderByDesc('date_fermeture')
+                //             ->limit(1);
+                //     });
+                // })
+                // ->where('created_at', '<=', now())
+                ->whereBetween('created_at', ["2024-01-12 15:26:35", "2024-01-13 07:52:51"])
+                // ->where('statut_pharma','=',false)
+                ->groupBy('designation')
+                ->orderBy('designation')
+                ->get();
 
-                    $latestClosureDate = DB::table('cloture_caisses')
-                    ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
-                    ->whereNotNull('date_fermeture')
-                    ->first();
-                    //dd($latestClosureDate);
-                    // Depense
-                    $depenses = DB::table('depenses')
-                    ->orderBy('id', 'asc')
-                    ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
-                    ->get();
-                    $results['data'] = $data;
-                    $results['depenses'] = $depenses;
-                    $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
-                    $results['current_date'] = now()->format('Y-m-d H:i:s');
+                $latestClosureDate = DB::table('cloture_caisses')
+                // ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
+                // ->whereNotNull('date_fermeture')
+                // ->first();
+                ->orderBy('id', 'asc')
+                ->whereBetween('date_fermeture', ["2024-01-12 15:26:35", "2024-01-13 07:52:51"])
+                ->get();
+                //dd($latestClosureDate);
+                // Depense
+                $depenses = DB::table('depenses')
+                ->orderBy('id', 'asc')
+                ->whereBetween('created_at', ["2024-01-12 15:26:35", "2024-01-13 07:52:51"])
+                ->get();
+                $results['data'] = $data;
+                $results['depenses'] = $depenses;
+                $results['derniere_date_fermeture'] = "2024-01-12 15:26:35";
+                $results['current_date'] = "2024-01-13 07:52:51";
                     //dd($results);
             }
         $pdf = PDF::loadView("pdf.situation-pdf",$results);
