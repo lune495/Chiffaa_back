@@ -53,6 +53,5 @@ class DepenseQuery extends Query
                 'created_at'              => $item->created_at
             ];
         });
-
     }
 }
