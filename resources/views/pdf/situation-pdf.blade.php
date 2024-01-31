@@ -22,6 +22,9 @@
                     <td><center> {{ \App\Models\Outil::toUpperCase($sum->designation)}}</center></td>
                     <td>{{\App\Models\Outil::formatPrixToMonetaire($sum->total_prix, false, false)}}</td>
                 </tr>
+                <tr>
+                    <td>PHARMACIE</td><td>$pharmacie</td>
+                </tr>
             @endforeach
             <tr>
                 <td colspan="2">
