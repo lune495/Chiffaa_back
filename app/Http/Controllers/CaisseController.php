@@ -282,6 +282,14 @@ class CaisseController extends Controller
                     ->whereNotNull('date_fermeture')
                     ->first();
                     //dd($latestClosureDate);
+
+                    // PHARMACIE
+                    $pharmacie = DB::table('ventes')
+                    ->select(DB::raw('SUM(montant) AS montant'))
+                    ->orderBy('id', 'asc')
+                    ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
+                    ->get();
+                    dd($pharmacie);
                     // Depense
                     $depenses = DB::table('depenses')
                     ->orderBy('id', 'asc')
