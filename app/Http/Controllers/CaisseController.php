@@ -262,7 +262,7 @@ class CaisseController extends Controller
                     // dd($results);
             } else {
                 $data = DB::table('logs')
-                    ->select('designation', DB::raw('SUM(prix - remise) AS total_prix'))
+                    ->select('designation','statut_pharma', DB::raw('SUM(prix - remise) AS total_prix'))
                     ->where(function ($query) {
                         $query->where('created_at', '>=', function ($subQuery) {
                             $subQuery->select('date_fermeture')
