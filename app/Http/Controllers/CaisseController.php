@@ -273,7 +273,7 @@ class CaisseController extends Controller
                     })
                     ->where('created_at', '<=', now())
                     ->groupBy('designation', 'statut_pharma')
-                    ->having('statut_pharma', '=', 0)
+                    ->having('statut_pharma', '=', false)
                     ->orderBy('designation')
                     ->get();
 
