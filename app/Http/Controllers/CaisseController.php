@@ -289,13 +289,13 @@ class CaisseController extends Controller
                     ->where('statut',false)
                     ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
                     ->get();
-                    dd($pharmacie);
                     // Depense
                     $depenses = DB::table('depenses')
                     ->orderBy('id', 'asc')
                     ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
                     ->get();
                     $results['data'] = $data;
+                    $results['pharmacie'] = $pharmacie;
                     $results['depenses'] = $depenses;
                     $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
                     $results['current_date'] = now()->format('Y-m-d H:i:s');
