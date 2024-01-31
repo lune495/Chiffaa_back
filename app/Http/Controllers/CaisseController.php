@@ -271,9 +271,9 @@ class CaisseController extends Controller
                                 ->limit(1);
                         });
                     })
-                    ->where('id','!=',29068)
+                    ->where('statut_pharma','=',false)
                     ->where('created_at', '<=', now())
-                    ->groupBy('designation')
+                    ->groupBy('designation', 'statut_pharma')
                     ->orderBy('designation')
                     ->get();
 
