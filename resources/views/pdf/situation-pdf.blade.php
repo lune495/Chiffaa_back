@@ -24,7 +24,7 @@
                 </tr>
             @endforeach
             <tr>
-                <td>PHARMACIE</td><td>{{$pharmacie}}</td>
+                <td>PHARMACIE</td><td>{{$pharmacie ? $pharmacie : 0}}</td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -68,7 +68,7 @@
                 <tr class="colorful-row">
                     <td colspan="2" style="padding-top: 10px; font-size: 15px">
                         <p>Solde Caisse :</p>
-                        <p style="font-weight: bold; font-size: 20px">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total - $montant_total_depense, false, true)}}</p>
+                        <p style="font-weight: bold; font-size: 20px">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total - $montant_total_depense + ($pharmacie ? $pharmacie : 0), false, true)}}</p>
                     </td>
                 </tr>
         </table>
