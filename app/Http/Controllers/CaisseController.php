@@ -272,7 +272,7 @@ class CaisseController extends Controller
                         });
                     })
                     ->where('created_at', '<=', now())
-                    // ->where('designation','=','pharmacie')
+                    ->where('designation','!=','pharmacie')
                     ->groupBy('designation')
                     ->orderBy('designation')
                     ->get();
