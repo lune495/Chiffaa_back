@@ -24,7 +24,7 @@
                 </tr>
             @endforeach
             <tr>
-                <td>PHARMACIE</td><td>{{$pharmacie}}</td>
+                <td>PHARMACIE</td><td>{{$pharmacie->montant}}</td>
             </tr>
             <tr>
                 <td colspan="2">
