@@ -38,7 +38,7 @@
     </div>
 
     <!-- Tableau de droite (DEPENSE) -->
-    <div class="table-wrapper right">
+    <div class="table-wrapper left">
         <h4>DEPENSE</h4>
         <table class="custom-table">
             <!-- En-tête -->
