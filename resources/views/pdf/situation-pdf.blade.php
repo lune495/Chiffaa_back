@@ -24,7 +24,7 @@
                 </tr>
             @endforeach
             <tr>
-                <td>PHARMACIE</td><td>{{$pharmacie ? $pharmacie : 0}}</td>
+                <td>PHARMACIE</td><td>{{$pharmacie ? \App\Models\Outil::formatPrixToMonetaire($pharmacie, false, false) : 0}}</td>
             </tr>
             <tr>
                 <td colspan="2">
