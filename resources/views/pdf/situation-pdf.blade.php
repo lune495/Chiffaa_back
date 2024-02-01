@@ -78,11 +78,11 @@
 <div class="footer">
     <div class="signatures">
         <div class="signature-section left">
-            <p>Signature du Principal :</p>
+            <p>Signature du Principal </p>
             <!-- Ajoutez ici un espace ou une zone pour la signature du principal -->
         </div>
         <div class="signature-section right">
-            <p>Signature du Caissier :</p>
+            <p>Signature du Caissier </p>
             <!-- Ajoutez ici un espace ou une zone pour la signature du caissier -->
         </div>
     </div>
