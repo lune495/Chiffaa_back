@@ -6,7 +6,7 @@ use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Illuminate\Support\Arr;
-use \App\Models\{Service,ClotureCaisse};
+use \App\Models\{Service,ClotureCaisse,Outil};
 
 class ServicePaginatedQuery extends Query
 {
@@ -42,7 +42,7 @@ class ServicePaginatedQuery extends Query
         }
         if (isset($args['nom_complet']))
         {
-            $query->where('nom_complet',$args['nom_complet']);
+            $query->where('nom_complet',Outil::getOperateurLikeDB(),'%'.$args['nom_complet'].'%');
         }
         // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
         $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'desc')

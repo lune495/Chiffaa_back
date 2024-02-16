@@ -18,6 +18,7 @@ use App\Http\Controllers\CaisseController;
 //     return view('welcome');
 // });
 Route::get('/vente/ticket-pdf-pharmacie/{id}', [CaisseController::class,'generatePDF3']);
+Route::get('/vente/situation-caisse-par-date/{start}/{end}', [CaisseController::class,'FiltreSituationParDate']);
 Route::get('/test', [CaisseController::class,'Notif']);
 Route::get('/vente/situation-generale-pdf', [CaisseController::class,'generatePDF2']);
 Route::get('/vente/situation-filtre-pdf/{start}', [CaisseController::class,'SituationParFiltreDate']);
