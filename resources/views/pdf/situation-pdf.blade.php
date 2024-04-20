@@ -24,10 +24,13 @@
                 </tr>
             @endforeach
             <tr>
+                <td>PHARMACIE</td><td>{{$pharmacie ? \App\Models\Outil::formatPrixToMonetaire($pharmacie, false, false) : 0}}</td>
+            </tr>
+            <tr>
                 <td colspan="2">
                     <div>
                         <p class="badge" style="line-height:15px;">Total</p>
-                        <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total)}}</p>
+                        <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total + ($pharmacie ? $pharmacie : 0), false, false)}}</p>
                     </div>
                 </td>
             </tr>
@@ -65,7 +68,7 @@
                 <tr class="colorful-row">
                     <td colspan="2" style="padding-top: 10px; font-size: 15px">
                         <p>Solde Caisse :</p>
-                        <p style="font-weight: bold; font-size: 20px">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total - $montant_total_depense, false, true)}}</p>
+                        <p style="font-weight: bold; font-size: 20px">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total - $montant_total_depense + ($pharmacie ? $pharmacie : 0), false, true)}}</p>
                     </td>
                 </tr>
         </table>
