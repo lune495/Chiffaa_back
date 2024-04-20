@@ -24,6 +24,9 @@
                 </tr>
             @endforeach
             <tr>
+                <td>PHARMACIE</td><td>{{$pharmacie ? \App\Models\Outil::formatPrixToMonetaire($pharmacie, false, false) : 0}}</td>
+            </tr>
+            <tr>
                 <td colspan="2">
                     <div>
                         <p class="badge" style="line-height:15px;">Total</p>
