@@ -27,7 +27,7 @@
                 <td colspan="2">
                     <div>
                         <p class="badge" style="line-height:15px;">Total</p>
-                        <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total + ($pharmacie ? $pharmacie : 0), false, false)}}</p>
+                        <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total)}}</p>
                     </div>
                 </td>
             </tr>
