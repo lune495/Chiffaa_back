@@ -346,12 +346,12 @@ class CaisseController extends Controller
                 ->whereBetween('created_at', ["2024-04-19 14:17:05", "2024-04-19 23:18:45"])
                 ->get();
                 $results['data'] = $data;
-                $results['pharmacie'] = $pharmacie;
+                // $results['pharmacie'] = $pharmacie;
                 $results['depenses'] = $depenses;
                 $results['derniere_date_fermeture'] = "2024-04-19 14:17:05";
                 $results['current_date'] = "2024-04-19 23:18:45";
         }
-        dd($results);
+        // dd($results);
         $pdf = PDF::loadView("pdf.situation-pdf",$results);
         return $pdf->stream();
     }
