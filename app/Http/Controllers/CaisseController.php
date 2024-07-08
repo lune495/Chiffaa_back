@@ -321,6 +321,7 @@ class CaisseController extends Controller
                 ->whereBetween('created_at', ["2024-07-05 14:03:58", "2024-07-06 07:43:07"])
                 // ->where('statut_pharma','=',false)
                 ->where('designation', '!=', 'pharmacie')
+                ->groupBy('designation')
                 ->orderBy('designation')
                 ->get();
 
