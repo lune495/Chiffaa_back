@@ -350,9 +350,9 @@ class CaisseController extends Controller
                 $results['pharmacie'] = $pharmacie;
                 $results['depenses'] = $depenses;
                 $results['derniere_date_fermeture'] = "2024-08-02 06:42:41";
-                $results['current_date'] = "2024-08-02 13:40:23";
-         }
-        $pdf = PDF::loadView("pdf.situation-pdf",$results);
+                $results['current_date'] = "2024-07-06 07:43:07";
+        //  }
+        $pdf =  PDF::loadView("pdf.situation-pdf",$results);
         return $pdf->stream();
     }
     public function FiltreSituationParDate($start,$end)
