@@ -39,6 +39,13 @@ class Outil extends Model
         $path='{'.$itemName.'('.$critere.'){'.$liste_attributs.'}}';
         return redirect('graphql?query='.urlencode($path));
     }
+
+    public static function getallgraphql($itemName, $critere,$liste_attributs)
+    {
+        $path='{'.$itemName.'('.$critere.'){'.$liste_attributs.'}}';
+        dd('graphql?query='.urlencode($path));
+        return redirect('graphql?query='.urlencode($path));
+    }
     public static function isBinary($input)
     {
         // Vérifier si la chaîne est composée uniquement de 0 et 1

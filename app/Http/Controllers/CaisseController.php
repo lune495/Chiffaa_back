@@ -208,7 +208,7 @@ class CaisseController extends Controller
 
     public function generateHistorique($module_id)
     {
-        $data = Outil::redirectgraphql($this->queryName, "module_id:{$module_id}", Outil::$queries[$this->queryName]);
+        $data = Outil::getallgraphql($this->queryName, "module_id:{$module_id}", Outil::$queries[$this->queryName]);
         dd($data);
     }
 
