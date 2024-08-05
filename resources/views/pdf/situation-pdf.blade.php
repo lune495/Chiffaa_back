@@ -2,7 +2,7 @@
 @section('title', "Situation Generale")
 @section('content')
 
-<h4 class="situation-heading">Situation Generale du {{$derniere_date_fermeture}} au {{$current_date}}</h4>
+<h4 class="situation-heading">Historique  {{$derniere_date_fermeture}} au {{$current_date}}</h4>
 <div class="table-container">
     <!-- Tableau de gauche (RECETTE) -->
     <div class="table-wrapper left">

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Service,Outil,User,Produit,ElementService,Log,TypeService,ClotureCaisse,Depense,Vente};
+use App\Models\{Service,Outil,User,Produit,Module,ElementService,Log,TypeService,ClotureCaisse,Depense,Vente};
 use \PDF;
 use App\Events\MyEvent;
 use \DNS1D;
@@ -208,7 +208,19 @@ class CaisseController extends Controller
 
     public function generateHistorique($module_id)
     {
-        return $data = Outil::getallgraphql($module_id);
+        $results = [];
+        $latestClosureDate = DB::table('cloture_caisses')
+                ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
+                ->whereNotNull('date_fermeture')
+                ->first();
+        $results = Outil::getallgraphql($module_id);
+        $module = Module::find($module_id);
+        $results['nom_module'] = isset($module) ? $module->nom : "";
+        $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
+        $results['current_date'] = now()->format('Y-m-d H:i:s');
+        dd($results);
+        $pdf = PDF::loadView("pdf.historique-pdf",$data);
+        return $pdf->stream();
     }
 
     public function statutPDFpharmacie($id)
