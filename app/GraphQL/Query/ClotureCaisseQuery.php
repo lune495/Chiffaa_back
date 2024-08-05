@@ -36,6 +36,7 @@ class ClotureCaisseQuery extends Query
             [
                 'id'                  => $item->id,
                 'date_fermeture'      => $item->date_fermeture,
+                'date_fermeture_fr'   => $item->date_fermeture_fr,
                 'montant_total'       => $item->montant_total,
                 'user'                => $item->user,
             ];

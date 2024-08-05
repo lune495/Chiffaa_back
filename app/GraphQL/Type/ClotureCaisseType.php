@@ -22,6 +22,7 @@ class ClotureCaisseType extends GraphQLType
                 'montant_total'             => ['type' => Type::int()],
                 'user_id'                   => ['type' => Type::int()],
                 'user'                      => ['type' => GraphQL::type('User')],
+                'date_fermeture_fr'         => ['type' => Type::string()],
             ];
     }
 
@@ -31,7 +32,7 @@ class ClotureCaisseType extends GraphQLType
     // {
     //     return strtolower($root->email);
     // }
-     protected function resolveCreatedAtField($root, $args)
+    protected function resolveCreatedAtField($root, $args)
     {
         if (!isset($root['created_at']))
         {
@@ -40,6 +41,18 @@ class ClotureCaisseType extends GraphQLType
         else
         {
             $created_at = $root['created_at'];
+        }
+        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
+    }
+    protected function resolveDateFermetureFrField($root, $args)
+    {
+        if (!isset($root['date_fermeture_fr']))
+        {
+            $date_fermeture_fr = $root->date_fermeture_fr;
+        }
+        else
+        {
+            $date_fermeture_fr = $root['date_fermeture_fr'];
         }
         return Carbon::parse($created_at)->format('d/m/Y H:i:s');
     }
