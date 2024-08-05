@@ -43,7 +43,7 @@ class Outil extends Model
     public static function getallgraphql($itemName, $critere,$liste_attributs)
     {
         $path='{'.$itemName.'('.$critere.'){'.$liste_attributs.'}}';
-        dd('graphql?query='.urlencode($path));
+        dd('http://45.63.94.164/Chiffaa_back/graphql?query='.urlencode($path));
         return redirect('graphql?query='.urlencode($path));
     }
     public static function isBinary($input)
