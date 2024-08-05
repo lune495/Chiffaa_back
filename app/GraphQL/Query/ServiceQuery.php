@@ -25,6 +25,7 @@ class ServiceQuery extends Query
         [
             'id'                 => ['type' => Type::int()],
             'nom_complet'        => ['type' => Type::string()],
+            'module_id'          => ['type' => Type::int()],
         ];
     }
 
@@ -35,6 +36,10 @@ class ServiceQuery extends Query
         if (isset($args['id']))
         {
             $query = $query->where('id', $args['id']);
+        }
+        if (isset($args['module_id']))
+        {
+            $query = $query->where('module_id', $args['module_id']);
         }
         if (isset($args['nom_complet']))
         {
