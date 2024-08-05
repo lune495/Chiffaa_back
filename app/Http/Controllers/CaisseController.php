@@ -206,6 +206,12 @@ class CaisseController extends Controller
         }
     }
 
+    public function generateHistorique($module_id)
+    {
+        $data = Outil::redirectgraphql($this->queryName, "module_id:{$module_id}", Outil::$queries[$this->queryName]);
+        dd($data);
+    }
+
     public function statutPDFpharmacie($id)
     {
         $vente = Vente::find($id);
