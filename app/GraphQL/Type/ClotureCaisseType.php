@@ -54,6 +54,6 @@ class ClotureCaisseType extends GraphQLType
         {
             $date_fermeture_fr = $root['date_fermeture_fr'];
         }
-        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
+        return Carbon::parse($date_fermeture_fr)->format('d/m/Y H:i:s');
     }
 }
