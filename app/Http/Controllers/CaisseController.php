@@ -208,8 +208,8 @@ class CaisseController extends Controller
 
     public function generateHistorique($module_id)
     {
-        $data = Outil::getallgraphql($this->queryName, "module_id:{$module_id}", Outil::$queries[$this->queryName]);
-        dd($data);
+        $data = Outil::getallgraphql($module_id);
+        // dd($data);
     }
 
     public function statutPDFpharmacie($id)
