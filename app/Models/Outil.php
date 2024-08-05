@@ -40,10 +40,22 @@ class Outil extends Model
         return redirect('graphql?query='.urlencode($path));
     }
 
-    public static function getallgraphql($itemName, $critere,$liste_attributs)
+    public static function getallgraphql($id_critere)
     {
-        $path='{'.$itemName.'('.$critere.'){'.$liste_attributs.'}}';
-        dd('http://45.63.94.164/Chiffaa_back/graphql?query='.urlencode($path));
+        $queryName = "services";
+        $guzzleClient = new \GuzzleHttp\Client([
+            'defaults' => [
+                'exceptions' => true
+            ]
+        ]);
+        $name_env = self::getAPI();
+        $critere = (is_numeric($id_critere)) ? "module_id:{$id_critere}" : $id_critere;
+        $queryAttr = Outil::$queries[$queryName];
+        $response = $guzzleClient->get("{$name_env}graphql?query={{$queryName}({$critere}){{$queryAttr}}}");
+        $data = json_decode($response->getBody(), true);
+        dd($data);
+        
+        return ($justone) ? $data['data'][$queryName][0] : $data;
         return redirect('graphql?query='.urlencode($path));
     }
     public static function isBinary($input)
