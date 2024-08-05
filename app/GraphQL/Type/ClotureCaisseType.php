@@ -46,14 +46,12 @@ class ClotureCaisseType extends GraphQLType
     }
     protected function resolveDateFermetureFrField($root, $args)
     {
-        if (!isset($root['date_fermeture_fr']))
-        {
-            $date_fermeture_fr = $root->date_fermeture_fr;
-        }
-        else
-        {
+        if (!isset($root['date_fermeture_fr'])) {
+            $date_fermeture_fr = $root['date_fermeture'];
+        } else {
             $date_fermeture_fr = $root['date_fermeture_fr'];
         }
+    
         return Carbon::parse($date_fermeture_fr)->format('d/m/Y H:i:s');
     }
 }
