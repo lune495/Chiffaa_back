@@ -32,7 +32,7 @@
                 <td colspan="5">
                     <div>
                         <p class="badge" style="line-height:15px;">Total</p>
-                        <p style="line-height:5px;text-align:center"><center>{{ \App\Models\Outil::formatPrixToMonetaire($montant_total, false, false)}}</center></p>
+                        <p style="line-height:5px;text-align:center"><center>{{ \App\Models\Outil::formatPrixToMonetaire($montant_total, false, true)}}</center></p>
                     </div>
                 </td>
             </tr>
