@@ -21,8 +21,8 @@
             @foreach($data as $sum)
                 {{$montant_total = $montant_total + $sum["montant_total"] }}
                 <tr>
-                    <td><center> {{ $sum->created_at}}</center></td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum->nom_complet)}}</td>
+                    <td><center> {{ $sum["created_at"]}}</center></td>
+                    <td>{{\App\Models\Outil::toUpperCase($sum["nom_complet"])}}</td>
                     <td>{{\App\Models\Outil::toUpperCase($sum["module"]["nom"])}}</td>
                 </tr>
             @endforeach
