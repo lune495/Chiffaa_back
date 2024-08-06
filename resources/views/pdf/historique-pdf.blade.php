@@ -19,7 +19,7 @@
             <!-- ... Votre boucle foreach existante ... -->
             {{$montant_total = 0}}
             @foreach($data as $sum)
-                {{$montant_total = $montant_total + $sum->montant_total }}
+                {{$montant_total = $montant_total + $sum["montant_total"] }}
                 <tr>
                     <td><center> {{ $sum->created_at}}</center></td>
                     <td>{{\App\Models\Outil::toUpperCase($sum->nom_complet)}}</td>
