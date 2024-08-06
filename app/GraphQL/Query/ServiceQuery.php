@@ -46,17 +46,17 @@ class ServiceQuery extends Query
             $query = $query->where('nom_complet',Outil::getOperateurLikeDB(),'%'.$args['nom_complet'].'%');
         }
         //dd($user);
-        // if($user->email != "alassane@gmail.com")
-        // {
-            // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
-        $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'desc')
-        ->value('date_fermeture');
-        if(isset($latestClosureDate))
+        if($user->email != "alassane@gmail.com")
         {
-            $query = $query->whereBetween('created_at', [$latestClosureDate, now()]);
-            // dd($query->get());
-        }   
-        // }
+                // Obtenez la date de fermeture la plus récente depuis la table ClotureCaisse
+            $latestClosureDate = ClotureCaisse::orderBy('date_fermeture', 'desc')
+            ->value('date_fermeture');
+            if(isset($latestClosureDate))
+            {
+                $query = $query->whereBetween('created_at', [$latestClosureDate, now()]);
+                // dd($query->get());
+            }   
+        }
         $query->orderBy('id', 'desc');
         $query = $query->get();
         return $query->map(function (Service $item)

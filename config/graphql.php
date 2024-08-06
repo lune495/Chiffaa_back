@@ -145,8 +145,8 @@ return [
             ],
 
             // Laravel HTTP middleware
-            'middleware' => ['web','auth:sanctum'],
-            // 'middleware' => null,
+            // 'middleware' => ['auth:sanctum'],
+            'middleware' => null,
 
             // Which HTTP methods to support; must be given in UPPERCASE!
             'method' => ['GET', 'POST'],
