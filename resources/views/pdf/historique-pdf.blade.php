@@ -17,18 +17,17 @@
             </tr>
             <!-- Contenu -->
             <!-- ... Votre boucle foreach existante ... -->
-            <?php $montant_total = 0; ?>
+            {{$montant_total = 0}}
             @foreach($data as $sum)
-                <?php $montant_total += $sum['montant_total']; ?>
+                {{$montant_total = $montant_total + $sum->montant_total }}
                 <tr>
-                    <td><center>{{ $sum['created_at'] }}</center></td>
-                    <td>{{ \App\Models\Outil::toUpperCase($sum['nom_complet']) }}</td>
-                    <td>{{ \App\Models\Outil::toUpperCase($sum['module']['nom']) }}</td>
-                    <td>{{ $sum['montant_total'] }}</td>
+                    <td><center> {{ $sum->created_at}}</center></td>
+                    <td>{{\App\Models\Outil::toUpperCase($sum->nom_complet)}}</td>
+                    <td>{{\App\Models\Outil::toUpperCase($sum["module"]["nom"])}}</td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="4">
+                <td colspan="2">
                     <div>
                         <p class="badge" style="line-height:15px;">Total</p>
                         <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total, false, false)}}</p>
@@ -37,7 +36,8 @@
             </tr>
         </table>
     </div>
-</div>
+        </table>
+        <!-- ... Votre code existant ... -->
 
 <!-- Pied de page -->
 <div class="footer">
@@ -87,5 +87,10 @@
 
     /* Ajoutez des styles de signature spécifiques ici si nécessaire */
 </style>
+
+    </div>
+</div>
+
+<!-- ... Le reste de votre modèle ... -->
 
 @endsection
