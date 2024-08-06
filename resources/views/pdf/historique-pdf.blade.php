@@ -23,7 +23,7 @@
                 <tr>
                     <td><center> {{ $sum->created_at}}</center></td>
                     <td>{{\App\Models\Outil::toUpperCase($sum->nom_complet)}}</td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum->["module"]["nom"])}}</td>
+                    <td>{{\App\Models\Outil::toUpperCase($sum["module"]["nom"])}}</td>
                 </tr>
             @endforeach
             <tr>
