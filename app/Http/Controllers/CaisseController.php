@@ -215,7 +215,7 @@ class CaisseController extends Controller
                 ->first();
         $data = Outil::getallgraphql($module_id);
         $module = Module::find($module_id);
-        $results['data'] = $data;
+        $results['data'] = $data['data']['services'];
         $results['nom_module'] = isset($module) ? $module->nom : "";
         $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
         $results['current_date'] = now()->format('Y-m-d H:i:s');
