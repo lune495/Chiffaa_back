@@ -29,10 +29,10 @@
                 </tr>
             @endforeach
             <tr>
-                <td colspan="2">
+                <td colspan="5">
                     <div>
                         <p class="badge" style="line-height:15px;">Total</p>
-                        <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total, false, false)}}</p>
+                        <p style="line-height:5px;text-align:center"><center>{{ \App\Models\Outil::formatPrixToMonetaire($montant_total, false, false)}}</center></p>
                     </div>
                 </td>
             </tr>
