@@ -219,7 +219,7 @@ class CaisseController extends Controller
         $results['nom_module'] = isset($module) ? $module->nom : "";
         $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
         $results['current_date'] = now()->format('Y-m-d H:i:s');
-        // dd($results);
+        dd($results);
         $pdf = PDF::loadView("pdf.historique-pdf",$results);
         return $pdf->stream();
     }
