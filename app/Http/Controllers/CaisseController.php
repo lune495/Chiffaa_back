@@ -254,7 +254,7 @@ class CaisseController extends Controller
         $service = Service::with(['user','medecin','module','element_services'])->where('module_id',$module_id)->first();
         $user = Auth::user();
         $data = [
-            'service' => $service->id,
+            'service' => $service->nom_complet,
             'user' => $user
         ];
 
