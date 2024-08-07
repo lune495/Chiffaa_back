@@ -89,18 +89,18 @@
                 </div>
                 ************************
                 <div style="margin:7px 0">
-                Client(e) : {{$vente->client->nom_complet}}
+                Client(e) : {{$nom_complet}}
                 </div>
                 ************************
 
-                <dt  style="font-size: 18px;font-weight:bold">Vente N°{{$vente->id}}</dt>
+                <dt  style="font-size: 18px;font-weight:bold">Vente N°{{$id}}</dt>
             </section>
             <section  style="margin-top : 30px">
                 <table>
                     <tbody>
                         <tr>
                             <td style="padding-left: 15px;">TOTAL</td>
-                            <td style="padding-left: 15px;">{{\App\Models\Outil::formatPrixToMonetaire($vente->montant, false, true)}}</td>
+                            <td style="padding-left: 15px;">{{\App\Models\Outil::formatPrixToMonetaire($montant, false, true)}}</td>
                         </tr>
                     </tbody>
                 </table>
