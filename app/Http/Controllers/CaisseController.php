@@ -234,27 +234,26 @@ class CaisseController extends Controller
         }
     }
 
-    public function generateHistorique($module_id,$start,$end)
+    public function generateHistorique($module_id,$start=null,$end=null)
     {
-        // $results = [];
-        // $latestClosureDate = DB::table('cloture_caisses')
-                // ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
-                // ->whereNotNull('date_fermeture')
-                // ->first();
-        // $data = Outil::getallgraphql($module_id);
-        // $module = Module::find($module_id);
-        // $results['data'] = $data['data']['services'];
-        // $results['nom_module'] = isset($module) ? $module->nom : "";
-        // $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
-        // $results['current_date'] = now()->format('Y-m-d H:i:s');
-        // dd($results);
-        // $pdf = PDF::loadView("pdf.historique-pdf",$results);
-        // return $pdf->stream();
         $results = [];
+        $latestClosureDate = DB::table('cloture_caisses')
+                ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
+                ->whereNotNull('date_fermeture')
+                ->first();
+        $latestClosureDate = $latestClosureDate->latest_date_fermeture;
+        // Si $start n'est pas fourni, utiliser $latestClosureDate
+        if (is_null($start)) {
+            $start = $latestClosureDate;
+        }
+
+        // Si $end n'est pas fourni, utiliser la date actuelle
+        if (is_null($end)) {
+            $end = now();
+        }
         $data = Service::with(['user','medecin','module','element_services.type_service'])
                           ->where('module_id',$module_id)->whereBetween('created_at', [$start, $end])->get();
-        $module = Module::find($module_id);
-        $results['nom_module'] = isset($module) ? $module->nom : "";
+        $results['nom_module'] = Module::find($module_id)->nom ?? '';
         $results['data'] = $data;
         $results['derniere_date_fermeture'] = $start;
         $results['current_date'] = $end;
