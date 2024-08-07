@@ -13,7 +13,6 @@
                 <th>Nom Patient</th>
                 <th>Service</th>
                 <th>Medecin</th>
-                <th>Total</th>
             </tr>
             <!-- Contenu -->
             <!-- ... Votre boucle foreach existante ... -->
@@ -29,7 +28,6 @@
                     <td>{{\App\Models\Outil::toUpperCase($sum->nom_complet)}}</td>
                     <td>{{\App\Models\Outil::toUpperCase($sum->module->nom)}}</td>
                     <td>{{\App\Models\Outil::toUpperCase($sum->medecin->nom)}}</td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum->montant_total)}}</td>
                 </tr>
             @endforeach
             <tr>
