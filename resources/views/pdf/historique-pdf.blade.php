@@ -15,20 +15,33 @@
                 <th>Medecin</th>
             </tr>
             <!-- Contenu -->
-            <!-- ... Votre boucle foreach existante ... -->
             {{$montant_total = 0}}
             {{$montant_total_service = 0}}
-            @foreach($data as $sum)
-                @foreach($sum->element_services as $element_service)
-                {{$montant_total_service = $element_service->type_service->prix}}
+            @php
+                $groupedData = $data->groupBy(function($item) {
+                    return $item->medecin->nom;
+                });
+            @endphp
+            @foreach($groupedData as $medecin => $rows)
+                @php
+                    $rowspan = count($rows);
+                    $firstRow = true;
+                @endphp
+                @foreach($rows as $sum)
+                    @foreach($sum->element_services as $element_service)
+                        {{$montant_total_service = $element_service->type_service->prix}}
+                    @endforeach
+                    {{$montant_total = $montant_total + $montant_total_service}}
+                    <tr>
+                        <td><center>{{ $sum->created_at }}</center></td>
+                        <td>{{\App\Models\Outil::toUpperCase($sum->nom_complet)}}</td>
+                        <td>{{\App\Models\Outil::toUpperCase($sum->module->nom)}}</td>
+                        @if($firstRow)
+                            <td rowspan="{{ $rowspan }}">{{ \App\Models\Outil::toUpperCase($medecin) }}</td>
+                            @php $firstRow = false; @endphp
+                        @endif
+                    </tr>
                 @endforeach
-                {{$montant_total = $montant_total + $montant_total_service }}
-                <tr>
-                    <td><center> {{ $sum->created_at}}</center></td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum->nom_complet)}}</td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum->module->nom)}}</td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum->medecin->nom)}}</td>
-                </tr>
             @endforeach
             <tr>
                 <td colspan="5">
@@ -40,8 +53,7 @@
             </tr>
         </table>
     </div>
-        </table>
-        <!-- ... Votre code existant ... -->
+</div>
 
 <!-- Pied de page -->
 <div class="footer">
@@ -58,17 +70,13 @@
 </div>
 
 <style>
-    /* Ajoutez ce style à votre section de style existante ou à votre fichier de style externe */
-
     .footer {
-        /* margin-top: 20px;
-        padding-top: 20px; */
         text-align: center;
     }
 
     .signatures {
         display: flex;
-        align-items: center; /* Centre les éléments verticalement */
+        align-items: center;
         justify-content: space-between;
         margin-top: 10px;
         flex-wrap: nowrap;
@@ -81,20 +89,13 @@
 
     .left {
         text-align: left;
-        flex: 1; /* Pour permettre à la signature du Principal de pousser la signature du Caissier à droite */
+        flex: 1;
     }
 
     .right {
         text-align: right;
-        flex: 1; /* Pour permettre à la signature du Caissier de pousser la signature du Principal à gauche */
+        flex: 1;
     }
-
-    /* Ajoutez des styles de signature spécifiques ici si nécessaire */
 </style>
-
-    </div>
-</div>
-
-<!-- ... Le reste de votre modèle ... -->
 
 @endsection
