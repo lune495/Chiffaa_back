@@ -89,7 +89,7 @@
                 </div>
                 ************************
                 <div style="margin:7px 0">
-                Client(e) : {{$vente->nom_complet}}
+                Client(e) : {{$vente->nom_client}}
                 </div>
                 ************************
 
