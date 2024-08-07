@@ -234,7 +234,7 @@ class CaisseController extends Controller
         }
     }
 
-    public function generateHistorique($module_id)
+    public function generateHistorique($module_id,$start,$end)
     {
         // $results = [];
         // $latestClosureDate = DB::table('cloture_caisses')
@@ -250,19 +250,16 @@ class CaisseController extends Controller
         // dd($results);
         // $pdf = PDF::loadView("pdf.historique-pdf",$results);
         // return $pdf->stream();
-
-        $service = Service::with(['user','medecin','module','element_services.type_service'])->where('module_id',$module_id)->first();
-        $user = Auth::user();
-        $element_services = $service->element_services->type_service;
-        dd($element_services);
-        $data = [
-            'service' => $service->module->nom,
-            'user' => $user
-        ];
-
-        dd($data);
-
-
+        $results = [];
+        $data = Service::with(['user','medecin','module','element_services.type_service'])
+                          ->where('module_id',$module_id)->whereBetween('created_at', [$start, $end])->get();
+        $module = Module::find($module_id);
+        $results['nom_module'] = isset($module) ? $module->nom : "";
+        $results['data'] = $data;
+        $results['derniere_date_fermeture'] = $start;
+        $results['current_date'] = $end;
+        $pdf = PDF::loadView("pdf.historique-pdf",$results);
+        return $pdf->stream();
 
     }
 

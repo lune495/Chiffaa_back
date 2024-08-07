@@ -18,14 +18,18 @@
             <!-- Contenu -->
             <!-- ... Votre boucle foreach existante ... -->
             {{$montant_total = 0}}
+            {{$montant_total_service = 0}}
             @foreach($data as $sum)
-                {{$montant_total = $montant_total + $sum["montant_total"] }}
+                @foreach($sum->element_services as $element_service)
+                {{$montant_total_service = $montant_total_service->type_service->prix}}
+                @endforeach
+                {{$montant_total = $montant_total + $montant_total_service }}
                 <tr>
-                    <td><center> {{ $sum["created_at"]}}</center></td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum["nom_complet"])}}</td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum["module"]["nom"])}}</td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum["medecin"]["nom"])}}</td>
-                    <td>{{\App\Models\Outil::toUpperCase($sum["montant_total"])}}</td>
+                    <td><center> {{ $sum->created_at}}</center></td>
+                    <td>{{\App\Models\Outil::toUpperCase($sum->nom_complet)}}</td>
+                    <td>{{\App\Models\Outil::toUpperCase($sum->module->nom)}}</td>
+                    <td>{{\App\Models\Outil::toUpperCase($sum->medecin->nom)}}</td>
+                    <td>{{\App\Models\Outil::toUpperCase($sum->montant_total)}}</td>
                 </tr>
             @endforeach
             <tr>
