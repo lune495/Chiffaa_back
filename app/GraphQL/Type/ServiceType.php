@@ -66,7 +66,6 @@ class ServiceType extends GraphQLType
         $element_services = ElementService::where('service_id',$root['id'])->get();
         $montant_total = 0;
         foreach($element_services as $element_service){
-            // dd($element_service->type_service->prix);
             $element_service->type_service ? $montant_total = $montant_total + $element_service->type_service->prix : "";
         }
         return $montant_total - $remise;
