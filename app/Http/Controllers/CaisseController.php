@@ -169,6 +169,20 @@ class CaisseController extends Controller
 
     public function generatePDF($id)
     {
+        // Récupérer le service avec les relations nécessaires
+        // $service = Service::with(['medecin', 'module', 'elementServices.typeService.module', 'user'])->find($id);
+        
+        // Vérifier si le service existe
+        // if ($service != null) {
+        //     // Récupérer l'utilisateur authentifié
+        //     $user = Auth::user();
+        
+        // Préparer les données pour la vue PDF
+        // $data = [
+        //     'service' => $service,
+        //     'user' => $user
+        // ];
+
         $service = Service::find($id);
         // dd($user = Auth::user());
         if($service!=null)
@@ -191,6 +205,20 @@ class CaisseController extends Controller
     }
     public function generatePDF3($id)
     {
+        // Récupérer le service avec les relations nécessaires
+        // $vente = Vente::with(['client', 'taxe','remise', 'vente_produits.produit', 'user'])->find($id);
+        
+        // Vérifier si le service existe
+        // if ($vente != null) {
+        //     // Récupérer l'utilisateur authentifié
+        //     $user = Auth::user();
+        
+        // Préparer les données pour la vue PDF
+        // $data = [
+        //     'vente' => $vente,
+        //     'user' => $user
+        // ];
+
         $queryName = "ventes";
         $vente = Vente::find($id);
         if($vente!=null)
@@ -219,9 +247,21 @@ class CaisseController extends Controller
         $results['nom_module'] = isset($module) ? $module->nom : "";
         $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
         $results['current_date'] = now()->format('Y-m-d H:i:s');
-        // dd($results);
+        dd($results);
         $pdf = PDF::loadView("pdf.historique-pdf",$results);
         return $pdf->stream();
+
+        $services = Service::with(['user','medecin','module','element_services'])->where('module__id',$module_id)->get();
+        $user = Auth::user();
+        $data = [
+            'service' => $services,
+            'user' => $user
+        ];
+
+        dd($data);
+
+
+
     }
 
     public function statutPDFpharmacie($id)
