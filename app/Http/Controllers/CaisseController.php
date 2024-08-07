@@ -169,42 +169,22 @@ class CaisseController extends Controller
 
     public function generatePDF($id)
     {
-        // Récupérer le service avec les relations nécessaires
-        // $service = Service::with(['medecin', 'module', 'elementServices.typeService.module', 'user'])->find($id);
-        
-        // Vérifier si le service existe
-        // if ($service != null) {
-        //     // Récupérer l'utilisateur authentifié
-        //     $user = Auth::user();
-        
-        // Préparer les données pour la vue PDF
-        // $data = [
-        //     'service' => $service,
-        //     'user' => $user
-        // ];
-
-        $service = Service::find($id);
-        // dd($user = Auth::user());
+        $results = [];
+        $service = Service::with(['user','medecin','module','element_services.type_service'])->find($id);
+        $results['nom_module'] = Module::find($service->module_id)->nom ?? '';
         if($service!=null)
         {
-         $data = Outil::getOneItemWithGraphQl($this->queryName, $id, true);
-         $user = Auth::user();
-         //dd($data);
-        //  $datas = [];
-        //  $datas['data'] = $data;
-        //  $datas['user'] = $user;
-        //  dd($datas['user']);
-         $pdf = PDF::loadView("pdf.ticket-service", $data);
+        //  $data = Outil::getOneItemWithGraphQl($this->queryName, $id, true);
+         $results['service'] = $service;
+         $pdf = PDF::loadView("pdf.ticket-service", $results);
          $measure = array(0,0,225.772,650.197);
          return $pdf->setPaper($measure, 'orientation')->stream();
          //  return $pdf->stream();
-        }else{
-         $data = Outil::getOneItemWithGraphQl($this->queryName, $id, false);
-            return view('notfound');
         }
     }
     public function generatePDF3($id)
     {
+        $results = [];
         $queryName = "ventes";
         $vente = Vente::find($id);
         if($vente!=null)
