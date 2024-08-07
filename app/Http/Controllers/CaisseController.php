@@ -236,20 +236,20 @@ class CaisseController extends Controller
 
     public function generateHistorique($module_id)
     {
-        $results = [];
-        $latestClosureDate = DB::table('cloture_caisses')
-                ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
-                ->whereNotNull('date_fermeture')
-                ->first();
-        $data = Outil::getallgraphql($module_id);
-        $module = Module::find($module_id);
-        $results['data'] = $data['data']['services'];
-        $results['nom_module'] = isset($module) ? $module->nom : "";
-        $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
-        $results['current_date'] = now()->format('Y-m-d H:i:s');
-        dd($results);
-        $pdf = PDF::loadView("pdf.historique-pdf",$results);
-        return $pdf->stream();
+        // $results = [];
+        // $latestClosureDate = DB::table('cloture_caisses')
+                // ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
+                // ->whereNotNull('date_fermeture')
+                // ->first();
+        // $data = Outil::getallgraphql($module_id);
+        // $module = Module::find($module_id);
+        // $results['data'] = $data['data']['services'];
+        // $results['nom_module'] = isset($module) ? $module->nom : "";
+        // $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
+        // $results['current_date'] = now()->format('Y-m-d H:i:s');
+        // dd($results);
+        // $pdf = PDF::loadView("pdf.historique-pdf",$results);
+        // return $pdf->stream();
 
         $services = Service::with(['user','medecin','module','element_services'])->where('module__id',$module_id)->get();
         $user = Auth::user();
