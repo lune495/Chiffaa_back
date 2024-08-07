@@ -174,7 +174,6 @@ class CaisseController extends Controller
         $results['nom_module'] = Module::find($service->module_id)->nom ?? '';
         if($service!=null)
         {
-        //  $data = Outil::getOneItemWithGraphQl($this->queryName, $id, true);
          $results['service'] = $service;
          $pdf = PDF::loadView("pdf.ticket-service", $results);
          $measure = array(0,0,225.772,650.197);
