@@ -93,7 +93,7 @@
                 </div> --}}
                 <dt  style="margin:10px 0">Date : {{$service->created_at}}</dt>
                 <div style="margin:7px 0">
-                Medecin : Dr {{ isset($service->$medecin) ? $service->medecin->nom : "NEANT"}}
+                Medecin : Dr {{ isset($service->medecin) ? $service->medecin->nom : "NEANT"}}
                 </div>
                 <div style="margin:7px 0">
                     Patient(e) : {{ isset($service->$nom_complet) ? \App\Models\Outil::toUpperCase($service->$nom_complet) : "No ref"}}
