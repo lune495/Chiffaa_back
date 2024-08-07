@@ -188,7 +188,6 @@ class CaisseController extends Controller
         if($service!=null)
         {
          $data = Outil::getOneItemWithGraphQl($this->queryName, $id, true);
-         $user = Auth::user();
          //dd($data);
         //  $datas = [];
         //  $datas['data'] = $data;
@@ -205,30 +204,15 @@ class CaisseController extends Controller
     }
     public function generatePDF3($id)
     {
-        // Récupérer le service avec les relations nécessaires
-        // $vente = Vente::with(['client', 'taxe','remise', 'vente_produits.produit', 'user'])->find($id);
-        
-        // Vérifier si le service existe
-        // if ($vente != null) {
-        //     // Récupérer l'utilisateur authentifié
-        //     $user = Auth::user();
-        
-        // Préparer les données pour la vue PDF
-        // $data = [
-        //     'vente' => $vente,
-        //     'user' => $user
-        // ];
 
         $queryName = "ventes";
-        $vente = Vente::find($id);
+        $vente = Vente::with(['client'])->find($id);
         if($vente!=null)
         {
-        $data = Outil::getOneItemWithGraphQl($queryName, $id, true);
         $results['vente'] = $vente;
-        $pdf = PDF::loadView("pdf.ticket-pharmacie", $data);
+        $pdf = PDF::loadView("pdf.ticket-pharmacie", $results);
         $measure = array(0,0,225.772,650.197);
         return $pdf->setPaper($measure, 'orientation')->stream();
-            //  return $pdf->stream();
         }else{
             return view('notfound');
         }
