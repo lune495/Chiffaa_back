@@ -89,14 +89,14 @@
                 </div>
                 ************************
                 {{-- <div style="margin:7px 0">
-                Adresse : {{ isset($service->adresse) ? $service->$adresse : "NEANT"}}
+                Adresse : {{ isset($service->adresse) ? $service->adresse : "NEANT"}}
                 </div> --}}
                 <dt  style="margin:10px 0">Date : {{$service->created_at}}</dt>
                 <div style="margin:7px 0">
                 Medecin : Dr {{ isset($service->medecin) ? $service->medecin->nom : "NEANT"}}
                 </div>
                 <div style="margin:7px 0">
-                    Patient(e) : {{ isset($service->$nom_complet) ? \App\Models\Outil::toUpperCase($service->$nom_complet) : "No ref"}}
+                    Patient(e) : {{ isset($service->nom_complet) ? \App\Models\Outil::toUpperCase($service->nom_complet) : "No ref"}}
                 </div>
                 ************************
 
@@ -112,7 +112,7 @@
                     </tr> -->
                         {{$montant = 0}}
                         {{$service->remise = isset($service->remise) ? $service->remise : 0}}
-                        @foreach($service->$element_services as $element_service )
+                        @foreach($service->element_services as $element_service )
                             <tr>
                                 <td style="padding-left: 15px;">{{$element_service->type_service->nom ? $element_service->type_servicE->nom : "" }}</td>
                                 <td style="padding-left: 15px;">{{$element_service->type_service->prix ? \App\Models\Outil::formatPrixToMonetaire($element_service->type_service->prix, false, false) : ""}}</td>
@@ -123,7 +123,7 @@
                     </tbody>
                     <tr>
                         <td>Remise : </td>
-                        <td>{{$service->$remise}}</td>
+                        <td>{{$service->remise}}</td>
                     </tr>
                 </table>
             </section>
