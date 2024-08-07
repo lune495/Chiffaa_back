@@ -21,7 +21,7 @@
             {{$montant_total_service = 0}}
             @foreach($data as $sum)
                 @foreach($sum->element_services as $element_service)
-                {{$montant_total_service = $montant_total_service->type_service->prix}}
+                {{$montant_total_service = $element_service->type_service->prix}}
                 @endforeach
                 {{$montant_total = $montant_total + $montant_total_service }}
                 <tr>
