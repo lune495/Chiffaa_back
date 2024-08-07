@@ -251,7 +251,7 @@ class CaisseController extends Controller
         // $pdf = PDF::loadView("pdf.historique-pdf",$results);
         // return $pdf->stream();
 
-        $services = Service::with(['user','medecin','module','element_services'])->where('module_id',$module_id)->first();
+        $service = Service::with(['user','medecin','module','element_services'])->where('module_id',$module_id)->first();
         $user = Auth::user();
         $data = [
             'service' => $service->id,
