@@ -306,7 +306,7 @@ class CaisseController extends Controller
                 // PHARMACIE
                 $pharmacie = DB::table('ventes')
                 ->select(DB::raw('SUM(montant) AS montant'))
-                ->where('statut',false)
+                ->where('paye',true)
                 ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
                 ->get();
                 $pharmacie = $pharmacie->first()->montant;
