@@ -241,7 +241,7 @@ class CaisseController extends Controller
                 $vente->save();
                 event(new MyEvent($vente));
             }
-            $log = Log::where('id_evnt',$id)->first();
+            $log = Log::where('id_evnt',$id)->where('designation','pharmacie')->first();
             if($log!=null)
             {
                 $log->statut_pharma = false;
@@ -306,7 +306,7 @@ class CaisseController extends Controller
                 // PHARMACIE
                 $pharmacie = DB::table('ventes')
                 ->select(DB::raw('SUM(montant) AS montant'))
-                ->where('statut',false)
+                ->where('statut',true)
                 ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
                 ->get();
                 $pharmacie = $pharmacie->first()->montant;
