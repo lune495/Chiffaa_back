@@ -47,6 +47,7 @@ class UserQuery extends Query
                 'id'                      => $item->id,
                 'name'                    => $item->name,
                 'email'                   => $item->email,
+                'telephone'               => $item->telephone,
                 'role_id'                 => $item->role_id,
                 'role'                    => $item->role,
             ];

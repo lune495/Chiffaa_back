@@ -22,7 +22,11 @@ Route::get('/vente/historique-pdf-module/{module_id}/{start?}/{end?}', [CaisseCo
 Route::get('/vente/situation-caisse-par-date/{start}/{end}', [CaisseController::class,'FiltreSituationParDate']);
 Route::get('/test', [CaisseController::class,'Notif']);
 Route::get('/vente/situation-generale-pdf', [CaisseController::class,'generatePDF2']);
+Route::get('/generate-excel2', [CaisseController::class, 'generateExcel2']);
 Route::get('/vente/situation-filtre-pdf/{start}', [CaisseController::class,'SituationParFiltreDate']);
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 // Route::group(['middleware' => ['web','auth:sanctum']],function()
 // {
     Route::get('/vente/ticket-pdf-service/{id}', [CaisseController::class,'generatePDF']);

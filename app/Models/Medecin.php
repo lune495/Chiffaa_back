@@ -14,4 +14,8 @@ class Medecin extends Model
         return $this->belongsTo(Module::class);
     }
 
+    public function plannings()
+    {
+        return $this->hasMany(Planning::class);
+    }
 }

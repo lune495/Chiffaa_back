@@ -11,7 +11,8 @@ use \PDF;
 use App\Events\MyEvent;
 use \DNS1D;
 use Illuminate\Support\Facades\Storage;
-
+use App\Exports\GenerateExcelExport;
+use Maatwebsite\Excel\Facades\Excel;
 class CaisseController extends Controller
 {
     private $queryName = "services";
@@ -197,6 +198,83 @@ class CaisseController extends Controller
         }
     }
 
+    public function generateExcel2()
+    {
+        $errors = null;
+        $results = [];
+        $count = DB::table('cloture_caisses')->count();
+
+        if ($count === 0) {
+            $data = DB::table('logs')
+                ->select('designation', DB::raw('SUM(prix) AS total_prix'))
+                ->where('created_at', '>', "1900-09-08 19:16:39")
+                ->where('created_at', '<=', now())
+                ->where('statut_pharma', '=', 'false')
+                ->groupBy('designation')
+                ->orderBy('designation')
+                ->get()
+                ->toArray();
+
+            $latestClosureDate = now()->format('Y-m-d H:i:s');
+
+            // Dépenses
+            $depenses = DB::table('depenses')
+                ->orderBy('id', 'asc')
+                ->where('created_at', '>', "1900-09-08 19:16:39")
+                ->where('created_at', '<=', now())
+                ->get();
+
+            $results['data'] = $data;
+            $results['depenses'] = $depenses;
+            $results['derniere_date_fermeture'] = $latestClosureDate;
+            $results['current_date'] = now()->format('Y-m-d H:i:s');
+        } else {
+            $data = DB::table('logs')
+                ->select('designation', DB::raw('SUM(prix - remise) AS total_prix'))
+                ->where(function ($query) {
+                    $query->where('created_at', '>=', function ($subQuery) {
+                        $subQuery->select('date_fermeture')
+                            ->from('cloture_caisses')
+                            ->orderByDesc('date_fermeture')
+                            ->limit(1);
+                    });
+                })
+                ->where('created_at', '<=', now())
+                ->where('designation', '!=', 'pharmacie')
+                ->groupBy('designation')
+                ->orderBy('designation')
+                ->get();
+
+            $latestClosureDate = DB::table('cloture_caisses')
+                ->select(DB::raw('MAX(date_fermeture) AS latest_date_fermeture'))
+                ->whereNotNull('date_fermeture')
+                ->first();
+
+            // Pharmacie
+            $pharmacie = DB::table('ventes')
+                ->select(DB::raw('SUM(montant) AS montant'))
+                ->where('paye', true)
+                ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
+                ->get();
+            $pharmacie = $pharmacie->first()->montant;
+
+            // Dépenses
+            $depenses = DB::table('depenses')
+                ->orderBy('id', 'asc')
+                ->whereBetween('created_at', [$latestClosureDate ? $latestClosureDate->latest_date_fermeture : "0000-00-00 00:00:00", now()])
+                ->get();
+
+            $results['data'] = $data;
+            $results['pharmacie'] = $pharmacie;
+            $results['depenses'] = $depenses;
+            $results['derniere_date_fermeture'] = $latestClosureDate->latest_date_fermeture;
+            $results['current_date'] = now()->format('Y-m-d H:i:s');
+        }
+
+        // Générer le fichier Excel
+        return Excel::download(new GenerateExcelExport($results), 'situation_caisse.xlsx');
+    }
+
     public function generateHistorique($module_id,$start=null,$end=null)
     {
         $results = [];
@@ -216,6 +294,7 @@ class CaisseController extends Controller
         }
         $data = Service::with(['user','medecin','module','element_services.type_service'])
                           ->where('module_id',$module_id)->whereBetween('created_at', [$start, $end])->get();
+        // dd($data);
         $results['nom_module'] = Module::find($module_id)->nom ?? '';
         $results['data'] = $data;
         $results['derniere_date_fermeture'] = $start;

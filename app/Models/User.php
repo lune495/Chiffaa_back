@@ -17,11 +17,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    // ];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role_id',
+        'actif',
+        'telephone',
+    ];
     protected $guarded = [];
 
     /**
@@ -52,5 +55,10 @@ class User extends Authenticatable
     public function consultations()
     {
         return $this->hasMany(Consultation::class);
+    }
+
+    public function medecin()
+    {
+        return $this->hasOne(Medecin::class, 'user_id');
     }
 }

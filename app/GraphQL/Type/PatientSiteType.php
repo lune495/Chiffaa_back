@@ -1,15 +1,16 @@
 <?php
 namespace App\GraphQL\Type;
 
-use App\Models\User;
+use App\Models\PatientSite;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
+use Carbon\Carbon;
 
-class UserType extends GraphQLType
+class PatientSiteType extends GraphQLType
 {
     protected $attributes = [
-        'name'          => 'User',
+        'name'          => 'PatientSite',
         'description'   => ''
     ];
 
@@ -18,11 +19,11 @@ class UserType extends GraphQLType
        return
             [
                 'id'                        => ['type' => Type::id(), 'description' => ''],
-                'name'                      => ['type' => Type::string()],
-                'email'                     => ['type' => Type::string()],
+                'prenom'                    => ['type' => Type::string()],
+                'nom'                       => ['type' => Type::string()],
+                'adresse'                   => ['type' => Type::string()],
                 'telephone'                 => ['type' => Type::string()],
-                'role_id'                   => ['type' => Type::int()],
-                'role'                      => ['type' => GraphQL::type('Role')],
+                'rdvs'                      => ['type' => Type::listOf(GraphQL::type('Rdv')), 'description' => ''],
             ];
     }
 

@@ -5,16 +5,17 @@ namespace App\GraphQL\Query;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Query;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-use App\Models\Medecin;
-class MedecinQuery extends Query
+use App\Models\{PatientSite};
+
+class PatientSiteQuery extends Query
 {
     protected $attributes = [
-        'name' => 'medecins'
+        'name' => 'patient_sites'
     ];
 
     public function type(): Type
     {
-        return Type::listOf(GraphQL::type('Medecin'));
+        return Type::listOf(GraphQL::type('PatientSite'));
     }
 
     public function args(): array
@@ -28,24 +29,23 @@ class MedecinQuery extends Query
 
     public function resolve($root, $args)
     {
-        $query = Medecin::query();
+        $query = PatientSite::query();
         if (isset($args['id']))
         {
             $query = $query->where('id', $args['id']);
         }
-        $query->orderBy('id', 'desc');
+        $query->orderBy('id', 'asc');
         $query = $query->get();
-        return $query->map(function (Medecin $item)
+        return $query->map(function (PatientSite $item)
         {
             return
             [
-                'id'                      => $item->id,
-                'nom'                     => $item->nom,
-                'prenom'                  => $item->prenom,
-                'module'                  => $item->module,
-                'services'                => $item->services
+                'id'                     => $item->id,
+                'nom'                    => $item->nom,
+                'prenom'                 => $item->prenom,
+                'telephone'              => $item->telephone,
+                'adresse'                => $item->adresse
             ];
         });
-
     }
 }

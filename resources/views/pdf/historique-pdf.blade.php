@@ -12,37 +12,25 @@
                 <th>Date</th>
                 <th>Nom Patient</th>
                 <th>Service</th>
-                <th>Medecin</th>
+                <th>Montant</th>
+                <!-- <th>Medecin</th> -->
             </tr>
             <!-- Contenu -->
             {{$montant_total = 0}}
             {{$montant_total_service = 0}}
-            @php
-                $groupedData = $data->groupBy(function($item) {
-                    return $item->medecin->nom;
-                });
-            @endphp
-            @foreach($groupedData as $medecin => $rows)
-                @php
-                    $rowspan = count($rows);
-                    $firstRow = true;
-                @endphp
-                @foreach($rows as $sum)
+                @foreach($data as $sum)
+                {{$montant_total_service = 0}}
                     @foreach($sum->element_services as $element_service)
-                        {{$montant_total_service = $element_service->type_service->prix}}
+                        {{$montant_total_service += $element_service->type_service->prix}}
                     @endforeach
                     {{$montant_total = $montant_total + $montant_total_service}}
                     <tr>
                         <td><center>{{ $sum->created_at }}</center></td>
                         <td>{{\App\Models\Outil::toUpperCase($sum->nom_complet)}}</td>
                         <td>{{\App\Models\Outil::toUpperCase($sum->module->nom)}}</td>
-                        @if($firstRow)
-                            <td rowspan="{{ $rowspan }}">{{ \App\Models\Outil::toUpperCase($medecin) }}</td>
-                            @php $firstRow = false; @endphp
-                        @endif
+                        <td>{{$montant_total_service}}</td>
                     </tr>
                 @endforeach
-            @endforeach
             <tr>
                 <td colspan="5">
                     <div>

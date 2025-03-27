@@ -11,6 +11,7 @@ use App\Http\Controllers\MedecinController;
 use App\Http\Controllers\Labo2Controller;
 use App\Http\Controllers\MaterniteController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PlanningController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +27,17 @@ use App\Http\Controllers\AuthController;
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
-
+Route::get('/confirmation/{token}', [AuthController::class, 'confirmEmail'])->name('confirmation');
+Route::post('/contact',[PlanningController::class,'contacter']);
+    
 Route::group(['middleware' => ['auth:sanctum']],function()
 {
 Route::post('/caisse',[CaisseController::class,'save']);
+Route::post('/annulerRdv/{id}',[PlanningController::class,'annulerRdv']);
+Route::post('/prendreRdv',[PlanningController::class,'prendreRdv']);
+Route::post('/planning',[PlanningController::class,'save']);
+Route::post('/update-planning/{id}',[PlanningController::class,'modifierPlanning']);
+Route::post('/rdv',[PlanningController::class,'takerdv']);
 Route::post('/changestatut/{id}',[CaisseController::class,'statutPDFpharmacie']);
 Route::post('/cloture_caisse',[CaisseController::class,'closeCaisse']);
 Route::post('/type_service',[TypeServiceController::class,'save']);

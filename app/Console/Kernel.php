@@ -13,7 +13,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-    }
+        //$schedule->command('generate:creneaux')->monthlyOn(1, '00:00');
+        // $schedule->command('app:rappel-mail-rdv')->monthlyOn(1, '00:00');
+        $schedule->command('app:rappel-mail-rdv')->dailyAt('23:59');
+
+    }   
+    
 
     /**
      * Register the commands for the application.

@@ -18,8 +18,5 @@ class Module extends Model
         return $this->hasMany(Medecin::class);
     }
 
-    public function services()
-    {
-        return $this->hasMany(Service::class);
-    }
+    
 }
