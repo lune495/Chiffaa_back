@@ -3,34 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Outil,Module};
 use Illuminate\Support\Facades\DB;
+use App\Models\{Dossier,Outil};
 
-class ModuleController extends Controller
+class DossierController extends Controller
 {
     //
-    private $queryName = "modules";
+
+    private $queryName = "dossiers";
 
     public function save(Request $request)
     {
         try 
         {
             $errors =null;
-            $item = new Module();
+            $item = new Dossier();
             if (!empty($request->id))
             {
-                $item = Module::find($request->id);
+                $item = Dossier::find($request->id);
             }
-            if (empty($request->nom))
-            {
-                $errors = "Renseignez le nom du module";
-            }
+            // if (empty($request->nom))
+            // {
+            //     $errors = "Renseignez la categorie";
+            // }
             DB::beginTransaction();
-            $item->nom = $request->nom;
-            $item->rdv_exist = $request->rdv_exist;
-            $montant = 0;
+            $item->patient_id = $request->patient_id;
             if (!isset($errors)) 
             {
+                $item->save();
+                $item->numero = "DOC-000{$item->id}";
                 $item->save();
                 $id = $item->id;
                 DB::commit();
@@ -45,4 +46,4 @@ class ModuleController extends Controller
                 return $e->getMessage();
         }
     }
-}
+}   

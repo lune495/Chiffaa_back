@@ -36,6 +36,15 @@ class GenerateExcelExport implements FromArray, WithHeadings, WithStyles, WithEv
             $totalRecette += $log->total_prix;
         }
 
+         // Ajouter les informations de la pharmacie
+        if (isset($this->results['pharmacie'])) {
+            $data[] = [
+                'Désignation' => 'Pharmacie',
+                'Total Prix' => $this->results['pharmacie'],
+            ];
+            $totalRecette += $this->results['pharmacie'];
+        }
+
         // Ajouter les dépenses
         foreach ($this->results['depenses'] as $depense) {
             $data[] = [
@@ -43,15 +52,6 @@ class GenerateExcelExport implements FromArray, WithHeadings, WithStyles, WithEv
                 'Total Prix' => $depense->montant,
             ];
             $totalDepense += $depense->montant;
-        }
-
-        // Ajouter les informations de la pharmacie
-        if (isset($this->results['pharmacie'])) {
-            $data[] = [
-                'Désignation' => 'Pharmacie',
-                'Total Prix' => $this->results['pharmacie'],
-            ];
-            $totalRecette += $this->results['pharmacie'];
         }
 
         // Ajouter les totaux

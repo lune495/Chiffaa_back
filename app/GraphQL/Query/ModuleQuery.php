@@ -25,7 +25,8 @@ class ModuleQuery extends Query
         [
             'id'                  => ['type' => Type::int()],
             'nom'                 => ['type' => Type::string()],
-            'search'              => ['type' => Type::string()]
+            'search'              => ['type' => Type::string()],
+            'site'                => ['type' => Type::int()],
         ];
     }
 
@@ -35,6 +36,10 @@ class ModuleQuery extends Query
         if (isset($args['id']))
         {
             $query = $query->where('id', $args['id']);
+        }
+        if (isset($args['site']))
+        {
+            $query = $query->where('rdv_exist', true);
         }
 
         if (isset($args['search'])) {
@@ -53,6 +58,7 @@ class ModuleQuery extends Query
                 'nom'                      => $item->nom,
                 'type_services'            => $item->type_services,
                 'medecins'                 => $item->medecins,
+                'rdv_exist'                 => $item->rdv_exist
             ];
         });
 

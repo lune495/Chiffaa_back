@@ -19,7 +19,8 @@ class DepenseType extends GraphQLType
             [
                 'id'                        => ['type' => Type::id(), 'description' => ''],
                 'nom'                       => ['type' => Type::string()],
-                'montant'                    => ['type' => Type::string()],
+                'montant'                   => ['type' => Type::string()],
+                'bc'                        => ['type' => Type::int()],
                 'user'                      => ['type' => GraphQL::type('User')],
                 'created_at'                => ['type' => Type::string()],
             ];

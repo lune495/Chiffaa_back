@@ -12,7 +12,8 @@ use App\Http\Controllers\Labo2Controller;
 use App\Http\Controllers\MaterniteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlanningController;
-
+use App\Http\Controllers\SuiviController;
+use App\Http\Controllers\DossierController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,7 +36,10 @@ Route::group(['middleware' => ['auth:sanctum']],function()
 Route::post('/caisse',[CaisseController::class,'save']);
 Route::post('/annulerRdv/{id}',[PlanningController::class,'annulerRdv']);
 Route::post('/prendreRdv',[PlanningController::class,'prendreRdv']);
+Route::post('/prendreRdvCaisse',[PlanningController::class,'prendreRdvCaisse']);
 Route::post('/planning',[PlanningController::class,'save']);
+Route::post('/suivi/{id?}',[SuiviController::class,'save']);
+Route::post('/dossier',[DossierController::class,'save']);
 Route::post('/update-planning/{id}',[PlanningController::class,'modifierPlanning']);
 Route::post('/rdv',[PlanningController::class,'takerdv']);
 Route::post('/changestatut/{id}',[CaisseController::class,'statutPDFpharmacie']);
@@ -46,5 +50,7 @@ Route::post('/medecin',[MedecinController::class,'save']);
 Route::post('/depense',[DepenseController::class,'save']);
 Route::post('/labo',[LaboController::class,'save']);
 Route::post('/labo2',[Labo2Controller::class,'save']);
+Route::post('/annulerRdvSite/{id}',[PlanningController::class,'annulerRdvSiteParId']);
+Route::post('/annulerRdvCaisse/{id}',[PlanningController::class,'annulerRdvCaisseParId']);
 Route::post('/maternite', [MaterniteController::class,'save']);
 });

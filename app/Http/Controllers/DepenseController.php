@@ -32,6 +32,7 @@ class DepenseController extends Controller
             }
             DB::beginTransaction();
             $item->nom = $request->nom;
+            $item->bc = $request->bc;
             $item->montant = $request->montant;
             $item->user_id = $user->id;
             if (!isset($errors)) 

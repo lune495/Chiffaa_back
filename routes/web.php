@@ -23,6 +23,7 @@ Route::get('/vente/situation-caisse-par-date/{start}/{end}', [CaisseController::
 Route::get('/test', [CaisseController::class,'Notif']);
 Route::get('/vente/situation-generale-pdf', [CaisseController::class,'generatePDF2']);
 Route::get('/generate-excel2', [CaisseController::class, 'generateExcel2']);
+Route::get('/generate-excel-par-date/{start}/{end}', [CaisseController::class, 'generateExcelParDate']);
 Route::get('/vente/situation-filtre-pdf/{start}', [CaisseController::class,'SituationParFiltreDate']);
 Route::get('/login', function () {
     return view('auth.login');

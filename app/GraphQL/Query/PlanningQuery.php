@@ -63,10 +63,13 @@ public function resolve($root, $args)
     if (isset($args['medecin_id'])) {
         $query = $query->where('medecin_id', $args['medecin_id']);
     }
-    if(isset($args['module_id']))
-    {
+
+    if (isset($args['module_id'])) {
         $query = $query->whereHas('medecin', function ($q) use ($args) {
-            $q->where('module_id', $args['module_id']);
+            $q->where('module_id', $args['module_id'])
+            ->whereHas('module', function ($q) {
+                $q->where('rdv_exist', true);
+            });
         });
     }
 

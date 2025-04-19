@@ -24,6 +24,7 @@ class CreneauType extends GraphQLType
                 'heure_fin'                 => ['type' => Type::string()],
                 'disponible'                => ['type' => Type::boolean()],
                 'planning'                  => ['type' => GraphQL::type('Planning')],
+                'rdv'                       => ['type' => GraphQL::type('Rdv')],
             ];
     }
 

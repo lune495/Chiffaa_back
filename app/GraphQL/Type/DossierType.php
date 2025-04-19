@@ -1,16 +1,15 @@
 <?php
 namespace App\GraphQL\Type;
 
-use App\Models\Module;
+use App\Models\Dossier;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Carbon\Carbon;
-
-class ModuleType extends GraphQLType
+class DossierType extends GraphQLType
 {
     protected $attributes = [
-        'name'          => 'Module',
+        'name'          => 'Dossier',
         'description'   => ''
     ];
 
@@ -19,10 +18,9 @@ class ModuleType extends GraphQLType
        return
             [
                 'id'                        => ['type' => Type::id(), 'description' => ''],
-                'nom'                       => ['type' => Type::string()],
-                'rdv_exist'                 => ['type' => Type::boolean()],
-                'type_services'             => ['type' => Type::listOf(GraphQL::type('TypeService')), 'description' => ''],
-                'medecins'                  => ['type' => Type::listOf(GraphQL::type('Medecin')), 'description' => ''],
+                'numero'                    => ['type' => Type::string()],
+                'patient'                   => ['type' => GraphQL::type('Patient')],
+                'created_at'                => ['type' => Type::string()],
             ];
     }
 
@@ -32,4 +30,16 @@ class ModuleType extends GraphQLType
     // {
     //     return strtolower($root->email);
     // }
+     protected function resolveCreatedAtField($root, $args)
+    {
+        if (!isset($root['created_at']))
+        {
+            $created_at = $root->created_at;
+        }
+        else
+        {
+            $created_at = $root['created_at'];
+        }
+        return Carbon::parse($created_at)->format('d/m/Y H:i:s');
+    }
 }

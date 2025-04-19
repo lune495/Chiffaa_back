@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{Planning,Outil,Creneau,Rdv};
+use App\Models\{Planning,Outil,User,Creneau,Rdv,Notification};
 use \PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -169,8 +169,87 @@ class PlanningController extends Controller
         }
     }
 
+    public function prendreRdvCaisse(Request $request)
+    {
+        try 
+        {
+            $nom_complet = $request->nom_complet;
+            $email =  strtolower(str_replace(' ', '', $nom_complet)).'@gmail.com';
+            $user =  User::create([
+                'name' => $nom_complet,
+                'email' => $email,
+                // 'telephone' => $fields['telephone'],
+                'password' => bcrypt('passer123'),
+                'role_id' => 9,
+                'actif' => true,
+            ]);
+            // $user = Auth::user();
+            $creneauId = $request->creneau_id;
+            $telephone = $request->telephone;
+            if ($telephone) {
+                $user->telephone = $telephone;
+                $user->save();
+            }
+            // Vérifier si le créneau est disponible
+            $creneau = Creneau::where('id', $creneauId)->where('disponible', true)->first();
 
-    public function annulerRdv($id)
+            if (!$creneau) {
+                throw new \Exception('{"data": null, "errors": "Ce créneau n\'est plus disponible." }');
+            }
+
+            // Vérifier si l'utilisateur a déjà un rendez-vous confirmé
+            if (Rdv::where('user_id', $user->id)->where('status', 'confirmé')->exists()) {
+                throw new \Exception('{"data": null, "errors": "Vous avez déjà un rendez-vous actif." }');
+            }
+
+            // Vérifier si l'utilisateur a déjà un RDV le même jour
+            $rdvExistant = Rdv::where('user_id', $user->id)
+                ->whereHas('creneau', function ($query) use ($creneau) {
+                    $query->whereDate('date', $creneau->date);
+                })
+                ->exists();
+
+            if ($rdvExistant) {
+                throw new \Exception('{"data": null, "errors": "C Patient a déjà un rendez-vous ce jour-là." }');
+            }
+
+            DB::beginTransaction();
+
+            // Créer le RDV
+            $rdv = Rdv::create([
+                'user_id' => $user->id,
+                'creneau_id' => $creneauId,
+                'status' => 'confirme'
+            ]);
+
+            // Mettre à jour le créneau
+            $creneau->update(['disponible' => false]);
+
+            $creneau = Creneau::find($rdv->creneau_id);
+            $medecin = $creneau->planning->medecin;
+
+            Notification::create([
+                'medecin_id' => $medecin->id,
+                'creneau_id' => $creneau->id,
+                'type' => 'rdv_nouveau', // cela peut etre un rdv annulee
+                'message' => "Nouveau rendez-vous réservé pour le {$creneau->date} à {$creneau->heure_debut}.",
+            ]);
+
+            DB::commit();
+
+            // Envoyer un mail de confirmation
+            // Mail::to($user->email)->send(new RdvConfirmationMail($user, $creneau));
+
+            return Outil::redirectgraphql($this->queryName2, "id:{$rdv->id}", Outil::$queries[$this->queryName2]);
+
+        }catch (\Throwable $e) {
+            DB::rollback();
+            return $e->getMessage();
+        }
+    }
+
+
+    public function annulerRdvSiteParId($id)
     {
         $user = Auth::user();
         $rdv = Rdv::where('id', $id)->where('user_id', $user->id)->first();
@@ -181,11 +260,38 @@ class PlanningController extends Controller
 
         // Réactiver le créneau
         $rdv->creneau->update(['disponible' => true]);
-
         // Supprimer le RDV
         $rdv->delete();
 
         return response()->json(['message' => 'Rendez-vous annulé avec succès.'], 200);
+    }
+
+    public function annulerRdvCaisseParId($id)
+    {
+        try {
+            $rdv = Rdv::find($id);
+
+            if (!$rdv) {
+                return response()->json(['message' => 'Rendez-vous introuvable.'], 404);
+            }
+
+            // Réactiver le créneau associé
+            $rdv->creneau->update(['disponible' => true]);
+
+            Notification::create([
+                'medecin_id' => $rdv->creaneau->planning->medecin->id,
+                'creneau_id' => $rdv->creneau->id,
+                'type' => 'rdv_annule', // cela peut etre un nouveau rdv
+                'message' => "Nouveau rendez-vous réservé pour le {$creneau->date} à {$creneau->heure_debut}.",
+            ]);
+
+            // Supprimer le rendez-vous
+            $rdv->delete();
+
+            return response()->json(['message' => 'Rendez-vous annulé avec succès.'], 200);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => 'Erreur lors de l\'annulation du rendez-vous.', 'error' => $e->getMessage()], 500);
+        }
     }
     
     public function modifierPlanning(Request $request, $planningId)

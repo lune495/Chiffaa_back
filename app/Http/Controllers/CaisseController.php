@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
-use App\Models\{Service,Outil,User,Produit,Module,ElementService,Log,TypeService,ClotureCaisse,Depense,Vente};
+use App\Models\{Service,Outil,User,Patient,Produit,Module,ElementService,Log,TypeService,ClotureCaisse,Depense,Vente};
 use \PDF;
 use App\Events\MyEvent;
 use \DNS1D;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\GenerateExcelExport;
+use App\Exports\GenerateExcelExportParDate;
 use Maatwebsite\Excel\Facades\Excel;
 class CaisseController extends Controller
 {
@@ -21,8 +22,10 @@ class CaisseController extends Controller
     {
         try 
         {
+            //dd($request->all());
             $errors =null;
             $item = new Service();
+            //$patient = new Patient();
             $log = new Log();
             $user = Auth::user();
             if (!empty($request->id))
@@ -37,12 +40,33 @@ class CaisseController extends Controller
             {
                 $errors = "Renseignez le nom";
             }
+            /*
+            if (empty($request->date_naissance))
+            {
+                $errors = "Renseignez la date de naissance";
+            }
+
+            if (empty($request->telephone))
+            {
+                $errors = "Renseignez le telephone";
+            }
+            */
             $str_json_type_service = json_encode($request->type_services);
             $type_service_tabs = json_decode($str_json_type_service, true);
 
             // Ajoutez un verrouillage de la table factice pour éviter les opérations concurrentes.
             DB::table('service_locks')->lockForUpdate()->get();
             DB::beginTransaction();
+            /*
+                $patient->nom = $request->nom;
+                $patient->prenom = $request->prenom;
+                $patient->adresse = $request->adresse;
+                $patient->telephone = $request->telephone;
+                $patient->date_naissance = $request->date_naissance;
+                $patient->save();
+                $id_patient = $patient->id;
+            */
+            //$item->patient_id = $id_patient;
             $item->nom_complet = $request->nom_complet;
             $item->nature = $request->nature;
             $item->montant = $request->montant;
@@ -76,6 +100,7 @@ class CaisseController extends Controller
                     $log->designation = $item->module->nom;
                     $log->id_evnt = $id;
                     $log->date = $item->created_at;
+                    //$log->date = $request->date_caisse_anterieur ? $request->date_caisse_anterieur : $item->created_at;
                     $log->prix = $montant;
                     $log->remise = $item->remise;
                     $log->montant = $item->montant;
@@ -196,6 +221,40 @@ class CaisseController extends Controller
         }else{
             return view('notfound');
         }
+    }
+
+    public function generateExcelParDate($start, $end)
+    {
+        // Sortir manuellement la situation
+        $data = DB::table('logs')
+        ->select('designation', DB::raw('SUM(prix) AS total_prix'))
+        ->whereBetween('created_at', [$start, $end])
+        // ->where('statut_pharma','=',false)
+        ->where('designation', '!=', 'pharmacie')
+        ->groupBy('designation')
+        ->orderBy('designation')
+        ->get();
+
+        //     // PHARMACIE
+        $pharmacie = DB::table('ventes')
+        ->select(DB::raw('SUM(montant) AS montant'))
+        ->where('statut',false)
+        ->whereBetween('created_at', [$start, $end])
+        ->get();
+        $pharmacie = $pharmacie->first()->montant;
+        //dd($latestClosureDate);
+        // Depense
+        $depenses = DB::table('depenses')
+        ->orderBy('id', 'asc')
+        ->whereBetween('created_at', [$start, $end])
+        ->get();
+        $results['data'] = $data;
+        $results['pharmacie'] = $pharmacie;
+        $results['depenses'] = $depenses;
+        $results['derniere_date_fermeture'] = $start;
+        $results['current_date'] = $end;
+        // Générer le fichier Excel
+        return Excel::download(new GenerateExcelExportParDate($results), 'situation_caisse_par_date.xlsx');
     }
 
     public function generateExcel2()
