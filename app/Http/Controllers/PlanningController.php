@@ -173,22 +173,27 @@ class PlanningController extends Controller
     {
         try 
         {
-            $nom_complet = $request->nom_complet;
-            $email =  strtolower(str_replace(' ', '', $nom_complet)).'@gmail.com';
-            $user =  User::create([
-                'name' => $nom_complet,
-                'email' => $email,
-                // 'telephone' => $fields['telephone'],
-                'password' => bcrypt('passer123'),
-                'role_id' => 9,
-                'actif' => true,
-            ]);
-            // $user = Auth::user();
-            $creneauId = $request->creneau_id;
-            $telephone = $request->telephone;
-            if ($telephone) {
-                $user->telephone = $telephone;
-                $user->save();
+            // $nom_complet = $request->nom_complet;
+            // $email =  strtolower(str_replace(' ', '', $nom_complet)).'@gmail.com';
+            // $user =  User::create([
+            //     'name'         => $nom_complet,
+            //     'email'        => $email,
+            //     // 'telephone' => $fields['telephone'],
+            //     'password'     => bcrypt('passer123'),
+            //     'role_id'      => 9,
+            //     'actif'        => true,
+            // ]);
+            // // $user = Auth::user();
+            // $creneauId = $request->creneau_id;
+            // $telephone = $request->telephone;
+            // if ($telephone) {
+            //     $user->telephone = $telephone;
+            //     $user->save();
+            // }
+            $user = User::find($user->id);
+            if(!$user)
+            {
+                throw new \Exception('{"data": null, "errors": "Utilisateur introuvable." }');
             }
             // Vérifier si le créneau est disponible
             $creneau = Creneau::where('id', $creneauId)->where('disponible', true)->first();
@@ -210,7 +215,7 @@ class PlanningController extends Controller
                 ->exists();
 
             if ($rdvExistant) {
-                throw new \Exception('{"data": null, "errors": "C Patient a déjà un rendez-vous ce jour-là." }');
+                throw new \Exception('{"data": null, "errors": "Ce Patient a déjà un rendez-vous ce jour-là." }');
             }
 
             DB::beginTransaction();
@@ -277,9 +282,8 @@ class PlanningController extends Controller
 
             // Réactiver le créneau associé
             $rdv->creneau->update(['disponible' => true]);
-
             Notification::create([
-                'medecin_id' => $rdv->creaneau->planning->medecin->id,
+                'medecin_id' => $rdv->creneau->planning->medecin->id,
                 'creneau_id' => $rdv->creneau->id,
                 'type' => 'rdv_annule', // cela peut etre un nouveau rdv
                 'message' => "Nouveau rendez-vous réservé pour le {$creneau->date} à {$creneau->heure_debut}.",

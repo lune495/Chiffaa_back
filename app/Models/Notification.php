@@ -9,6 +9,16 @@ class Notification extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'medecin_id', 
+        'creneau_id', 
+        'type', 
+        'message',
+        'is_read',
+        'created_at', 
+        'updated_at'
+    ];
+
     public  function medecin()
     {
         return $this->belongsTo(Medecin::class);
