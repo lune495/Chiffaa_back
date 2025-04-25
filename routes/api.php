@@ -34,6 +34,7 @@ Route::post('/contact',[PlanningController::class,'contacter']);
 Route::group(['middleware' => ['auth:sanctum']],function()
 {
 Route::post('/caisse',[CaisseController::class,'save']);
+Route::post('/newusercaisse',[CaisseController::class,'newusercaisse']);
 Route::post('/annulerRdv/{id}',[PlanningController::class,'annulerRdv']);
 Route::post('/prendreRdv',[PlanningController::class,'prendreRdv']);
 Route::post('/prendreRdvCaisse',[PlanningController::class,'prendreRdvCaisse']);
@@ -53,4 +54,5 @@ Route::post('/labo2',[Labo2Controller::class,'save']);
 Route::post('/annulerRdvSite/{id}',[PlanningController::class,'annulerRdvSiteParId']);
 Route::post('/annulerRdvCaisse/{id}',[PlanningController::class,'annulerRdvCaisseParId']);
 Route::post('/maternite', [MaterniteController::class,'save']);
+Route::post('/updatenotification',[PlanningController::class,'updatenotif']);
 });

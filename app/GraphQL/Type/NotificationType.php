@@ -5,6 +5,7 @@ use App\Models\Notification;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use Rebing\GraphQL\Support\Type as GraphQLType;
+use Carbon\Carbon;
 
 class NotificationType extends GraphQLType
 {

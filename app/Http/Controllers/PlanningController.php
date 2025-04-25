@@ -37,7 +37,8 @@ class PlanningController extends Controller
                 ->where('date_planning', $tab_planning['date_planning'])
                 ->first();
 
-                if ($existingPlanning) {
+                if ($existingPlanning) 
+                {
                     $errors = "Un planning pour la date du ".$existingPlanning->date_planning." existe déjà !";
                     break;
                 }
@@ -49,8 +50,10 @@ class PlanningController extends Controller
             }
 
             DB::beginTransaction();
-            if (!isset($errors)) {
-                foreach ($tab_plannings as $tab_planning) {
+            if (!isset($errors)) 
+            {
+                foreach ($tab_plannings as $tab_planning) 
+                {
                     $planning = new Planning();
                     $planning->medecin_id = $request->medecin_id;
                     $planning->date_planning = $tab_planning['date_planning'];
@@ -58,19 +61,22 @@ class PlanningController extends Controller
                     $planning->heure_fin = $tab_planning['heure_fin'];
                     $planning->save();
                 
-                    if ($planning->id) {
+                    if ($planning->id) 
+                    {
                         $id = $planning->id;
                         $heureDebutInitial = Carbon::parse($planning->heure_debut);
                         $heureFin = Carbon::parse($planning->heure_fin);
                         $dureeTotal = $heureDebutInitial->diffInMinutes($heureFin);
                 
                         // Générer les créneaux pour les 6 prochains mois (chaque semaine)
-                        for ($semaine = 0; $semaine < 26; $semaine++) {
+                        for ($semaine = 0; $semaine < 26; $semaine++) 
+                        {
                             $dateCreneau = Carbon::parse($planning->date_planning)->addWeeks($semaine);
                             $heureDebut = $heureDebutInitial->copy(); // Réinitialiser l'heure de début pour chaque jour
                 
                             // Génération des créneaux toutes les 30 minutes pour cette date
-                            for ($i = 0; $i < $dureeTotal; $i += 30) {
+                            for ($i = 0; $i < $dureeTotal; $i += 30) 
+                            {
                                 $creneau = new Creneau();
                                 $creneau->planning_id = $planning->id;
                                 $creneau->date = $dateCreneau->format('Y-m-d'); // Date du créneau
@@ -103,7 +109,8 @@ class PlanningController extends Controller
         $object = $request->objet;
         $nom_complet = $request->nom_complet;
 
-        Mail::raw($message, function ($msg) use ($email, $object, $nom_complet) {
+        Mail::raw($message, function ($msg) use ($email, $object, $nom_complet) 
+        {
             $msg->to('secretaire.general.cg@chifaa.sn') // Destinataire final
                 ->subject($object)
                 ->replyTo($email, $nom_complet) // Permet de répondre à l'expéditeur
@@ -184,13 +191,13 @@ class PlanningController extends Controller
             //     'actif'        => true,
             // ]);
             // // $user = Auth::user();
-            // $creneauId = $request->creneau_id;
+             $creneauId = $request->creneau_id;
             // $telephone = $request->telephone;
             // if ($telephone) {
             //     $user->telephone = $telephone;
             //     $user->save();
             // }
-            $user = User::find($user->id);
+            $user = User::find($request->user_id);
             if(!$user)
             {
                 throw new \Exception('{"data": null, "errors": "Utilisateur introuvable." }');
@@ -271,6 +278,22 @@ class PlanningController extends Controller
         return response()->json(['message' => 'Rendez-vous annulé avec succès.'], 200);
     }
 
+    public function updatenotif(Request $request)
+    {
+        $str_json_notifs = json_encode($request->notifs);
+        $type_notifs = json_decode($str_json_notifs, true);
+        foreach ($type_notifs as $type_notif)
+        {
+            $notifications = Notification::where('id', '=',$type_notif['rdv_id'])->get();
+            foreach ($notifications as $notification)
+            {
+                // Mettre à jour le champ 'lu' à true
+                $notification->is_read = true;
+                $notification->save();
+            }
+        }
+    }
+
     public function annulerRdvCaisseParId($id)
     {
         try {
@@ -286,7 +309,7 @@ class PlanningController extends Controller
                 'medecin_id' => $rdv->creneau->planning->medecin->id,
                 'creneau_id' => $rdv->creneau->id,
                 'type' => 'rdv_annule', // cela peut etre un nouveau rdv
-                'message' => "Nouveau rendez-vous réservé pour le {$creneau->date} à {$creneau->heure_debut}.",
+                'message' => "Nouveau rendez-vous réservé pour le {$rdv->creneau->date} à {$rdv->creneau->heure_debut}.",
             ]);
 
             // Supprimer le rendez-vous

@@ -33,7 +33,7 @@ class NotificationQuery extends Query
         {
             $query = $query->where('id', $args['id']);
         }
-        $query->orderBy('id', 'asc');
+        $query->orderBy('id', 'desc');
         $query = $query->get();
 
         return $query->map(function (Notification $item)
@@ -45,7 +45,8 @@ class NotificationQuery extends Query
                 'creneau'                  => $item->creneau,
                 'type'                     => $item->type,
                 'message'                  => $item->message,
-                'is_read'                  => $item->is_read
+                'is_read'                  => $item->is_read,
+                'created_at'               => $item->created_at
             ];  
         });
     }

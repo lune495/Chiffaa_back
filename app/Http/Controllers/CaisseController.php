@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Exports\GenerateExcelExport;
 use App\Exports\GenerateExcelExportParDate;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\Response;
+
 class CaisseController extends Controller
 {
     private $queryName = "services";
@@ -25,7 +27,7 @@ class CaisseController extends Controller
             //dd($request->all());
             $errors =null;
             $item = new Service();
-            //$patient = new Patient();
+            $patient = new Patient();
             $log = new Log();
             $user = Auth::user();
             if (!empty($request->id))
@@ -57,16 +59,16 @@ class CaisseController extends Controller
             // Ajoutez un verrouillage de la table factice pour éviter les opérations concurrentes.
             DB::table('service_locks')->lockForUpdate()->get();
             DB::beginTransaction();
-            /*
+
                 $patient->nom = $request->nom;
                 $patient->prenom = $request->prenom;
                 $patient->adresse = $request->adresse;
-                $patient->telephone = $request->telephone;
+                $patient->telephone = $request->telephone ? $request->telephone : "000000000";
                 $patient->date_naissance = $request->date_naissance;
                 $patient->save();
                 $id_patient = $patient->id;
-            */
-            //$item->patient_id = $id_patient;
+
+            $item->patient_id = $id_patient;
             $item->nom_complet = $request->nom_complet;
             $item->nature = $request->nature;
             $item->montant = $request->montant;
@@ -100,7 +102,7 @@ class CaisseController extends Controller
                     $log->designation = $item->module->nom;
                     $log->id_evnt = $id;
                     $log->date = $item->created_at;
-                    //$log->date = $request->date_caisse_anterieur ? $request->date_caisse_anterieur : $item->created_at;
+                    $log->date = $request->date_caisse_anterieur ? $request->date_caisse_anterieur : $item->created_at;
                     $log->prix = $montant;
                     $log->remise = $item->remise;
                     $log->montant = $item->montant;
@@ -386,6 +388,30 @@ class CaisseController extends Controller
                 $log->save();
             }
         }   
+    }
+
+    public function newusercaisse(Request $request)
+    {
+        $nom_complet = $request->nom_complet;
+         // Générer un email temporaire unique
+        do {$email = strtolower(str_replace(' ', '', $nom_complet)).rand(1000, 9999).'@gmail.com'; }while (User::where('email', $email)->exists());
+        $telephone = $request->telephone;
+        $user =  User::create([
+            'name'         => $nom_complet,
+            'email'        => $email,
+            'telephone'    => $telephone,
+            'password'     => bcrypt('passer123'),
+            'role_id'      => 9,
+            'actif'        => true,
+        ]);
+        $user->email =  strtolower(str_replace(' ', '', $nom_complet)).$user->id.'@gmail.com';
+        $user->save();
+        $token = $user->createToken('myapptoken')->plainTextToken;
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+        return response($response, 201);
     }
 
     public function generatePDF2()

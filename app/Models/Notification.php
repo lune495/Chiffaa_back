@@ -23,4 +23,9 @@ class Notification extends Model
     {
         return $this->belongsTo(Medecin::class);
     }
+
+    public  function creneau()
+    {
+        return $this->belongsTo(Creneau::class);
+    }
 }
