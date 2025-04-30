@@ -43,6 +43,7 @@
         <table class="custom-table">
             <!-- En-tête -->
             <tr>
+                <th>BC</th>
                 <th>Nature</th>
                 <th>MONTANT</th>
             </tr>
@@ -52,12 +53,13 @@
             @foreach($depenses as $dep)
                 {{$montant_total_depense = $montant_total_depense + $dep->montant }}
                 <tr>
+                    <td> <center>{{$dep->bc ? $dep->bc : '-'}}</center></td>
                     <td><center> {{ \App\Models\Outil::premereLettreMajuscule($dep->nom)}}</center></td>
                     <td> <center>{{$dep->montant}}</center></td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="2">
+                <td colspan="3">
                     <div>
                         <p class="badge" style="line-height:15px;">Total</p>
                         <p style="line-height:5px;text-align:center">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total_depense, false, false)}}</p>
@@ -66,7 +68,7 @@
             </tr>
             <!-- Ajoutez la ligne colorée si nécessaire -->
                 <tr class="colorful-row">
-                    <td colspan="2" style="padding-top: 10px; font-size: 15px">
+                    <td colspan="3" style="padding-top: 10px; font-size: 15px">
                         <p>Solde Caisse :</p>
                         <p style="font-weight: bold; font-size: 20px">{{ \App\Models\Outil::formatPrixToMonetaire($montant_total - $montant_total_depense + ($pharmacie ? $pharmacie : 0), false, true)}}</p>
                     </td>

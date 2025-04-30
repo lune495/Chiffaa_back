@@ -200,6 +200,17 @@ class Outil extends Model
     {
         return ucfirst($val);
     }
+
+    /**
+     * Convertit une chaîne de caractères en majuscules.
+     *
+     * @param string|null $value
+     * @return string|null
+     */
+    public static function toutEnMajuscule(?string $value): ?string
+    {
+        return $value !== null ? mb_strtoupper($value, 'UTF-8') : null;
+    }
     //Formater le prix
     public static function formatPrixToMonetaire($nbre, $arrondir = false, $avecDevise = false)
     {

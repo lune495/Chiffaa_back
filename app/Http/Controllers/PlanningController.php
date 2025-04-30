@@ -163,6 +163,15 @@ class PlanningController extends Controller
             // Mettre à jour le créneau
             $creneau->update(['disponible' => false]);
 
+            $creneau = Creneau::find($rdv->creneau_id);
+            $medecin = $creneau->planning->medecin;
+            Notification::create([
+                'medecin_id' => $medecin->id,
+                'creneau_id' => $creneau->id,
+                'type' => 'nouveau_rdv_niveau_site', // cela peut etre un rdv annulee
+                'message' => "Nouveau rendez-vous réservé pour le {$creneau->date} à {$creneau->heure_debut}.",
+            ]);
+
             DB::commit();
 
             // Envoyer un mail de confirmation
@@ -243,7 +252,7 @@ class PlanningController extends Controller
             Notification::create([
                 'medecin_id' => $medecin->id,
                 'creneau_id' => $creneau->id,
-                'type' => 'rdv_nouveau', // cela peut etre un rdv annulee
+                'type' => 'nouveau_rdv_niveau_caisse', // cela peut etre un rdv annulee
                 'message' => "Nouveau rendez-vous réservé pour le {$creneau->date} à {$creneau->heure_debut}.",
             ]);
 

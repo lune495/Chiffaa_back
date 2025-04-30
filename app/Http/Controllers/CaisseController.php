@@ -46,24 +46,26 @@ class CaisseController extends Controller
             if (empty($request->date_naissance))
             {
                 $errors = "Renseignez la date de naissance";
-            }
+            }*/
 
             if (empty($request->telephone))
             {
                 $errors = "Renseignez le telephone";
             }
-            */
+            
             $str_json_type_service = json_encode($request->type_services);
             $type_service_tabs = json_decode($str_json_type_service, true);
-
+            if (!isset($errors)) 
+            {
             // Ajoutez un verrouillage de la table factice pour éviter les opérations concurrentes.
             DB::table('service_locks')->lockForUpdate()->get();
             DB::beginTransaction();
 
-                $patient->nom = $request->nom;
-                $patient->prenom = $request->prenom;
+                $patient->nom = $request->nom_complet;
+                // $patient->prenom = $request->nom_complet;
                 $patient->adresse = $request->adresse;
-                $patient->telephone = $request->telephone ? $request->telephone : "000000000";
+                $patient->telephone = $request->telephone;
+                // $patient->telephone = $request->telephone ? $request->telephone : "000000000";
                 $patient->date_naissance = $request->date_naissance;
                 $patient->save();
                 $id_patient = $patient->id;
@@ -78,8 +80,7 @@ class CaisseController extends Controller
             $item->module_id = $request->module_id;
             $item->user_id = $user->id;
             $montant = 0;
-            if (!isset($errors)) 
-            {
+            
                 $item->save();
                 $id = $item->id;
                 if($item->save())
