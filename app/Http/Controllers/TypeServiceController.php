@@ -37,6 +37,7 @@ class TypeServiceController extends Controller
             $item->nom = $request->nom;
             $item->prix = $request->prix;
             $item->module_id = $request->module_id;
+            $item->activer_type_service = $request->activer_type_service ?? 1;
             $montant = 0;
             if (!isset($errors)) 
             {

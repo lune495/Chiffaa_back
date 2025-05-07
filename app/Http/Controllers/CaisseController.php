@@ -48,27 +48,42 @@ class CaisseController extends Controller
                 $errors = "Renseignez la date de naissance";
             }*/
 
-            if (empty($request->telephone))
-            {
-                $errors = "Renseignez le telephone";
-            }
-            
+            // if (empty($request->telephone))
+            // {
+            //     $errors = "Renseignez le telephone";
+            // }
+            // dd($request->telephone);
+            // if (!empty($request->telephone))
+            // {
+            //     $telephone = Outil::formatnumerotelephone($request->telephone);
+            //     if (is_null($telephone)) {
+            //         $errors = "Le format du telephone est incorrect";
+            //     }
+            // }            
             $str_json_type_service = json_encode($request->type_services);
             $type_service_tabs = json_decode($str_json_type_service, true);
-            if (!isset($errors)) 
-            {
+           
             // Ajoutez un verrouillage de la table factice pour éviter les opérations concurrentes.
             DB::table('service_locks')->lockForUpdate()->get();
             DB::beginTransaction();
+            if (!isset($errors)) 
+            {
+            // Vérifier si le numéro de téléphone existe déjà dans la table patients
+            $existingPatient = Patient::where('telephone', $request->telephone)->first();
 
+            if ($existingPatient) {
+                // Si le patient existe, récupérer son ID
+                $id_patient = $existingPatient->id;
+            } else {
+                // Sinon, créer un nouveau patient
                 $patient->nom = $request->nom_complet;
                 // $patient->prenom = $request->nom_complet;
                 $patient->adresse = $request->adresse;
                 $patient->telephone = $request->telephone;
-                // $patient->telephone = $request->telephone ? $request->telephone : "000000000";
                 $patient->date_naissance = $request->date_naissance;
                 $patient->save();
                 $id_patient = $patient->id;
+            }
 
             $item->patient_id = $id_patient;
             $item->nom_complet = $request->nom_complet;
@@ -224,6 +239,12 @@ class CaisseController extends Controller
         }else{
             return view('notfound');
         }
+    }
+
+
+    public function generatepdfbulletinanalyse($request) 
+    {
+        
     }
 
     public function generateExcelParDate($start, $end)
@@ -389,30 +410,6 @@ class CaisseController extends Controller
                 $log->save();
             }
         }   
-    }
-
-    public function newusercaisse(Request $request)
-    {
-        $nom_complet = $request->nom_complet;
-         // Générer un email temporaire unique
-        do {$email = strtolower(str_replace(' ', '', $nom_complet)).rand(1000, 9999).'@gmail.com'; }while (User::where('email', $email)->exists());
-        $telephone = $request->telephone;
-        $user =  User::create([
-            'name'         => $nom_complet,
-            'email'        => $email,
-            'telephone'    => $telephone,
-            'password'     => bcrypt('passer123'),
-            'role_id'      => 9,
-            'actif'        => true,
-        ]);
-        $user->email =  strtolower(str_replace(' ', '', $nom_complet)).$user->id.'@gmail.com';
-        $user->save();
-        $token = $user->createToken('myapptoken')->plainTextToken;
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
-        return response($response, 201);
     }
 
     public function generatePDF2()

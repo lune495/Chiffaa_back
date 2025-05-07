@@ -48,6 +48,11 @@ class ModuleQuery extends Query
                 $q->where('nom', 'like', '%' . $args['search'] . '%');
             });
         }
+
+        // Filtrer les modules dont les type_services ont activer_type_service = true
+        $query->whereHas('type_services', function ($q) {
+            $q->where('activer_type_service', true);
+        });
         $query->orderBy('id', 'desc');
         $query = $query->get();
         return $query->map(function (Module $item)

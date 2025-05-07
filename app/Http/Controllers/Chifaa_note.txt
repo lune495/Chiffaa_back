@@ -3,3 +3,10 @@
 ***** Identifiant Api Sms ********
 email : badaralune10@gmail.com
 pwd : Chifaa2025@structure
+
+
+****** notes logique patient Caisse/Medecin *********
+
+- Un patient cree au niveau de la caisse est un patient temporaire 
+- Un patient cree par les medecins est un patient qui a un dossier meddical et un suivi
+- Un patient cree au niveau de la caisse doit avoir une historique de ses tickets et medicament acheté

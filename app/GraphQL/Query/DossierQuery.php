@@ -43,7 +43,7 @@ class DossierQuery extends Query
             [
                 'id'                      => $item->id,
                 'numero'                  => $item->numero,
-                'patient'                 => $item->patient,
+                'patient_medical'         => $item->patient_medical,
                 'created_at'              => $item->created_at
             ];
         });

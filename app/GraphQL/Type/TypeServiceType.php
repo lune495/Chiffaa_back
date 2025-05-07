@@ -23,6 +23,7 @@ class TypeServiceType extends GraphQLType
                 'prix'                      => ['type' => Type::int()],
                 'module_id'                 => ['type' => Type::int()],
                 'bulletin_existe'           => ['type' => Type::boolean()],
+                'activer_type_service'      => ['type' => Type::boolean()],
                 'module'                    => ['type' => GraphQL::type('Module')],
             ];
     }

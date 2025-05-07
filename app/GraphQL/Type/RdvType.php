@@ -16,12 +16,12 @@ class RdvType extends GraphQLType
     public function fields(): array
     {
        return
-            [ 
-                'id'                        => ['type' => Type::id(), 'description' => ''],
-                'user'                      => ['type' => GraphQL::type('User')],
-                'creneau'                   => ['type' => GraphQL::type('Creneau')],
-                'status'                    => ['type' => Type::string()]
-            ];
+        [
+            'id'                        => ['type' => Type::id()],
+            'user'                      => ['type' => GraphQL::type('User')],
+            'creneau'                   => ['type' => GraphQL::type('Creneau')],
+            'status'                    => ['type' => Type::string()]
+        ];
     }
 
     // You can also resolve a field by declaring a method in the class

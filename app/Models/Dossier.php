@@ -13,4 +13,10 @@ class Dossier extends Model
     {
         return $this->belongsTo(Patient::class);
     }
+
+
+    public  function patient_medical()
+    {
+        return $this->belongsTo(PatientMedical::class);
+    }
 }

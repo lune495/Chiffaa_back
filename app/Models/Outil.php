@@ -23,10 +23,11 @@ class Outil extends Model
     public static $queries = array(
         "services"                   => " id,nom_complet,nature,montant,adresse,remise,montant_total,medecin{id,nom,prenom},module{id,nom},element_services{id,type_service{id,nom,prix,module{id,nom}}},user{id,name},created_at",
         //"services"                 => " id,patient{id,nom,prenom,telephone,adresse},montant,adresse,remise,montant_total,medecin{id,nom,prenom},module{id,nom},element_services{id,type_service{id,nom,prix,module{id,nom}}},user{id,name},created_at",
-        "type_services"              => " id,nom,prix,module{id,nom}",
+        "type_services"              => " id,nom,prix,module{id,nom},activer_type_service",
         "patients"                   => " id,nom,prenom,telephone,adresse,suivis{id,diagnostic,traitement,rdv}",
+        "patient_medicals"           => " id,nom,telephone,adresse,dossier{id,numero}",
         "suivis"                     => " id,patient{id,nom,prenom,telephone,adresse},diagnostic,traitement,rdv",
-        "dossiers"                   => " id,numero,patient{id,nom,prenom,telephone,adresse,suivis{id,diagnostic,traitement,rdv}}",
+        "dossiers"                   => " id,numero,patient_medical{id,nom,telephone,adresse}",
         "modules"                    => " id,nom,medecins{id,nom,prenom},rdv_exist",
         "ventes"                     => " id,nom_complet,montant",
         "users"                      => " id,nom,email,role{id,nom}",
@@ -38,6 +39,8 @@ class Outil extends Model
         "labo2s"                     => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_labo2s{id,type_labo2{id,nom,prix}},user{id,name},created_at",
         "maternites"                 => " id,nom_complet,adresse,remise,medecin{id,nom,prenom},element_maternites{id,type_maternite{id,nom,prix}},user{id,name},created_at",
         "logs"                       => " id,nom",
+        "bulletin_analyses"          => " id,diagnostic,user{id,name},patient_medical{id,nom,telephone,adresse},element_bulletin_analyses{id,type_service{id,nom}}",
+        "certificats"                => "id,user{id,name,email},patient_medical{id,nom_complet,telephone,adresse},date_examen,motif_arret,duree_repos,date_debut_arret,date_fin_arret,created_at",
         "approvisionnements"         => "id,user_id,user{name},montant,statut,numero,qte_total_appro,fournisseur_id,fournisseur{id,nom_complet,telephone,adresse},ligne_approvisionnements{id,produit_id,produit{id,designation,pa,pv,qte,famille_id,famille{id,nom}},quantity_received,created_at,created_at_fr,updated_at,updated_at_fr},created_at,created_at_fr,type_appro",
     );
 
@@ -71,7 +74,6 @@ class Outil extends Model
     //Fonction importante qui formate la chaines de caractères pour ne garder que les valeurs alpha numériques et les ponctuations
 
     public static function donneBonFormatString($val)
-
     {
 
         $retour = null;
@@ -199,6 +201,25 @@ class Outil extends Model
     public static function premereLettreMajuscule($val)
     {
         return ucfirst($val);
+    }
+
+    public static function formatnumerotelephone($val)
+    {
+        // Supprimer tous les caractères sauf les chiffres
+        $val = preg_replace('/\D/', '', $val);
+
+        // Vérifier si le numéro de téléphone a exactement 9 chiffres
+        if (strlen($val) == 9) {
+            // Vérifier si les deux premiers chiffres sont valides (77, 70, 76, 78)
+            $validPrefixes = ['77', '70', '76', '78','75'];
+            $prefix = substr($val, 0, 2);
+
+            if (in_array($prefix, $validPrefixes)) {
+                return $val; // Retourner le numéro tel quel s'il est valide
+            }
+        }
+
+        return null; // Retourner null si le format ou le préfixe n'est pas valide
     }
 
     /**

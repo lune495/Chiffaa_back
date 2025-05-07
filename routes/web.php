@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CaisseController;
+use App\Http\Controllers\CertificatMedicalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,12 @@ Route::get('/vente/ticket-pdf-pharmacie/{id}', [CaisseController::class,'generat
 Route::get('/vente/historique-pdf-module/{module_id}/{start?}/{end?}', [CaisseController::class,'generateHistorique']);
 Route::get('/vente/situation-caisse-par-date/{start}/{end}', [CaisseController::class,'FiltreSituationParDate']);
 Route::get('/test', [CaisseController::class,'Notif']);
+Route::get('/test', [CaisseController::class,'Notif']);
 Route::get('/vente/situation-generale-pdf', [CaisseController::class,'generatePDF2']);
 Route::get('/generate-excel2', [CaisseController::class, 'generateExcel2']);
 Route::get('/generate-excel-par-date/{start}/{end}', [CaisseController::class, 'generateExcelParDate']);
 Route::get('/vente/situation-filtre-pdf/{start}', [CaisseController::class,'SituationParFiltreDate']);
+Route::get('/repos_medical/{id}', [CertificatMedicalController::class,'generateCertificatMedical']);
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');

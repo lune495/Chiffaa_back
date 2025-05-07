@@ -18,4 +18,9 @@ class Medecin extends Model
     {
         return $this->hasMany(Planning::class);
     }
+
+    public function certificats()
+    {
+        return $this->hasMany(CertificatMedical::class);
+    }
 }

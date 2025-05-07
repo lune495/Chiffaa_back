@@ -21,10 +21,10 @@ class TypeServiceQuery extends Query
     {
         return
         [
-            'id'                 => ['type' => Type::int()],
-            'nom'                => ['type' => Type::string()],
-            'module_id'          => ['type' => Type::int()],
-            'bulletin_analyse'   => ['type' => Type::int()],
+            'id'                    =>  ['type' => Type::int()],
+            'nom'                   =>  ['type' => Type::string()],
+            'module_id'             =>  ['type' => Type::int()],
+            'bulletin_analyse'      =>  ['type' => Type::int()],
         ];
     }
 
@@ -40,10 +40,12 @@ class TypeServiceQuery extends Query
         {
             $query = $query->where('bulletin_existe', false);
         }
-        if (isset($args['nom'])) {
+        if (isset($args['nom'])) 
+        {
             $query = $query->where('nom', 'like', '%' . $args['nom'] . '%');
         }
-        if (isset($args['module_id'])) {
+        if (isset($args['module_id'])) 
+        {
             $query = $query->where('module_id', $args['module_id']);
         }
         $query->orderBy('id', 'desc');
@@ -57,7 +59,8 @@ class TypeServiceQuery extends Query
                 'prix'                          => $item->prix,
                 'module_id'                     => $item->module_id,
                 'bulletin_existe'               => $item->bulletin_existe,
-                'module'                        => $item->module
+                'module'                        => $item->module,
+                'activer_type_service'          => $item->activer_type_service
             ];
         });
     }

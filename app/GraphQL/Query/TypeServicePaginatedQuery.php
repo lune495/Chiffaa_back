@@ -26,6 +26,7 @@ class TypeServicePaginatedQuery extends Query
         [
             'id'                            => ['type' => Type::int()],
             'nom'                           => ['type' => Type::string()],
+            'module_id'                     => ['type' => Type::int()],
         
             'page'                          => ['name' => 'page', 'description' => 'The page', 'type' => Type::int() ],
             'count'                         => ['name' => 'count',  'description' => 'The count', 'type' => Type::int() ]
@@ -43,6 +44,10 @@ class TypeServicePaginatedQuery extends Query
         if (isset($args['nom']))
         {
             $query->where('nom',$args['nom']);
+        }
+        if (isset($args['module_id'])) 
+        {
+            $query = $query->where('module_id', $args['module_id']);
         }
       
         $count = Arr::get($args, 'count', 20);

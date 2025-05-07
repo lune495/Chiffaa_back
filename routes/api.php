@@ -14,6 +14,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\SuiviController;
 use App\Http\Controllers\DossierController;
+use App\Http\Controllers\CertificatMedicalController;
+use App\Http\Controllers\BulletinAnalyseController;
+use App\Http\Controllers\PatientMedicalController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,13 +37,16 @@ Route::post('/contact',[PlanningController::class,'contacter']);
 Route::group(['middleware' => ['auth:sanctum']],function()
 {
 Route::post('/caisse',[CaisseController::class,'save']);
-Route::post('/newusercaisse',[CaisseController::class,'newusercaisse']);
+Route::post('/newusercaisse',[PlanningController::class,'newusercaisse']);
 Route::post('/annulerRdv/{id}',[PlanningController::class,'annulerRdv']);
 Route::post('/prendreRdv',[PlanningController::class,'prendreRdv']);
+Route::post('/certificatmedical',[CertificatMedicalController::class,'save']);
 Route::post('/prendreRdvCaisse',[PlanningController::class,'prendreRdvCaisse']);
 Route::post('/planning',[PlanningController::class,'save']);
 Route::post('/suivi/{id?}',[SuiviController::class,'save']);
 Route::post('/dossier',[DossierController::class,'save']);
+Route::post('/bulletin',[BulletinAnalyseController::class,'save']);
+Route::post('/patient_medical',[PatientMedicalController::class,'save']);
 Route::post('/update-planning/{id}',[PlanningController::class,'modifierPlanning']);
 Route::post('/rdv',[PlanningController::class,'takerdv']);
 Route::post('/changestatut/{id}',[CaisseController::class,'statutPDFpharmacie']);

@@ -22,13 +22,9 @@ class DossierController extends Controller
             {
                 $item = Dossier::find($request->id);
             }
-            // if (empty($request->nom))
-            // {
-            //     $errors = "Renseignez la categorie";
-            // }
             DB::beginTransaction();
-            $item->patient_id = $request->patient_id;
-            if (!isset($errors)) 
+            $item->patient_medical_id = $request->patient_medical_id;
+            if (!isset($errors))
             {
                 $item->save();
                 $item->numero = "DOC-000{$item->id}";
@@ -46,4 +42,4 @@ class DossierController extends Controller
                 return $e->getMessage();
         }
     }
-}   
+}

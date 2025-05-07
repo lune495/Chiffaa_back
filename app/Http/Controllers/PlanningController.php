@@ -270,6 +270,31 @@ class PlanningController extends Controller
     }
 
 
+    public function newusercaisse(Request $request)
+    {
+        $nom_complet = $request->nom_complet;
+         // Générer un email temporaire unique
+        do {$email = strtolower(str_replace(' ', '', $nom_complet)).rand(1000, 9999).'@gmail.com'; } while (User::where('email', $email)->exists());
+        $telephone = $request->telephone;
+        $user =  User::create([
+            'name'         => $nom_complet,
+            'email'        => $email,
+            'telephone'    => $telephone,
+            'password'     => bcrypt('passer123'),
+            'role_id'      => 9,
+            'actif'        => true,
+        ]);
+        $user->email =  strtolower(str_replace(' ', '', $nom_complet)).$user->id.'@gmail.com';
+        $user->save();
+        $token = $user->createToken('myapptoken')->plainTextToken;
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+        return response($response, 201);
+    }
+
+
     public function annulerRdvSiteParId($id)
     {
         $user = Auth::user();

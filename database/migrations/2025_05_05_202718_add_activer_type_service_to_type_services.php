@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('patients', function (Blueprint $table) {
-            $table->date('date_naissance')->nullable();
+        Schema::table('type_services', function (Blueprint $table) {
+            $table->boolean('activer_type_service')->default(true);
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('patients', function (Blueprint $table) {
-            $table->dropColumn('date_naissance');
+        Schema::table('type_services', function (Blueprint $table) {
+            $table->dropColumn('activer_type_service');
         });
     }
 };

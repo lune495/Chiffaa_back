@@ -19,4 +19,11 @@ class TypeService extends Model
         return $this->hasMany(ElementService::class);
     }
 
+    public function bulletin_analyses()
+    {
+        return $this->hasMany(BulletinAnalyse::class);
+    }
+
+
+
 }

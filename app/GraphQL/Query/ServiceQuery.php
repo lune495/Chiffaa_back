@@ -33,11 +33,13 @@ class ServiceQuery extends Query
         $user = Auth::user();
         $isAlassane = $user->email === "alassane@gmail.com";
 
-        if (isset($args['id'])) {
+        if (isset($args['id'])) 
+        {
             $query = $query->where('id', $args['id']);
         }
 
-        if (isset($args['module_id'])) {
+        if (isset($args['module_id'])) 
+        {
             $query = $query->where('module_id', $args['module_id']);
         }
 

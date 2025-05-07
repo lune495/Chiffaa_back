@@ -19,7 +19,7 @@ class DossierType extends GraphQLType
             [
                 'id'                        => ['type' => Type::id(), 'description' => ''],
                 'numero'                    => ['type' => Type::string()],
-                'patient'                   => ['type' => GraphQL::type('Patient')],
+                'patient_medical'           => ['type' => GraphQL::type('PatientMedical')],
                 'created_at'                => ['type' => Type::string()],
             ];
     }

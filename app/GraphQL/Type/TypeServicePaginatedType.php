@@ -5,7 +5,7 @@ namespace App\GraphQL\Type;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Type as GraphQLType;
 use Rebing\GraphQL\Support\Facades\GraphQL;
-
+use Illuminate\Support\Arr;
 class TypeServicePaginatedType extends GraphQLType
 {
     protected $attributes =
@@ -20,7 +20,7 @@ class TypeServicePaginatedType extends GraphQLType
                 'type' => GraphQL::type('Metadata'),
                 'resolve' => function ($root)
                 {
-                    return array_except($root->toArray(), ['data']);
+                    return Arr::except($root->toArray(), ['data']);
                 }
             ],
             'data' =>
