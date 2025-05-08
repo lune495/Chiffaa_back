@@ -58,4 +58,20 @@ class BulletinAnalyseController extends Controller
             return $e->getMessage();
         }
     }
+
+    public function generateBulletinAnalyse($id)
+    {
+        try 
+        {
+            $bulletin = BulletinAnalyse::find($id);
+            if (!$bulletin) {
+                return response()->json(['error' => 'Bulletin introuvable'], 404);
+            }
+
+            $pdf = \PDF::loadView('bulletin_analyse', ['bulletin' => $bulletin]);
+            return $pdf->stream('bulletin_analyse.pdf');
+        } catch (\Throwable $e) {
+            return response()->json(['error' => 'Erreur lors de la génération du PDF'], 500);
+        }
+    }
 }

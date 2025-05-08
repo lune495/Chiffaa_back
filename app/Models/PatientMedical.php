@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PatientMedical extends Model
 {
     use HasFactory;
-
-
-    
+    public  function dossier()
+    {
+        return $this->hasOne(Dossier::class);
+    }
 }

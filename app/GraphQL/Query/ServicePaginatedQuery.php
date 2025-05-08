@@ -27,7 +27,8 @@ class ServicePaginatedQuery extends Query
         [
             'id'                            => ['type' => Type::int()],
             'nom_complet'                   => ['type' => Type::string()],
-        
+            'module_id'                     => ['type' => Type::int()],
+            
             'page'                          => ['name' => 'page', 'description' => 'The page', 'type' => Type::int() ],
             'count'                         => ['name' => 'count',  'description' => 'The count', 'type' => Type::int() ]
         ];

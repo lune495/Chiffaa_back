@@ -66,19 +66,26 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>CENTRE MEDICO-SOCIAL CHIFAA</h1>
+            <div style="font-size: 10px;font-weight:bold">  
+                <img src="{{asset('app-assets/assets/images/LOGO2.jpeg')}}" style="width: 80px; margin-top: 10px;"> <br>
+            </div>
+            <h2>CENTRE MEDICO-SOCIAL CHIFAA</h2>
             <p>N° 023 Parcelles Assainies - Unité 24</p>
             <p>Tél. : 33 821 25 12 / 70 984 53 34 / 77 270 72 22</p>
+            <p></p>
+            <h1><u>REPOS MEDICAL</u></h1>
         </div>
-
+             @php
+                \Carbon\Carbon::setLocale('fr');
+            @endphp
         <div class="content">
-            <p>Je soussigné <span class="highlight">Docteur {{ $data['nom_medecin'] }}</span>, certifie avoir examiné ce jour <span class="highlight">{{ $data['date_examen'] }}</span> :</p>
+            <p>Je soussigné <span class="highlight">Docteur {{ $data['nom_medecin'] }}</span>, certifie avoir examiné ce jour <span class="highlight">{{ \Carbon\Carbon::parse($data['date_examen'])->translatedFormat('d F Y') }}</span> :</p>
             <div class="line"></div>
             <p>Nom du patient : <span class="highlight">{{ $data['nom_patient'] }}</span></p>
-            <p>et constaté que son état de santé nécessite :</p>
-            <p class="highlight">{{ $data['motif_arret'] }}</p>
+            <p>et constaté que son état de santé nécessite : <span class="highlight">{{ $data['motif_arret'] }}</span></p>
             <p>Durée de repos : <span class="highlight">{{ $data['duree_repos'] }} jours</span></p>
-            <p>Du : <span class="highlight">{{ $data['date_debut_arret'] }}</span> au <span class="highlight">{{ $data['date_fin_arret'] }}</span></p>
+           
+            <p>Du : <span class="highlight">{{ \Carbon\Carbon::parse($data['date_debut_arret'])->translatedFormat('d F Y') }}</span> au <span class="highlight">{{ \Carbon\Carbon::parse($data['date_fin_arret'])->translatedFormat('d F Y') }}</span></p>
         </div>
 
         <div class="signature">

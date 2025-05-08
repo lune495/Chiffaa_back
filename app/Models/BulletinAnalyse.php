@@ -27,6 +27,11 @@ class BulletinAnalyse extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function patient_medical()
+    {
+        return $this->belongsTo(PatientMedical::class);
+    }
+
 
     public function element_bulletin_analyses()
     {
